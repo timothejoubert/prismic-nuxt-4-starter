@@ -1,0 +1,47 @@
+@use './variables/fonts.scss' as *;
+@use './mixins/font-face.scss' as *;
+
+@include font-face($norm-font-name, 'tt-norms-pro-regular-subset') {
+    font-weight: 400;
+}
+
+@include font-face($norm-font-name, 'tt-norms-pro-italic-subset') {
+    font-style: italic;
+    font-weight: 400;
+}
+
+@include font-face($norm-font-name, 'tt-norms-pro-normal-subset') {
+    font-weight: 450;
+}
+
+@include font-face($norm-font-name, 'tt-norms-pro-normal-italic-subset') {
+    font-style: italic;
+    font-weight: 450;
+}
+
+@include font-face($norm-font-name, 'tt-norms-pro-demibold-subset') {
+    font-weight: 600;
+}
+
+@include font-face($norm-font-name, 'tt-norms-pro-demibold-italic-subset') {
+    font-style: italic;
+    font-weight: 600;
+}
+
+@include font-face($norm-font-name, 'tt-norms-pro-bold-subset') {
+    font-weight: 700;
+}
+
+@include font-face($norm-font-name, 'tt-norms-pro-bold-italic-subset') {
+    font-style: italic;
+    font-weight: 700;
+}
+
+
+body {
+    font-family: #{$norm-font-family};
+
+    --typography-family-label: #{$norm-font-family};
+    --typography-family-text: #{$norm-font-family};
+    --typography-family-title: #{$norm-font-family};
+}

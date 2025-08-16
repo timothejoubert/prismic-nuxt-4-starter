@@ -1,0 +1,6 @@
+$norm-font-name: 'TT Norms Pro';
+
+// https://github.com/unjs/fontaine
+// {Name of Font} fallback
+$norm-font-name-fallback: '#{$norm-font-name} fallback'; 
+$norm-font-family: $norm-font-name, $norm-font-name-fallback, sans-serif;
