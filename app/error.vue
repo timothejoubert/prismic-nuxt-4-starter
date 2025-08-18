@@ -44,6 +44,7 @@ function goToHome() {
         <h1>{{ title }}</h1>
         <h2> {{ subtitle }}</h2>
         <p>{{ content }}</p>
+        <pre>{{ error.message }}</pre>
         <button v-if="isServerError" onclick="window.location.reload()">{{ $t('refresh') }}</button>
         <button v-else @click="goToHome">{{ $t('back_home') }}</button>
     </div>
