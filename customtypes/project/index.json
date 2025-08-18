@@ -1,0 +1,222 @@
+{
+  "id": "project",
+  "json": {
+    "Main": {
+      "uid": {
+        "config": {
+          "label": "UID"
+        },
+        "type": "UID"
+      },
+      "title": {
+        "type": "Text",
+        "config": {
+          "label": "Title",
+          "placeholder": ""
+        }
+      },
+      "favorite": {
+        "type": "Boolean",
+        "config": {
+          "label": "Favorite",
+          "default_value": false,
+          "placeholder_true": "true",
+          "placeholder_false": "false"
+        }
+      },
+      "rate": {
+        "type": "Number",
+        "config": {
+          "label": "Rate",
+          "placeholder": ""
+        }
+      },
+      "awards": {
+        "type": "Group",
+        "config": {
+          "label": "Awards",
+          "fields": {
+            "name": {
+              "type": "Text",
+              "config": {
+                "label": "Name",
+                "placeholder": ""
+              }
+            },
+            "link": {
+              "type": "Link",
+              "config": {
+                "label": "link",
+                "placeholder": "",
+                "select": null
+              }
+            },
+            "type": {
+              "type": "Select",
+              "config": {
+                "label": "type",
+                "placeholder": "",
+                "options": ["book", "web"]
+              }
+            }
+          }
+        }
+      },
+      "tag_group": {
+        "type": "Group",
+        "config": {
+          "label": "Tag group",
+          "fields": {
+            "tag": {
+              "type": "Select",
+              "config": {
+                "label": "Tag",
+                "placeholder": "",
+                "options": [
+                  "Développement",
+                  "Typographie",
+                  "Design d'interface",
+                  "Identité visuelle",
+                  "Code créatif",
+                  "Motion design",
+                  "Édition",
+                  "Illustration",
+                  "Expression plastique",
+                  "Multimédia"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "framework": {
+        "type": "Select",
+        "config": {
+          "label": "Framework",
+          "placeholder": "",
+          "options": [
+            "Freelance",
+            "Perso",
+            "Rézo zéro",
+            "Master 2",
+            "DSAA",
+            "DEC",
+            "BTS",
+            "STD2A"
+          ]
+        }
+      },
+      "short_description": {
+        "type": "StructuredText",
+        "config": {
+          "label": "Short description",
+          "placeholder": "",
+          "allowTargetBlank": true,
+          "single": "paragraph,preformatted,heading1,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl"
+        }
+      },
+      "content": {
+        "type": "StructuredText",
+        "config": {
+          "label": "Content",
+          "placeholder": "",
+          "allowTargetBlank": true,
+          "single": "paragraph,preformatted,heading1,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl"
+        }
+      },
+      "thumbnail": {
+        "type": "Link",
+        "config": {
+          "label": "Thumbnail",
+          "placeholder": "",
+          "select": "media"
+        }
+      },
+      "date": {
+        "type": "Date",
+        "config": {
+          "label": "Date",
+          "placeholder": ""
+        }
+      },
+      "link": {
+        "type": "Link",
+        "config": {
+          "label": "Link",
+          "placeholder": "",
+          "select": null
+        }
+      },
+      "link_label": {
+        "type": "Text",
+        "config": {
+          "label": "Link label",
+          "placeholder": ""
+        }
+      },
+      "medias": {
+        "type": "Group",
+        "config": {
+          "label": "Medias",
+          "fields": {
+            "media": {
+              "type": "Link",
+              "config": {
+                "label": "Media",
+                "placeholder": "",
+                "select": "media"
+              }
+            },
+            "embed_url": {
+              "type": "Text",
+              "config": {
+                "label": "Embed url",
+                "placeholder": ""
+              }
+            },
+            "sound_enabled": {
+              "type": "Boolean",
+              "config": {
+                "label": "sound enabled",
+                "default_value": false,
+                "placeholder_true": "true",
+                "placeholder_false": "false"
+              }
+            }
+          }
+        }
+      }
+    },
+    "SEO & Metadata": {
+      "meta_description": {
+        "config": {
+          "label": "Meta Description",
+          "placeholder": "A brief summary of the page"
+        },
+        "type": "Text"
+      },
+      "meta_image": {
+        "config": {
+          "constraint": {
+            "height": 1260,
+            "width": 2400
+          },
+          "label": "Meta Image",
+          "thumbnails": []
+        },
+        "type": "Image"
+      },
+      "meta_title": {
+        "config": {
+          "label": "Meta Title",
+          "placeholder": "A title of the page used for social media and search engines"
+        },
+        "type": "Text"
+      }
+    }
+  },
+  "label": "Project",
+  "repeatable": true,
+  "status": true,
+  "format": "page"
+}
