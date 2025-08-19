@@ -1,14 +1,9 @@
 {
-  "repositoryName": "timothe-joubert",
+  "repositoryName": "nuxt-4-starter",
   "endpoint": "https://timothe-joubert.cdn.prismic.io/api/v2",
-  "adapter": {
-    "resolve": "@slicemachine/adapter-nuxt",
-    "options": {
-      "typescript": true
-    }
-  },
+  "adapter": "@slicemachine/adapter-nuxt",
   "libraries": [
-    "./app/slices"
+    "./app/components/slices"
   ],
   "localSliceSimulatorURL": "http://localhost:3000/slice-simulator"
 }

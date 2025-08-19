@@ -1,15 +1,10 @@
 <script lang="ts" setup>
-import type { ProjectDocument } from '~~/prismicio-types';
+import type { ProjectPageDocument } from '~~/prismicio-types';
 import type { VWrapperProps } from '~/components/atoms/VWrapper.vue'
 
 const props = defineProps<{
-    project: ProjectDocument
+    project: ProjectPageDocument
 } & VWrapperProps>()
-
-const tags = computed(() => {
-    if (props.project.data.tag_group?.length) return props.project.data.tag_group.filter(item => item.tag).map(item => item.tag)
-    return props.project.tags || []
-})
 </script>
 
 <template>
@@ -17,8 +12,8 @@ const tags = computed(() => {
         :wrapper="wrapper"
         :title="project.data.title"
         :content="project.data.date"
-        :image="project.data.thumbnail"
-        :tags="tags"
+        :image="project.data.image"
+        :tags="project.tags"
         :url="project.url"
     />
 </template>

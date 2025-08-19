@@ -55,17 +55,17 @@ importers:
         version: 4.5.1(vue@3.5.18(typescript@5.9.2))
     devDependencies:
       '@nuxtjs/prismic':
-        specifier: ^4.0.0
+        specifier: ^4.1.0
         version: 4.1.0(magicast@0.3.5)(vite@7.1.2(@types/node@24.3.0)(jiti@2.5.1)(sass@1.90.0)(terser@5.43.1)(yaml@2.8.1))(vue@3.5.18(typescript@5.9.2))
       '@prismicio/types':
         specifier: ^0.2.9
         version: 0.2.9
       '@slicemachine/adapter-nuxt':
-        specifier: ^0.3.82
-        version: 0.3.82(@prismicio/types@0.2.9)(nuxt@4.0.3(@netlify/blobs@9.1.2)(@parcel/watcher@2.5.1)(@types/node@24.3.0)(@vue/compiler-sfc@3.5.18)(db0@0.3.2)(eslint@9.33.0(jiti@2.5.1))(ioredis@5.7.0)(magicast@0.3.5)(meow@13.2.0)(optionator@0.9.4)(rollup@4.46.2)(sass@1.90.0)(stylelint@16.23.1(typescript@5.9.2))(terser@5.43.1)(typescript@5.9.2)(vite@7.1.2(@types/node@24.3.0)(jiti@2.5.1)(sass@1.90.0)(terser@5.43.1)(yaml@2.8.1))(yaml@2.8.1))
+        specifier: ^0.3.83
+        version: 0.3.83(@prismicio/types@0.2.9)(nuxt@4.0.3(@netlify/blobs@9.1.2)(@parcel/watcher@2.5.1)(@types/node@24.3.0)(@vue/compiler-sfc@3.5.18)(db0@0.3.2)(eslint@9.33.0(jiti@2.5.1))(ioredis@5.7.0)(magicast@0.3.5)(meow@13.2.0)(optionator@0.9.4)(rollup@4.46.2)(sass@1.90.0)(stylelint@16.23.1(typescript@5.9.2))(terser@5.43.1)(typescript@5.9.2)(vite@7.1.2(@types/node@24.3.0)(jiti@2.5.1)(sass@1.90.0)(terser@5.43.1)(yaml@2.8.1))(yaml@2.8.1))
       slice-machine-ui:
-        specifier: ^2.18.0
-        version: 2.18.0(@prismicio/types@0.2.9)
+        specifier: ^2.18.1
+        version: 2.18.1(@prismicio/types@0.2.9)
 
 packages:
 
@@ -1807,14 +1807,14 @@ packages:
     resolution: {integrity: sha512-LtoMMhxAlorcGhmFYI+LhPgbPZCkgP6ra1YL604EeF6U98pLlQ3iWIGMdWSC+vWmPBWBNgmDBAhnAobLROJmwg==}
     engines: {node: '>=18'}
 
-  '@slicemachine/adapter-nuxt@0.3.82':
-    resolution: {integrity: sha512-CK4Kjdk40JiCQPkJbRiY6bHuADM1cZcFlPMnbbb/Pj6TN937j2rIPysE7auA0v8Ng+oZE+/3f31IDGlFRcbMoQ==}
+  '@slicemachine/adapter-nuxt@0.3.83':
+    resolution: {integrity: sha512-WZtVlupueqyYu6ukJXqekZjDTTvId9h2A8nOk9Sj3HbpP5HEeBVvT1clerOoQisQrdDXVQzcwo6FpBX4x6OB4A==}
     engines: {node: '>=14.15.0'}
     peerDependencies:
       nuxt: ^3.0.0 || ^4.0.0
 
-  '@slicemachine/manager@0.25.2':
-    resolution: {integrity: sha512-GorxkFda2kKHOFueX0fR4Nv8nYm8eCGj+qVKd2CbICDNUlBpSO+CXa0NGglZan8EIVNGxtcMsNUwdGcxaNhMbg==}
+  '@slicemachine/manager@0.25.3':
+    resolution: {integrity: sha512-wYlaL/+yGQ+32H/GPuQWDf8baT05/iLgpnqxay8e/FtKiruW4hCXHEE8MzmUu8xHzcN9+jB4RGrq+8/9aaPyfg==}
     engines: {node: '>=14.15.0'}
     peerDependencies:
       msw: ^1.1.0
@@ -1822,8 +1822,8 @@ packages:
       msw:
         optional: true
 
-  '@slicemachine/plugin-kit@0.4.80':
-    resolution: {integrity: sha512-NIy0InHB8XvZVlMjLkXA7eSzSlGzpuzGZnpqlaJHRCDz0318mRAXxSPh/oDmptD7OV4RvL7tEUcIRN7BW0LU5g==}
+  '@slicemachine/plugin-kit@0.4.81':
+    resolution: {integrity: sha512-B4apt4lp/oH91wRp07PHLgJMygQwhDwJiX8NisYfuMA68BcVv3GnZ4ebRFj0LZK/i5zISwAnzIwqlYlngiPuCQ==}
     engines: {node: '>=14.15.0'}
 
   '@speed-highlight/core@1.2.7':
@@ -5191,8 +5191,8 @@ packages:
     resolution: {integrity: sha512-qMCMfhY040cVHT43K9BFygqYbUPFZKHOg7K73mtTWJRb8pyP3fzf4Ixd5SzdEJQ6MRUg/WBnOLxghZtKKurENQ==}
     engines: {node: '>=10'}
 
-  slice-machine-ui@2.18.0:
-    resolution: {integrity: sha512-zN9JY+TnCfcl/rhovENmKzHgUze+GyS/htEBntT5z73tYw+ljTWvwxXGl+/9mAnwVVd1RXuluiZRih8VbqV6qQ==}
+  slice-machine-ui@2.18.1:
+    resolution: {integrity: sha512-xWAzkoZ56wJ7oUVfOnKIzwOKVlC2B9MDJmjj+nqEq1HL2KwfkkPm+qRANgUZmgTjP6jikIEXGfiuEpDZME7v8g==}
     engines: {node: '>=14'}
     hasBin: true
 
@@ -5246,8 +5246,8 @@ packages:
   standard-as-callback@2.1.0:
     resolution: {integrity: sha512-qoRRSyROncaz1z0mvYqIE4lCd9p2R90i6GxW3uZv5ucSu8tU7B5HXUP1gG8pVZsYNVaXjk8ClXHPttLyxAL48A==}
 
-  start-slicemachine@0.12.60:
-    resolution: {integrity: sha512-Y5llQqAwNTQlzq8OTi3ald4PJVJEbc8ib44D2ltoXeAclLoetEbXMr30nknLEnj31WLouu7RQ1hw1tm9zA+LTA==}
+  start-slicemachine@0.12.61:
+    resolution: {integrity: sha512-br6/Qwg1PnOjIg3RaLm16iNq21nUW8MzeZnt9ULAyd+eCh+HSn+/TWKPJka9TYhX3TsV69jOIXUh2UMxx+Keug==}
     engines: {node: '>=14.15.0'}
     hasBin: true
 
@@ -7853,11 +7853,11 @@ snapshots:
 
   '@sindresorhus/merge-streams@2.3.0': {}
 
-  '@slicemachine/adapter-nuxt@0.3.82(@prismicio/types@0.2.9)(nuxt@4.0.3(@netlify/blobs@9.1.2)(@parcel/watcher@2.5.1)(@types/node@24.3.0)(@vue/compiler-sfc@3.5.18)(db0@0.3.2)(eslint@9.33.0(jiti@2.5.1))(ioredis@5.7.0)(magicast@0.3.5)(meow@13.2.0)(optionator@0.9.4)(rollup@4.46.2)(sass@1.90.0)(stylelint@16.23.1(typescript@5.9.2))(terser@5.43.1)(typescript@5.9.2)(vite@7.1.2(@types/node@24.3.0)(jiti@2.5.1)(sass@1.90.0)(terser@5.43.1)(yaml@2.8.1))(yaml@2.8.1))':
+  '@slicemachine/adapter-nuxt@0.3.83(@prismicio/types@0.2.9)(nuxt@4.0.3(@netlify/blobs@9.1.2)(@parcel/watcher@2.5.1)(@types/node@24.3.0)(@vue/compiler-sfc@3.5.18)(db0@0.3.2)(eslint@9.33.0(jiti@2.5.1))(ioredis@5.7.0)(magicast@0.3.5)(meow@13.2.0)(optionator@0.9.4)(rollup@4.46.2)(sass@1.90.0)(stylelint@16.23.1(typescript@5.9.2))(terser@5.43.1)(typescript@5.9.2)(vite@7.1.2(@types/node@24.3.0)(jiti@2.5.1)(sass@1.90.0)(terser@5.43.1)(yaml@2.8.1))(yaml@2.8.1))':
     dependencies:
       '@prismicio/simulator': 0.1.4
       '@prismicio/types-internal': 3.11.2(fp-ts@2.16.10)(io-ts-types@0.5.19(fp-ts@2.16.10)(io-ts@2.2.22(fp-ts@2.16.10))(monocle-ts@2.3.13(fp-ts@2.16.10))(newtype-ts@0.3.5(fp-ts@2.16.10)(monocle-ts@2.3.13(fp-ts@2.16.10))))(io-ts@2.2.22(fp-ts@2.16.10))
-      '@slicemachine/plugin-kit': 0.4.80(@prismicio/types@0.2.9)
+      '@slicemachine/plugin-kit': 0.4.81(@prismicio/types@0.2.9)
       common-tags: 1.8.2
       fp-ts: 2.16.10
       io-ts: 2.2.22(fp-ts@2.16.10)
@@ -7870,7 +7870,7 @@ snapshots:
     transitivePeerDependencies:
       - '@prismicio/types'
 
-  '@slicemachine/manager@0.25.2(@prismicio/types@0.2.9)':
+  '@slicemachine/manager@0.25.3(@prismicio/types@0.2.9)':
     dependencies:
       '@antfu/ni': 0.20.0
       '@prismicio/client': 7.17.0
@@ -7878,7 +7878,7 @@ snapshots:
       '@prismicio/mocks': 2.14.0
       '@prismicio/types-internal': 3.11.2(fp-ts@2.16.10)(io-ts-types@0.5.19(fp-ts@2.16.10)(io-ts@2.2.22(fp-ts@2.16.10))(monocle-ts@2.3.13(fp-ts@2.16.10))(newtype-ts@0.3.5(fp-ts@2.16.10)(monocle-ts@2.3.13(fp-ts@2.16.10))))(io-ts@2.2.22(fp-ts@2.16.10))
       '@segment/analytics-node': 2.3.0
-      '@slicemachine/plugin-kit': 0.4.80(@prismicio/types@0.2.9)
+      '@slicemachine/plugin-kit': 0.4.81(@prismicio/types@0.2.9)
       cookie: 1.0.2
       cors: 2.8.5
       execa: 7.2.0
@@ -7902,7 +7902,7 @@ snapshots:
       - '@prismicio/types'
       - encoding
 
-  '@slicemachine/plugin-kit@0.4.80(@prismicio/types@0.2.9)':
+  '@slicemachine/plugin-kit@0.4.81(@prismicio/types@0.2.9)':
     dependencies:
       '@prismicio/client': 7.17.0
       common-tags: 1.8.2
@@ -11777,10 +11777,10 @@ snapshots:
       astral-regex: 2.0.0
       is-fullwidth-code-point: 3.0.0
 
-  slice-machine-ui@2.18.0(@prismicio/types@0.2.9):
+  slice-machine-ui@2.18.1(@prismicio/types@0.2.9):
     dependencies:
-      '@slicemachine/manager': 0.25.2(@prismicio/types@0.2.9)
-      start-slicemachine: 0.12.60(@prismicio/types@0.2.9)
+      '@slicemachine/manager': 0.25.3(@prismicio/types@0.2.9)
+      start-slicemachine: 0.12.61(@prismicio/types@0.2.9)
     transitivePeerDependencies:
       - '@prismicio/types'
       - '@types/express'
@@ -11833,11 +11833,11 @@ snapshots:
 
   standard-as-callback@2.1.0: {}
 
-  start-slicemachine@0.12.60(@prismicio/types@0.2.9):
+  start-slicemachine@0.12.61(@prismicio/types@0.2.9):
     dependencies:
       '@prismicio/mocks': 2.14.0
       '@prismicio/types-internal': 3.11.2(fp-ts@2.16.10)(io-ts-types@0.5.19(fp-ts@2.16.10)(io-ts@2.2.22(fp-ts@2.16.10))(monocle-ts@2.3.13(fp-ts@2.16.10))(newtype-ts@0.3.5(fp-ts@2.16.10)(monocle-ts@2.3.13(fp-ts@2.16.10))))(io-ts@2.2.22(fp-ts@2.16.10))
-      '@slicemachine/manager': 0.25.2(@prismicio/types@0.2.9)
+      '@slicemachine/manager': 0.25.3(@prismicio/types@0.2.9)
       body-parser: 1.20.3
       chalk: 4.1.2
       cors: 2.8.5

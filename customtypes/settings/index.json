@@ -1,28 +1,16 @@
 {
+  "format": "custom",
   "id": "settings",
+  "label": "settings",
+  "repeatable": false,
+  "status": true,
   "json": {
     "Main": {
-      "website_name": {
+      "site_name": {
         "type": "Text",
         "config": {
-          "label": "Website name",
-          "placeholder": ""
-        }
-      },
-      "about_title": {
-        "type": "Text",
-        "config": {
-          "label": "About title",
-          "placeholder": ""
-        }
-      },
-      "about_content": {
-        "type": "StructuredText",
-        "config": {
-          "label": "About content",
-          "placeholder": "",
-          "allowTargetBlank": true,
-          "single": "paragraph,preformatted,heading1,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl"
+          "label": "Site name",
+          "placeholder": "Mon site"
         }
       },
       "email": {
@@ -32,109 +20,46 @@
           "placeholder": ""
         }
       },
-      "display_all_projects": {
-        "type": "Boolean",
-        "config": {
-          "label": "Display all projects",
-          "default_value": false,
-          "placeholder_true": "true",
-          "placeholder_false": "false"
-        }
-      },
-      "columns": {
-        "type": "Group",
-        "config": {
-          "label": "columns",
-          "fields": {
-            "title": {
-              "type": "Text",
-              "config": {
-                "label": "Title",
-                "placeholder": ""
-              }
-            },
-            "content": {
-              "type": "StructuredText",
-              "config": {
-                "label": "Content",
-                "placeholder": "",
-                "allowTargetBlank": true,
-                "single": "paragraph,preformatted,heading1,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl"
-              }
-            }
-          }
-        }
-      },
       "socials": {
         "type": "Group",
         "config": {
+          "label": "Socials",
+          "repeat": true,
           "fields": {
-            "social": {
-              "type": "Select",
-              "config": {
-                "label": "Social",
-                "placeholder": "",
-                "options": [
-                  "Instagram",
-                  "Facebook",
-                  "Youtube",
-                  "Vimeo",
-                  "TikTok",
-                  "Behance",
-                  "LinkedIn",
-                  "Github"
-                ]
-              }
-            },
-            "link": {
-              "type": "Link",
-              "config": {
-                "label": "Link",
-                "select": null
-              }
-            },
             "label": {
               "type": "Text",
               "config": {
                 "label": "Label",
                 "placeholder": ""
               }
+            },
+            "external_url": {
+              "type": "Text",
+              "config": {
+                "label": "External url",
+                "placeholder": ""
+              }
+            },
+            "icon": {
+              "type": "Select",
+              "config": {
+                "label": "Icon",
+                "placeholder": "",
+                "options": [
+                  "instagram",
+                  "facebook",
+                  "x",
+                  "tiktok",
+                  "vimeo",
+                  "behance",
+                  "youtube",
+                  "linkedin"
+                ]
+              }
             }
-          },
-          "label": "Socials"
+          }
         }
       }
-    },
-    "SEO & Metadata": {
-      "meta_description": {
-        "config": {
-          "label": "Meta Description",
-          "placeholder": "A brief summary of the page"
-        },
-        "type": "Text"
-      },
-      "meta_image": {
-        "config": {
-          "constraint": {
-            "height": 1260,
-            "width": 2400
-          },
-          "label": "Meta Image",
-          "thumbnails": []
-        },
-        "type": "Image"
-      },
-      "meta_title": {
-        "config": {
-          "label": "Meta Title",
-          "placeholder": "A title of the page used for social media and search engines"
-        },
-        "type": "Text"
-      }
     }
-  },
-  "label": "Settings",
-  "repeatable": false,
-  "status": true,
-  "format": "page"
+  }
 }

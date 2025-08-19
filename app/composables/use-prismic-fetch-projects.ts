@@ -1,21 +1,21 @@
 import type { GetAllByTypeParams } from '~/composables/use-prismic-fetch-document-listing'
 
-export function usePrismicFetchProjects(isFavorite = true, options: GetAllByTypeParams = {}) {
+export function usePrismicFetchProjects(archived = false, options: GetAllByTypeParams = {}) {
     const { $prismic } = useNuxtApp()
     const prismicFilter = $prismic.filter
 
-    return usePrismicFetchDocuments('project', {
+    return usePrismicFetchDocuments('project_page', {
         orderings: [
             {
-                field: 'my.project.order_date',
+                field: 'my.project_page.publication_date',
                 direction: 'desc',
             },
             {
-                field: 'my.project.creation_date',
+                field: 'my.project_page.creation_date',
                 direction: 'desc',
             },
         ],
-        filters: [prismicFilter.at('my.project.favorite', isFavorite)],
+        filters: [prismicFilter.at('my.project_page.archived', archived)],
         ...options,
     })
 }

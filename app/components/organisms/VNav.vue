@@ -1,10 +1,11 @@
 <script lang="ts" setup>
-const links = [
-    { label: 'Home', url: '/' },
-    { label: 'Archive', url: '/archive' },
-    { label: 'About', url: '/a-propos' },
-    { label: 'Other', url: '/other' },
-]
+import { usePrismicFetchDocument } from '#imports'
+
+const { data } = await usePrismicFetchDocument('menu')
+
+console.log('VNav', data.value)
+
+const links = computed(() => data.value.data.links)
 </script>
 
 <template>
@@ -16,9 +17,12 @@ const links = [
             >
                 <slot
                     :url="link.url"
-                    :label="link.label"
+                    :label="link.text || link.label || link.url"
                 >
-                    <NuxtLink :to="link.url">{{ link.label }}</NuxtLink>
+                    <VPrismicLink
+                        :to="link"
+                        :label="link.text || link.label || link.url"
+                    />
                 </slot>
             </li>
         </ul>

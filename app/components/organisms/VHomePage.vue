@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import type { AboutPageDocument } from '~~/prismicio-types';
+import type { HomePageDocument } from '~~/prismicio-types';
 
 const props = defineProps<{
-    document: AboutPageDocument
+    document: HomePageDocument
 }>()
 
 const page = computed(() => props.document.data)

@@ -1,5 +1,9 @@
 {
+  "format": "page",
   "id": "home_page",
+  "label": "Home page",
+  "repeatable": false,
+  "status": true,
   "json": {
     "Main": {
       "title": {
@@ -8,9 +12,63 @@
           "label": "Title",
           "placeholder": ""
         }
+      },
+      "content": {
+        "type": "StructuredText",
+        "config": {
+          "label": "Content",
+          "placeholder": "",
+          "allowTargetBlank": true,
+          "multi": "strong,em,hyperlink"
+        }
+      },
+      "media": {
+        "type": "Group",
+        "config": {
+          "label": "media",
+          "repeat": false,
+          "fields": {
+            "image": {
+              "type": "Image",
+              "config": {
+                "label": "image",
+                "constraint": {},
+                "thumbnails": []
+              }
+            },
+            "video_embed": {
+              "type": "Embed",
+              "config": {
+                "label": "video embed",
+                "placeholder": ""
+              }
+            }
+          }
+        }
+      },
+      "slices": {
+        "type": "Slices",
+        "fieldset": "Slice Zone",
+        "config": {
+          "choices": {
+            "project_feed_slice": {
+              "type": "SharedSlice"
+            },
+            "contact_slice": {
+              "type": "SharedSlice"
+            }
+          }
+        }
       }
     },
     "SEO & Metadata": {
+      "meta_title": {
+        "config": {
+          "label": "Meta Title",
+          "placeholder": "A title of the page used for social media and search engines"
+        },
+        "type": "Text"
+      },
       "meta_description": {
         "config": {
           "label": "Meta Description",
@@ -28,18 +86,7 @@
           "thumbnails": []
         },
         "type": "Image"
-      },
-      "meta_title": {
-        "config": {
-          "label": "Meta Title",
-          "placeholder": "A title of the page used for social media and search engines"
-        },
-        "type": "Text"
       }
     }
-  },
-  "label": "Home page",
-  "repeatable": false,
-  "status": true,
-  "format": "page"
+  }
 }

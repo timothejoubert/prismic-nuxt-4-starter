@@ -1,7 +1,7 @@
 {
   "format": "page",
-  "id": "project_listing_page",
-  "label": "Project listing page",
+  "id": "archive_page",
+  "label": "Archive Page",
   "repeatable": false,
   "status": true,
   "json": {
@@ -19,7 +19,7 @@
           "label": "Content",
           "placeholder": "",
           "allowTargetBlank": true,
-          "multi": "paragraph,strong,em,hyperlink"
+          "multi": "paragraph,preformatted,heading1,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl"
         }
       },
       "image": {
@@ -35,10 +35,10 @@
         "fieldset": "Slice Zone",
         "config": {
           "choices": {
-            "simple_text_slice": {
+            "contact_slice": {
               "type": "SharedSlice"
             },
-            "contact_slice": {
+            "simple_text_slice": {
               "type": "SharedSlice"
             }
           }

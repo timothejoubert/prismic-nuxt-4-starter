@@ -1,4 +1,3 @@
-import type { PrismicDocumentType } from '~/types/api'
 import { prismicDocumentRoutes, prismicDocumentName } from '~~/shared/prismic-routes'
 
 export function isExistingDocumentType(type: string) {
@@ -10,21 +9,21 @@ export function isHomeDocument(type: string) {
 }
 
 export function isAboutDocument(type: string) {
-    return type === prismicDocumentName.about
+    return type === prismicDocumentName.about_page
 }
 
 export function isArchiveDocument(type: string) {
-    return type === prismicDocumentName.archive
-}
-
-export function isProjectDocument(type: string) {
-    return type === prismicDocumentName.project
+    return type === prismicDocumentName.archive_page
 }
 
 export function isProjectListingDocument(type: string) {
     return type === prismicDocumentName.project_listing_page
 }
 
-export function isDynamicDocument(type: PrismicDocumentType) {
+export function isProjectDocument(type: string) {
+    return type === prismicDocumentName.project_page
+}
+
+export function isDynamicDocument(type: string) {
     return isProjectDocument(type)
 }

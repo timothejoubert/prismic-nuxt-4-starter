@@ -1,11 +1,11 @@
 import type { PrismicDocumentWithoutUID, PrismicDocument, PrismicDocumentWithUID } from '@prismicio/types'
-import type { AllDocumentTypes, ProjectDocument, SettingsDocument } from '~~/prismicio-types'
+import type { AllDocumentTypes, ProjectPageDocument, SettingsDocument } from '~~/prismicio-types'
 
 // Document data
 export type DocumentWithUid = IntersectDocument<AllDocumentTypes, PrismicDocumentWithUID>
 export type DocumentWithoutUid = IntersectDocument<AllDocumentTypes, PrismicDocumentWithoutUID>
 export type ReachableDocument = ExcludeDocument<AllDocumentTypes, (SettingsDocument )>
-export type RepeatableDocument = ProjectDocument
+export type RepeatableDocument = ProjectPageDocument
 
 // Document type
 export type PrismicDocumentType = ExtractDocumentType<AllDocumentTypes>

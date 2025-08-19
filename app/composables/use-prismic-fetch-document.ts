@@ -3,14 +3,14 @@ import type { PrismicDocumentType } from '~/types/api'
 import { isDynamicDocument, isExistingDocumentType } from '~/utils/prismic/document-type'
 import { usePrismicPreviewRoute } from '~/composables/use-prismic-preview-route'
 
-export async function usePrismicFetchDocument<T extends AllDocumentTypes>(prismicDocument: PrismicDocumentType | undefined) {
+export async function usePrismicFetchDocument<T extends AllDocumentTypes>(documentType: PrismicDocumentType | undefined) {
     const route = useRoute()
     const routeUid = route.params?.uid || ''
     const uid = Array.isArray(routeUid) ? routeUid.at(-1) : routeUid // get the last uid when route has subPage
 
     const { documentId, isPreview } = usePrismicPreviewRoute()
 
-    const dataKey = `page-${prismicDocument}-${uid || documentId.value || 'single-document'}`
+    const dataKey = `page-${documentType}-${uid || documentId.value || 'single-document'}`
 
     const prismicClient = usePrismic().client
     const { fetchLocaleOption } = useLocale()
@@ -20,16 +20,17 @@ export async function usePrismicFetchDocument<T extends AllDocumentTypes>(prismi
         brokenRoute: '/404',
     }
 
+    console.log()
     const { data, error } = await useAsyncData(dataKey, async () => {
         try {
             if (isPreview.value && documentId.value) {
                 return await prismicClient.getByID(documentId.value, prismicFetchOptions)
             }
-            else if (uid && prismicDocument && isDynamicDocument(prismicDocument)) {
-                return await prismicClient.getByUID(prismicDocument, uid, prismicFetchOptions)
+            else if (uid && documentType && isDynamicDocument(documentType)) {
+                return await prismicClient.getByUID(documentType, uid, prismicFetchOptions)
             }
-            else if (prismicDocument && isExistingDocumentType(prismicDocument)) {
-                return await prismicClient.getSingle(prismicDocument, prismicFetchOptions)
+            else if (documentType) {
+                return await prismicClient.getSingle(documentType, prismicFetchOptions)
             }
         } catch (error) {
             console.error('Error during Prismic document fetch', error);
