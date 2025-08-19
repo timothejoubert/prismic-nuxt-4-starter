@@ -1,0 +1,54 @@
+<script  lang="ts" setup>
+import ScssGrid from '~/assets/scss/export/_grid.module.scss'
+
+const maxColumnLength = Math.max(...Object.values(ScssGrid).map(v => Number(v)))
+const isVisible = ref(false)
+
+function onKeyDown(e: KeyboardEvent) {
+    const isValidKeyDown = e.shiftKey && (e.key === 'g' || e.key === 'G')
+    if (isValidKeyDown) isVisible.value = !isVisible.value
+}
+
+onMounted(() => {
+    window.addEventListener('keydown', onKeyDown)
+})
+
+onBeforeUnmount(() => {
+    window.removeEventListener('keydown', onKeyDown)
+})
+</script>
+
+<template>
+    <ul
+        v-show="isVisible"
+        :class="$style.root"
+        class="grid"
+        aria-hidden="true"
+    >
+        <li
+            v-for="index in maxColumnLength"
+            :key="index"
+            :class="$style.item"
+        />
+    </ul>
+</template>
+
+<style lang="scss" module>
+.root {
+    position: fixed;
+    z-index: 1001;
+    top: 0;
+    bottom: 0;
+    left: var(--gutter);
+    grid-template-rows: 1fr;
+    margin-block: initial;
+    pointer-events: none;
+    padding-left: initial;
+}
+
+.item {
+    min-height: 100%;
+    background-color: rgba(255, 0, 0, 10%);
+    list-style: none;
+}
+</style>

@@ -3,26 +3,23 @@ import type { PrismicDocumentType, ReachableDocument } from '~/types/api'
 
 export async function useFetchPage<T extends ReachableDocument>(type: PrismicDocumentType | undefined) {
     const route = useRoute()
-    const documentType = computed(() => type || getDocumentTypeByUrl(route.path))
+    const documentType = type || getDocumentTypeByUrl(route.path)
     const { isPreview } = usePrismicPreviewRoute()
 
-    if (!documentType.value && !isPreview.value) {
+    if (!documentType && !isPreview.value) {
         throw showError({
             message: 'can\'t find prismic document to display during use-fetch-page',
             status: 500
         })
     }
 
-    const { data, error } = await usePrismicFetchDocument<T>(documentType.value)
+    const { data, error } = await usePrismicFetchDocument<T>(documentType)
 
     if (error.value) {
         throw showError(error.value)
     }
 
-    // const currentPage = useCurrentPage()
-    // currentPage.value = {
-    //     document: data.value,
-    // }
+    usePage({ document: data.value })
 
     if (data.value) {
         usePrismicHead(data.value)
@@ -31,6 +28,6 @@ export async function useFetchPage<T extends ReachableDocument>(type: PrismicDoc
 
     return {
         document: data,
-        documentType,
+        documentType: computed(() => data.value.type),
     }
 }

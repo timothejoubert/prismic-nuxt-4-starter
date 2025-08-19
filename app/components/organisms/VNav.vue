@@ -1,7 +1,9 @@
 <script lang="ts" setup>
 const links = [
     { label: 'Home', url: '/' },
-    { label: 'Test', url: '/path' },
+    { label: 'Archive', url: '/archive' },
+    { label: 'About', url: '/a-propos' },
+    { label: 'Other', url: '/other' },
 ]
 </script>
 
