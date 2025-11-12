@@ -2,14 +2,14 @@
 </script>
 
 <template>
-    <div>
-        <DevOnly>
-            <VGridVisualizer />
-        </DevOnly>
-        <NuxtRouteAnnouncer />
+	<div>
+		<DevOnly>
+			<VGridVisualizer />
+		</DevOnly>
+		<NuxtRouteAnnouncer />
 
-        <VNav />
+		<VNav />
 
-        <NuxtPage />
-    </div>
+		<NuxtPage />
+	</div>
 </template>

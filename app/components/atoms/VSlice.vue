@@ -2,21 +2,21 @@
 import type { SharedSlice } from '@prismicio/types'
 
 defineProps<{
-    slice?: SharedSlice
-    tag?: string
-    spacing?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl' | 'none'
+	slice?: SharedSlice
+	tag?: string
+	spacing?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl' | 'none'
 }>()
 </script>
 
 <template>
-    <component
-        :is="tag || 'section'"
-        :class="[$style.root, $style[`root--spacing-block-${spacing}`]]"
-        :data-slice-type="slice?.slice_type"
-        :data-slice-variation="slice?.variation"
-    >
-        <slot />
-    </component>
+	<component
+		:is="tag || 'section'"
+		:class="[$style.root, $style[`root--spacing-block-${spacing}`]]"
+		:data-slice-type="slice?.slice_type"
+		:data-slice-variation="slice?.variation"
+	>
+		<slot />
+	</component>
 </template>
 
 <style lang="scss" module>

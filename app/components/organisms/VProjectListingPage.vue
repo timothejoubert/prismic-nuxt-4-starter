@@ -1,30 +1,34 @@
 <script lang="ts" setup>
-import type { ProjectListingPageDocument } from '~~/prismicio-types';
+import type { ProjectListingPageDocument } from '~~/prismicio-types'
 
 const props = defineProps<{
-    document: ProjectListingPageDocument
+	document: ProjectListingPageDocument
 }>()
 
 const page = computed(() => props.document.data)
-const { data: projects} = await usePrismicFetchProjects()
+const { data: projects } = await usePrismicFetchProjects()
 </script>
 
 <template>
-    <div>
-        <UIHeader
-            :title="page.title"
-            :content="page.content"
-        />
-        <ul v-if="projects?.length" class="grid" :class="$style.root">
-            <VProjectCard
-                v-for="project in projects"
-                :key="project.uid"
-                wrapper="li"
-                :project="project"
-                :class="$style.item"
-            />
-        </ul>
-    </div>
+	<div>
+		<UIHeader
+			:title="page.title"
+			:content="page.content"
+		/>
+		<ul
+			v-if="projects?.length"
+			class="grid"
+			:class="$style.root"
+		>
+			<VProjectCard
+				v-for="project in projects"
+				:key="project.uid"
+				wrapper="li"
+				:project="project"
+				:class="$style.item"
+			/>
+		</ul>
+	</div>
 </template>
 
 <style lang="scss" module>

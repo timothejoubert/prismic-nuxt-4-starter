@@ -1,21 +1,21 @@
 <script lang="ts" setup>
-import type { ProjectPageDocument } from '~~/prismicio-types';
+import type { ProjectPageDocument } from '~~/prismicio-types'
 import type { VWrapperProps } from '~/components/atoms/VWrapper.vue'
 
 defineProps<{
-    project: ProjectPageDocument
+	project: ProjectPageDocument
 } & VWrapperProps>()
 </script>
 
 <template>
-    <UICard
-        :wrapper="wrapper"
-        :title="project.data.title"
-        :content="project.data.date"
-        :image="project.data.image"
-        :tags="project.tags"
-        :url="project.url"
-    />
+	<UICard
+		:wrapper="wrapper"
+		:title="project.data.title"
+		:content="project.data.date"
+		:image="project.data.image"
+		:tags="project.tags"
+		:url="project.url"
+	/>
 </template>
 
 <!-- <style lang="scss" module></style> -->

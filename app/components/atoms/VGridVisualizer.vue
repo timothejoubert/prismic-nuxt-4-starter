@@ -1,36 +1,36 @@
 <script lang="ts" setup>
 import ScssGrid from '~/assets/scss/export/_grid.module.scss'
 
-const maxColumnLength = Math.max(...Object.values(ScssGrid).map((v) => Number(v)))
+const maxColumnLength = Math.max(...Object.values(ScssGrid).map(v => Number(v)))
 const isVisible = ref(false)
 
 function onKeyDown(e: KeyboardEvent) {
-    const isValidKeyDown = e.shiftKey && (e.key === 'g' || e.key === 'G')
-    if (isValidKeyDown) isVisible.value = !isVisible.value
+	const isValidKeyDown = e.shiftKey && (e.key === 'g' || e.key === 'G')
+	if (isValidKeyDown) isVisible.value = !isVisible.value
 }
 
 onMounted(() => {
-    window.addEventListener('keydown', onKeyDown)
+	window.addEventListener('keydown', onKeyDown)
 })
 
 onBeforeUnmount(() => {
-    window.removeEventListener('keydown', onKeyDown)
+	window.removeEventListener('keydown', onKeyDown)
 })
 </script>
 
 <template>
-    <ul
-        v-show="isVisible"
-        :class="$style.root"
-        class="grid"
-        aria-hidden="true"
-    >
-        <li
-            v-for="index in maxColumnLength"
-            :key="index"
-            :class="$style.item"
-        />
-    </ul>
+	<ul
+		v-show="isVisible"
+		:class="$style.root"
+		class="grid"
+		aria-hidden="true"
+	>
+		<li
+			v-for="index in maxColumnLength"
+			:key="index"
+			:class="$style.item"
+		/>
+	</ul>
 </template>
 
 <style lang="scss" module>

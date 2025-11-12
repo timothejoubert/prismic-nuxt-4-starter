@@ -4,14 +4,14 @@ import { defineAsyncComponent } from 'vue'
 import { defineSliceZoneComponents } from '@prismicio/vue'
 
 export const components = defineSliceZoneComponents({
-    contact_slice: defineAsyncComponent(
-        () => import('./ContactSlice/index.vue'),
-    ),
-    content_slice: defineAsyncComponent(() => import('./MediaSlice/index.vue')),
-    project_feed_slice: defineAsyncComponent(
-        () => import('./ProjectFeedSlice/index.vue'),
-    ),
-    simple_text_slice: defineAsyncComponent(
-        () => import('./SimpleTextSlice/index.vue'),
-    ),
+	contact_slice: defineAsyncComponent(
+		() => import('./ContactSlice/index.vue'),
+	),
+	content_slice: defineAsyncComponent(() => import('./MediaSlice/index.vue')),
+	project_feed_slice: defineAsyncComponent(
+		() => import('./ProjectFeedSlice/index.vue'),
+	),
+	simple_text_slice: defineAsyncComponent(
+		() => import('./SimpleTextSlice/index.vue'),
+	),
 })
