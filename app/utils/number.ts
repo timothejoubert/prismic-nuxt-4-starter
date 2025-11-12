@@ -1,5 +1,5 @@
 // Helper function to parse size
-export function parseSize(input: string | number | undefined) {
+export function parseSize(input: string | number | null | undefined) {
 	if (typeof input === 'number') {
 		return input
 	}
@@ -12,7 +12,7 @@ export function parseSize(input: string | number | undefined) {
 }
 
 // Helper function to get integer value
-export function getInt(value?: string | number | undefined) {
+export function getInt(value?: string | number | null | undefined) {
 	if (typeof value === 'number') {
 		return value
 	}

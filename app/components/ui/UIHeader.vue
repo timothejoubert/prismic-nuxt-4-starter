@@ -19,9 +19,9 @@ defineProps<{
 		<VPrismicImg
 			v-if="image?.url"
 			width="1000"
-			height="400"
+			height="600"
 			:field="image"
-			:modifiers="{ fit: 'crop', ar: 1000 / 400 }"
+			:modifiers="{ fit: 'crop' }"
 		/>
 	</header>
 </template>

@@ -24,12 +24,21 @@ export default defineComponent({
 		const imgProps = computed(() => pick(props, Object.keys(vImgProps)))
 		const imageField = computed(() => getImageFieldFilled(props.field))
 		const mediaLinkField = computed(() => getFilledLinkToMedia(props.field))
+		const src = computed(() => {
+			const value = imageField.value?.url || mediaLinkField.value?.url || ''
+
+			return value.substring(0, value.lastIndexOf('?'))
+		})
 
 		return () => h(VImg, {
 			...imgProps.value,
-			src: imageField.value?.url || mediaLinkField.value?.url,
-			width: props.width || imageField.value?.dimensions.width || mediaLinkField.value?.width,
-			height: props.height || imageField.value?.dimensions.height || mediaLinkField.value?.height,
+			modifiers: {
+				...props.modifiers,
+				auto: props.modifiers?.auto || 'compress,format',
+			},
+			src: src.value,
+			width: getInt(props.width || imageField.value?.dimensions.width || mediaLinkField.value?.width),
+			height: getInt(props.height || imageField.value?.dimensions.height || mediaLinkField.value?.height),
 			alt: typeof props.alt === 'string' ? props.alt : (imageField.value?.alt || mediaLinkField.value?.name),
 			provider: 'imgix',
 			placeholder: props.placeholder || '#eee',

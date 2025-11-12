@@ -13,7 +13,7 @@ export const vImgProps = {
 		required: false,
 	},
 	modifiers: {
-		type: Object as PropType<ImageOptions['modifiers']>,
+		type: Object as PropType<ImageOptions['modifiers'] & { auto?: string, ar?: string }>,
 		required: false,
 	},
 }
@@ -66,12 +66,12 @@ export default defineComponent({
 			format: props.format || props.modifiers?.format,
 		}))
 
-		const options = computed<ImageOptions>(() => ({
+		const options = computed(() => ({
 			provider: props.provider,
 			preset: props.preset,
 			densities: props.densities,
 			modifiers: modifiers.value,
-		}))
+		} as ImageOptions))
 
 		const src = computed(() => $img(props.src!, modifiers.value, options.value))
 

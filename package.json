@@ -32,6 +32,7 @@
         "@nuxtjs/prismic": "^4.1.0",
         "@prismicio/types": "^0.2.9",
         "@slicemachine/adapter-nuxt": "^0.3.86",
+        "@types/lodash": "^4.17.20",
         "eslint": "^9.39.1",
         "include-media": "^2.0.0",
         "postcss-pxtorem": "^6.1.0",
