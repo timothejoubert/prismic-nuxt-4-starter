@@ -26,5 +26,4 @@ const links = computed(() => data.value.data?.links)
     </nav>
 </template>
 
-<style lang="scss" module>
-</style>
+<!-- <style lang="scss" module></style> -->

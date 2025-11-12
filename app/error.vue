@@ -51,5 +51,4 @@ function goToHome() {
     </div>
 </template>
 
-<style lang="scss" module>
-</style>
+<!-- <style lang="scss" module></style> -->

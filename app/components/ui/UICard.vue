@@ -83,8 +83,8 @@ const rootClasses = computed(() => {
 .tags {
     display: flex;
     flex-wrap: wrap;
-    gap: 6px;
     order: 3;
+    gap: 6px;
 }
 
 .content {

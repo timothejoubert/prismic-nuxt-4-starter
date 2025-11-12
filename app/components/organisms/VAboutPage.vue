@@ -16,5 +16,5 @@ const page = computed(() => props.document.data)
         />
     </div>
 </template>
-<style lang="scss" module>
-</style>
+
+<!-- <style lang="scss" module></style> -->

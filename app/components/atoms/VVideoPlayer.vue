@@ -184,8 +184,8 @@ export default defineComponent({
 <style lang="scss" module>
 .iframe,
 .video {
-    display: block;
     position: var(--v-player-video-position);
+    display: block;
     width: var(--v-player-video-width, 100%);
     max-width: var(--v-player-video-max-width, 100%);
     height: var(--v-player-video-height, auto);
