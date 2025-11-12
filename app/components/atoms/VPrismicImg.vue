@@ -8,6 +8,9 @@ import { VImg } from '#components'
 
 export type VPrismicImageField = LinkField | ImageField
 
+// Imgix providers
+// https://docs.imgix.com/en-US/apis/rendering/automatic
+
 export const vPrismicImgProps = {
 	field: {
 		type: Object as PropType<VPrismicImageField>,

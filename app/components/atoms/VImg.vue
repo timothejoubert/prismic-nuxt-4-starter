@@ -26,19 +26,20 @@ export default defineComponent({
 	},
 	emits: ['load', 'error'],
 	setup(props, context) {
-		// PLACEHOLDER COLOR
-		const placeholderColor = computed(
-			() =>
-				typeof props.placeholder === 'string'
-				&& !props.placeholder.includes('.') // assumes a placeholder with a dot (i.e. a file extension) is a file (e.g. `image.png`)
-				&& props.placeholder,
-		)
-
 		// STYLE
 		const $style = useCssModule()
-		const style = computed(() => ({ '--v-img-placeholder': placeholderColor.value }))
+		const style = computed(() => {
+			// TODO: return background-image when placeholder is an image file
+			const isString = typeof props.placeholder === 'string'
+			const isImg = isString && props.placeholder?.includes('.')
+			const placeholderColor = isString && !isImg && props.placeholder
 
-		// LOAD
+			return {
+				'--v-img-placeholder': placeholderColor,
+			}
+		})
+
+		// NODE EVENT
 		const root = ref<HTMLImageElement | null>(null)
 		const loaded = ref(false)
 		const onLoad = (event?: Event) => {
@@ -55,6 +56,7 @@ export default defineComponent({
 			if (root.value?.complete) onLoad()
 		})
 
+		// DATA
 		const $img = useImage()
 		const width = computed(() => parseSize(props.width))
 		const height = computed(() => parseSize(props.height))
