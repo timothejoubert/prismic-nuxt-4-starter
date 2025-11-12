@@ -2,15 +2,12 @@
 import { usePrismicFetchDocument } from '#imports'
 
 const { data } = await usePrismicFetchDocument('menu')
-
-console.log('VNav', data.value)
-
-const links = computed(() => data.value.data.links)
+const links = computed(() => data.value.data?.links)
 </script>
 
 <template>
     <nav :aria-label="$t('main_nav')">
-        <ul>
+        <ul v-if="links?.length">
             <li
                 v-for="link in links"
                 :key="link.url"

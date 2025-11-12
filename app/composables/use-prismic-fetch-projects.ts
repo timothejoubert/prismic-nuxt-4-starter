@@ -1,6 +1,9 @@
 import type { GetAllByTypeParams } from '~/composables/use-prismic-fetch-document-listing'
 
-export function usePrismicFetchProjects(archived = false, options: GetAllByTypeParams = {}) {
+export function usePrismicFetchProjects(
+    archived = false,
+    options: GetAllByTypeParams = {},
+) {
     const { $prismic } = useNuxtApp()
     const prismicFilter = $prismic.filter
 

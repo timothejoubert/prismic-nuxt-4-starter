@@ -32,7 +32,7 @@ const tags = computed(() => {
         </header>
 
         <main>
-            <div :class="$style.medias" v-if="medias?.length">
+            <div v-if="medias?.length" :class="$style.medias">
                 <div v-for="(mediaGroup, i) in medias" :key="`media-${i}`" :class="$style.media">
                     <VVideoPlayer
                         v-if="mediaGroup.type === 'video'"

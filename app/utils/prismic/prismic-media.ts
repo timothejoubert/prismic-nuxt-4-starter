@@ -14,7 +14,11 @@ export type CustomEmbedField = {
     provider_name: 'vimeo' | 'youtube' | 'Vimeo' | 'YouTube'
 }
 export type PrismicImageField = ImageField | LinkToMediaField | EmbedField
-export type PrismicVideoField = (EmbedField | CustomEmbedField | LinkToMediaField) & {
+export type PrismicVideoField = (
+    | EmbedField
+    | CustomEmbedField
+    | LinkToMediaField
+) & {
     width?: number | string
     height?: number | string
 }
@@ -31,11 +35,12 @@ const isImageExtension = (ext?: string) => imgExtension.includes(ext || '')
 
 function extractDataFromUrl(url: string | undefined) {
     // Ex pattern: https://images.prismic.io/hugo-tomasi-v2/Zh10NDjCgu4jz1TZ_electrochoc-screen-01.png?auto=format,compress
-    const path
-    = url?.substring(
-        url?.lastIndexOf(prismicData.repositoryName) + prismicData.repositoryName.length,
-        url?.lastIndexOf('?'),
-    ) || ''
+    const path =
+        url?.substring(
+            url?.lastIndexOf(prismicData.repositoryName) +
+                prismicData.repositoryName.length,
+            url?.lastIndexOf('?'),
+        ) || ''
 
     const id = path.substring(0, path.lastIndexOf('_'))
     const name = path.substring(path.indexOf('_') + 1, path.lastIndexOf('.'))
@@ -50,21 +55,23 @@ export function getPrismicMediaData(field: PrismicImageField | undefined) {
     const { extension, name, id } = extractDataFromUrl(url)
     let mediaType: MediaType = 'unknown'
 
-    const isPrismicImage
-    = isImageExtension(extension) || (field as { kind?: string })?.kind === 'image' || url?.includes('images.prismic.io/')
+    const isPrismicImage =
+        isImageExtension(extension) ||
+        (field as { kind?: string })?.kind === 'image' ||
+        url?.includes('images.prismic.io/')
 
     if (isVideoExtension(extension) || field?.kind === 'video') {
         mediaType = 'video'
-    }
-    else if (isPrismicImage) {
+    } else if (isPrismicImage) {
         mediaType = 'image'
-    }
-    else if (getEmbedPlatform(field) || isVideoEmbedField(field)) {
+    } else if (getEmbedPlatform(field) || isVideoEmbedField(field)) {
         mediaType = 'embed'
     }
 
     const data = {
-        name: replaceSpecialCharacter((field as { name?: string })?.name || name),
+        name: replaceSpecialCharacter(
+            (field as { name?: string })?.name || name,
+        ),
         id: (id || (Math.random() * 1000).toString()) as string,
         url,
         mediaType,
@@ -83,8 +90,7 @@ export function getPrismicMediaData(field: PrismicImageField | undefined) {
             alt: field.alt,
             copyright: field.copyright,
         })
-    }
-    else if (isFilledLinkToMediaField(field)) {
+    } else if (isFilledLinkToMediaField(field)) {
         Object.assign(data, {
             width: field.width,
             height: field.height,
@@ -106,8 +112,7 @@ export function getReferenceDimension(field: PrismicImageField | undefined) {
             width: filledField?.width,
             height: filledField?.height,
         }
-    }
-    else if (isFilledImageField(field)) {
+    } else if (isFilledImageField(field)) {
         return {
             width: field.dimensions.width,
             height: field.dimensions.height,
@@ -120,8 +125,7 @@ export function getReferenceUrl(field: PrismicMediaField | undefined) {
 
     if (isVideoEmbedField(field)) {
         return field.embed_url
-    }
-    else {
+    } else {
         return returnObjWithAllValidKey(field, ['url'])?.url
     }
 }
@@ -135,5 +139,8 @@ export function getReferenceCopyright(field: PrismicImageField | undefined) {
 export function getReferenceAltText(field: PrismicImageField | undefined) {
     if (!field) return
 
-    return returnObjWithAllValidKey(field, ['alt'])?.alt || returnObjWithAllValidKey(field, ['name'])?.name
+    return (
+        returnObjWithAllValidKey(field, ['alt'])?.alt ||
+        returnObjWithAllValidKey(field, ['name'])?.name
+    )
 }

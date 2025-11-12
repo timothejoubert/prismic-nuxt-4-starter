@@ -1,6 +1,8 @@
 import type { KeyTextField, RichTextField } from '@prismicio/types'
 
-export function usePrismicText(field: KeyTextField | RichTextField | null | undefined | string) {
+export function usePrismicText(
+    field: KeyTextField | RichTextField | null | undefined | string,
+) {
     const { $prismic } = useNuxtApp()
 
     return computed(() => {

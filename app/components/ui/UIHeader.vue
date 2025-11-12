@@ -7,6 +7,7 @@ defineProps<{
     content?: VTextContent
     image?: VPrismicImageField
 }>()
+
 </script>
 <template>
     <header>
@@ -21,5 +22,5 @@ defineProps<{
         />
     </header>
 </template>
-<style lang="scss" module>
-</style>
+
+<!-- <style lang="scss" module></style> -->

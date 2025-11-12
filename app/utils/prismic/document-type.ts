@@ -1,7 +1,10 @@
-import { prismicDocumentRoutes, prismicDocumentName } from '~~/shared/prismic-routes'
+import {
+    prismicDocumentRoutes,
+    prismicDocumentName,
+} from '~~/shared/prismic-routes'
 
 export function isExistingDocumentType(type: string) {
-    return !!prismicDocumentRoutes.find(route => route.type === type)
+    return !!prismicDocumentRoutes.find((route) => route.type === type)
 }
 
 export function isHomeDocument(type: string) {

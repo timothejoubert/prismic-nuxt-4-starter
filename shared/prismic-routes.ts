@@ -1,4 +1,3 @@
-
 export const SETTINGS_TYPE = 'settings'
 export const MAIN_MENU_TYPE = 'main_menu'
 
@@ -42,16 +41,22 @@ export type PrismicDocumentRoutes = typeof prismicDocumentRoutes
 export type PrismicDocumentRoute = PrismicDocumentRoutes[number]
 export type PrismicDocumentType = PrismicDocumentRoute['type']
 
-export const prismicDocumentName = prismicDocumentRoutes.reduce((acc, route) => {
-    const type = route.type
-    Object.assign(acc, { [type]: type })
+export const prismicDocumentName = prismicDocumentRoutes.reduce(
+    (acc, route) => {
+        const type = route.type
+        Object.assign(acc, { [type]: type })
 
-    return acc
-}, {} as Record<PrismicDocumentType, PrismicDocumentType>)
+        return acc
+    },
+    {} as Record<PrismicDocumentType, PrismicDocumentType>,
+)
 
-export const prismicDocumentRoute = prismicDocumentRoutes.reduce((acc, route) => {
-    const type = route.type
-    Object.assign(acc, { [type]: route })
+export const prismicDocumentRoute = prismicDocumentRoutes.reduce(
+    (acc, route) => {
+        const type = route.type
+        Object.assign(acc, { [type]: route })
 
-    return acc
-}, {} as Record<PrismicDocumentType, PrismicDocumentRoute>)
+        return acc
+    },
+    {} as Record<PrismicDocumentType, PrismicDocumentRoute>,
+)

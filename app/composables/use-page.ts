@@ -16,13 +16,13 @@ export function usePage(page?: Page) {
 
     function updatePage() {
         currentPage.value = {
-            ...nextPage.value
+            ...nextPage.value,
         }
     }
 
     const route = useRoute()
     const nuxtApp = useNuxtApp()
-    if(route.meta.pageTransition) {
+    if (route.meta.pageTransition) {
         nuxtApp.hooks.hook('page:loading:start', updatePage)
     } else {
         updatePage()

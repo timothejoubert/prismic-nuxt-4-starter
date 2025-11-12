@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { AboutPageDocument, ArchivePageDocument, HomePageDocument, ProjectListingPageDocument, ProjectPageDocument } from '~~/prismicio-types';
+import type { AboutPageDocument, ArchivePageDocument, HomePageDocument, ProjectListingPageDocument, ProjectPageDocument }from '~~/prismicio-types';
 
 const { document } = await useFetchPage(undefined)
 

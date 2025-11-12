@@ -1,16 +1,21 @@
 <script lang="ts">
-import type { ExtractPropTypes } from 'vue'
 import type { ImageOptions } from '@nuxt/image'
-import { imgProps } from '#image/components/NuxtImg.vue'
-import { getInt, parseSize } from '#image/utils'
 
 export const vImgProps = {
-    ...imgProps,
-    loading: {
-        type: imgProps.loading.type,
-        // overrides NuxtImg default value
-        default: 'lazy',
-    },
+	...imageProps,
+	// @nuxt/image options
+	preset: {
+		type: String,
+		required: false,
+	},
+	placeholder: {
+		type: [Boolean, String, Number, Array] as PropType<boolean | string | number | [number, number?, number?, number?]>,
+		required: false,
+	},
+	modifiers: {
+		type: Object as PropType<ImageOptions['modifiers']>,
+		required: false,
+	},
 }
 
 export type VImgProps = ExtractPropTypes<typeof vImgProps>

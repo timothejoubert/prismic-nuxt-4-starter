@@ -29,7 +29,7 @@ const rootClasses = computed(() => {
         :wrapper="wrapper"
         :class="rootClasses"
     >
-        <component :is="url ? VPrismicLink : 'h3'" :to="url" v-if="title" :class="[$style.title]">
+        <component :is="url ? VPrismicLink : 'h3'" v-if="title" :to="url" :class="[$style.title]">
             {{ title }}
         </component>
         <template v-if="tags && tags.length">

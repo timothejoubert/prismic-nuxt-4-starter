@@ -2,7 +2,7 @@
 import type { ProjectPageDocument } from '~~/prismicio-types';
 import type { VWrapperProps } from '~/components/atoms/VWrapper.vue'
 
-const props = defineProps<{
+defineProps<{
     project: ProjectPageDocument
 } & VWrapperProps>()
 </script>
@@ -18,7 +18,4 @@ const props = defineProps<{
     />
 </template>
 
-<style lang="scss" module>
-
-
-</style>
+<!-- <style lang="scss" module></style> -->

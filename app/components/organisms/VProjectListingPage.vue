@@ -6,10 +6,7 @@ const props = defineProps<{
 }>()
 
 const page = computed(() => props.document.data)
-console.log('[VProjectListing]')
-
 const { data: projects} = await usePrismicFetchProjects()
-console.log(projects.value)
 </script>
 
 <template>
@@ -18,13 +15,13 @@ console.log(projects.value)
             :title="page.title"
             :content="page.content"
         />
-        <ul class="grid" :class="$style.root" v-if="projects?.length">
+        <ul v-if="projects?.length" class="grid" :class="$style.root">
             <VProjectCard
+                v-for="project in projects"
+                :key="project.uid"
                 wrapper="li"
                 :project="project"
                 :class="$style.item"
-                v-for="project in projects"
-                :key="project.uid"
             />
         </ul>
     </div>

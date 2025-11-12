@@ -9,7 +9,11 @@ export function useLocale() {
     const route = useRoute()
     const { $i18n } = useNuxtApp()
 
-    const availableLocaleCodes = computed(() => $i18n.locales.value.map(locale => getFormattedLocale(locale.code) || locale.code))
+    const availableLocaleCodes = computed(() =>
+        $i18n.locales.value.map(
+            (locale) => getFormattedLocale(locale.code) || locale.code,
+        ),
+    )
 
     const extractLocaleFromUrl = computed(() => {
         return availableLocaleCodes.value.find((localeCode) => {
@@ -19,9 +23,8 @@ export function useLocale() {
 
     const fetchLocaleOption = computed(() => {
         if (!extractLocaleFromUrl.value) {
-            return undefined //{ lang: $i18n.defaultLocale }
-        }
-        else return { lang: extractLocaleFromUrl.value }
+            return undefined // { lang: $i18n.defaultLocale }
+        } else return { lang: extractLocaleFromUrl.value }
     })
 
     function getLocalizedUrl(url: string) {
@@ -29,8 +32,7 @@ export function useLocale() {
 
         if (currentLocale === $i18n.defaultLocale.toLowerCase()) {
             return url
-        }
-        else {
+        } else {
             return joinURL(currentLocale, url)
         }
     }

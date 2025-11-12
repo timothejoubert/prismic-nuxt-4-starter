@@ -10,6 +10,13 @@ export function getPosition(value: string, subString: string, index: number) {
 // substring: '/'
 // index: [2,3]
 // return sub-page
-export function extractValueBetweenOccurrence(value: string, subString: string, indexes: [number, number]) {
-    return value.substring(getPosition(value, subString, indexes[0]) + 1, getPosition(value, subString, indexes[1]))
+export function extractValueBetweenOccurrence(
+    value: string,
+    subString: string,
+    indexes: [number, number],
+) {
+    return value.substring(
+        getPosition(value, subString, indexes[0]) + 1,
+        getPosition(value, subString, indexes[1]),
+    )
 }

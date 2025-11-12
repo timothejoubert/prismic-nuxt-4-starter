@@ -1,7 +1,7 @@
-<script  lang="ts" setup>
+<script lang="ts" setup>
 import ScssGrid from '~/assets/scss/export/_grid.module.scss'
 
-const maxColumnLength = Math.max(...Object.values(ScssGrid).map(v => Number(v)))
+const maxColumnLength = Math.max(...Object.values(ScssGrid).map((v) => Number(v)))
 const isVisible = ref(false)
 
 function onKeyDown(e: KeyboardEvent) {
@@ -40,15 +40,15 @@ onBeforeUnmount(() => {
     top: 0;
     bottom: 0;
     left: var(--gutter);
+    padding-left: initial;
     grid-template-rows: 1fr;
     margin-block: initial;
     pointer-events: none;
-    padding-left: initial;
 }
 
 .item {
     min-height: 100%;
-    background-color: rgba(255, 0, 0, 10%);
+    background-color: rgb(255, 0, 0, 10%);
     list-style: none;
 }
 </style>

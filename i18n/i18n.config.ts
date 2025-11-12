@@ -7,14 +7,14 @@ export default defineI18nConfig(() => ({
             ...acc,
             [cur]: {
                 // 28 jan. 2021
-                'short': {
+                short: {
                     year: 'numeric',
                     month: 'short',
                     day: 'numeric',
                     timeZone: I18N_DEFAULT_TIMEZONE,
                 },
                 // 20:15
-                'hour': {
+                hour: {
                     hour: '2-digit',
                     minute: '2-digit',
                     hour12: false,
@@ -37,12 +37,12 @@ export default defineI18nConfig(() => ({
                     timeZone: I18N_DEFAULT_TIMEZONE,
                 },
                 // monday
-                'weekday': {
+                weekday: {
                     weekday: 'long',
                     timeZone: I18N_DEFAULT_TIMEZONE,
                 },
                 // 28
-                'date': {
+                date: {
                     day: 'numeric',
                     timeZone: I18N_DEFAULT_TIMEZONE,
                 },
@@ -67,6 +67,6 @@ export default defineI18nConfig(() => ({
                 },
             },
         }),
-        {} as Record<typeof I18N_LOCALES[number], DateTimeFormat>,
+        {} as Record<(typeof I18N_LOCALES)[number], DateTimeFormat>,
     ),
 }))
