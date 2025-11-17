@@ -1,8 +1,9 @@
 <script lang="ts" setup>
-import { usePrismicFetchDocument } from '#imports'
+import { MAIN_MENU_TYPE } from '~~/shared/prismic-documents'
 
-const { data } = await usePrismicFetchDocument('menu')
-const links = computed(() => data.value.data?.links)
+const { data } = await usePrismicFetchDocument(MAIN_MENU_TYPE)
+
+const links = computed(() => data.value.data?.links || [])
 </script>
 
 <template>
@@ -10,17 +11,9 @@ const links = computed(() => data.value.data?.links)
 		<ul v-if="links?.length">
 			<li
 				v-for="link in links"
-				:key="link.url"
+				:key="link.to"
 			>
-				<slot
-					:url="link.url"
-					:label="link.text || link.label || link.url"
-				>
-					<VPrismicLink
-						:to="link"
-						:label="link.text || link.label || link.url"
-					/>
-				</slot>
+				<PrismicLink :field="link" />
 			</li>
 		</ul>
 	</nav>

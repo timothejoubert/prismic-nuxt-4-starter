@@ -23,6 +23,7 @@ export function useLocale() {
 
 	const fetchLocaleOption = computed(() => {
 		if (!extractLocaleFromUrl.value) {
+			// If prismic as unique default locale, we don't need to add lang param
 			return undefined // { lang: $i18n.defaultLocale }
 		}
 		else return { lang: extractLocaleFromUrl.value }

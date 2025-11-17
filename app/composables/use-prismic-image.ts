@@ -9,8 +9,8 @@ export function usePrismicImage(
 	field: MaybeRefOrGetter<VPrismicImageField>,
 	imgProps?: Partial<VImgProps>,
 ) {
-	const imageField = computed(() => getImageFieldFilled(field))
-	const mediaLinkField = computed(() => getFilledLinkToMedia(field))
+	const imageField = computed(() => getImageFieldFilled(toValue(field)))
+	const mediaLinkField = computed(() => getFilledLinkToMedia(toValue(field)))
 	const src = computed(() => {
 		const value = imageField.value?.url || mediaLinkField.value?.url || ''
 

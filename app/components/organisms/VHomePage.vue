@@ -10,7 +10,7 @@ const page = computed(() => props.document.data)
 
 <template>
 	<div>
-		<UIHeader
+		<VHeader
 			:title="page.title"
 			:content="page.content"
 			:image="page.media?.[0]?.image"

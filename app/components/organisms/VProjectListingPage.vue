@@ -11,7 +11,7 @@ const { data: projects } = await usePrismicFetchProjects()
 
 <template>
 	<div>
-		<UIHeader
+		<VHeader
 			:title="page.title"
 			:content="page.content"
 		/>

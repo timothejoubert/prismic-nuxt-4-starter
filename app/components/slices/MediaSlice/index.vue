@@ -20,8 +20,6 @@ const medias = computed(() => {
 		return acc
 	}, [])
 })
-
-console.log('medias', medias.value)
 </script>
 
 <template>

@@ -2,7 +2,7 @@ import { repositoryName } from './slicemachine.config.json'
 import { version } from './package.json'
 import svgLoader from 'vite-svg-loader'
 import { I18N_DEFAULT_LOCALE, I18N_LOCALES } from './i18n/i18n'
-import { prismicDocumentRoutes } from './shared/prismic-routes'
+import { prismicRouteList } from './shared/prismic-routes'
 import { PREVIEW_PATH } from './app/constants/prismic-preview'
 
 // const isDev = process.env.NODE_ENV === 'development'
@@ -21,7 +21,6 @@ export default defineNuxtConfig({
 	components: [
 		'~/components/atoms',
 		'~/components/molecules',
-		'~/components/ui',
 		'~/components/organisms',
 	],
 	devtools: { enabled: true },
@@ -145,7 +144,7 @@ export default defineNuxtConfig({
 		preview: PREVIEW_PATH,
 		toolbar: !isProd,
 		clientConfig: {
-			routes: prismicDocumentRoutes,
+			routes: prismicRouteList,
 		},
 	},
 })

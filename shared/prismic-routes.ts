@@ -1,62 +1,44 @@
-export const SETTINGS_TYPE = 'settings'
-export const MAIN_MENU_TYPE = 'main_menu'
+import { HOME_PAGE_TYPE, ARCHIVE_TYPE, ABOUT_TYPE, PROJECT_LISTING_TYPE, PROJECT_TYPE } from './prismic-documents'
 
-export const HOME_PAGE_TYPE = 'home_page'
-export const ARCHIVE_TYPE = 'archive_page'
-export const ABOUT_TYPE = 'about_page'
-export const PROJECT_LISTING_TYPE = 'project_listing_page'
-export const PROJECT_TYPE = 'project_page'
-
-export const prismicDocumentRoutes = [
-	{
+export const prismicDocumentRoutes = {
+	[HOME_PAGE_TYPE]: {
 		name: 'index',
 		type: HOME_PAGE_TYPE,
 		path: '/:lang?',
 	},
-	{
+	[ARCHIVE_TYPE]: {
 		name: 'archive',
 		type: ARCHIVE_TYPE,
 		path: '/:lang?/archive',
 	},
-	{
+	[ABOUT_TYPE]: {
 		name: 'about',
 		type: ABOUT_TYPE,
 		path: '/:lang?/a-propos',
 	},
-	{
+	[PROJECT_LISTING_TYPE]: {
 		name: 'projets',
 		type: PROJECT_LISTING_TYPE,
 		path: '/:lang?/projets',
-		alias: ['/:lang?', '/:lang?/projets', '/:lang?/projects'],
 	},
-	{
+	[PROJECT_TYPE]: {
 		name: 'projet',
 		type: PROJECT_TYPE,
 		path: '/:lang?/projets/:uid',
-		alias: ['/:lang?/projects/:uid'],
 	},
-] as const
+ } as const
 
-export type PrismicDocumentRoutes = typeof prismicDocumentRoutes
+export const prismicRouteList = Object.values(prismicDocumentRoutes)
+
+export type PrismicDocumentRoutes = typeof prismicRouteList
 export type PrismicDocumentRoute = PrismicDocumentRoutes[number]
 export type PrismicDocumentType = PrismicDocumentRoute['type']
 
-export const prismicDocumentName = prismicDocumentRoutes.reduce(
-	(acc, route) => {
-		const type = route.type
-		Object.assign(acc, { [type]: type })
+export function getPrismicRoute(type: PrismicDocumentType) {
+	return prismicDocumentRoutes[type]
+}
 
-		return acc
-	},
-	{} as Record<PrismicDocumentType, PrismicDocumentType>,
-)
-
-export const prismicDocumentRoute = prismicDocumentRoutes.reduce(
-	(acc, route) => {
-		const type = route.type
-		Object.assign(acc, { [type]: route })
-
-		return acc
-	},
-	{} as Record<PrismicDocumentType, PrismicDocumentRoute>,
-)
+export function isDynamicDocument(type: string) {
+	const route = prismicDocumentRoutes[type as PrismicDocumentType]
+	return !!route?.path?.includes(':uid')
+}

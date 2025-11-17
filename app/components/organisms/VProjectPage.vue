@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { ProjectPageDocument } from '~~/prismicio-types'
-import VVideoPlayer from '../atoms/VVideoPlayer.vue'
-import { prismicDocumentRoute } from '~~/shared/prismic-routes'
+import { PROJECT_LISTING_TYPE } from '~~/shared/prismic-documents';
+import { getPrismicRoute } from '~~/shared/prismic-routes'
 
 const props = defineProps<{
 	document: ProjectPageDocument
@@ -14,13 +14,14 @@ const tags = computed(() => {
 })
 
 const imgProps = usePrismicImage(project.value.image)
+const projectListingRoute = getPrismicRoute(PROJECT_LISTING_TYPE)
 </script>
 
 <template>
 	<div :class="$style.root">
 		<header>
 			<h1>Project page | {{ document.data.title }}</h1>
-			<VPrismicLink :to="prismicDocumentRoute.project_listing_page">
+			<VPrismicLink :to="projectListingRoute">
 				Retour
 			</VPrismicLink>
 			<template v-if="tags.length">

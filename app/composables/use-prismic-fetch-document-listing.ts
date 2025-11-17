@@ -17,7 +17,7 @@ export function usePrismicFetchDocuments<
 	const fetchOptions = {
 		// pageSize: options.pageSize || 12, // default 20
 		limit: options.pageSize || 2, // default 20
-		routes: prismicDocumentRoutes,
+		// routes: prismicDocumentRoutes,
 		brokenRoute: '/404',
 		...useLocale()?.fetchLocaleOption.value,
 		...options,

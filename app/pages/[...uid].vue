@@ -9,8 +9,6 @@ const aboutDocument = computed(() => document.value.type === 'about_page' ? docu
 const archiveDocument = computed(() => document.value.type === 'archive_page' ? document.value as ArchivePageDocument : undefined)
 const projectListingDocument = computed(() => document.value.type === 'project_listing_page' ? document.value as ProjectListingPageDocument : undefined)
 const projectDocument = computed(() => document.value.type === 'project_page' ? document.value as ProjectPageDocument : undefined)
-
-console.log(document.value)
 </script>
 
 <template>

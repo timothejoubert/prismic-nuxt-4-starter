@@ -1,4 +1,5 @@
 import type { GetAllByTypeParams } from '~/composables/use-prismic-fetch-document-listing'
+import { PROJECT_TYPE } from '~~/shared/prismic-documents'
 
 export function usePrismicFetchProjects(
 	archived = false,
@@ -7,7 +8,7 @@ export function usePrismicFetchProjects(
 	const { $prismic } = useNuxtApp()
 	const prismicFilter = $prismic.filter
 
-	return usePrismicFetchDocuments('project_page', {
+	return usePrismicFetchDocuments(PROJECT_TYPE, {
 		orderings: [
 			{
 				field: 'my.project_page.publication_date',
