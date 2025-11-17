@@ -7,7 +7,7 @@ export type VPrismicImageField = LinkField | ImageField | undefined
 
 export function usePrismicImage(
 	field: MaybeRefOrGetter<VPrismicImageField>,
-	options?: Partial<VImgProps>,
+	imgProps?: Partial<VImgProps>,
 ) {
 	const imageField = computed(() => getImageFieldFilled(field))
 	const mediaLinkField = computed(() => getFilledLinkToMedia(field))
@@ -28,10 +28,10 @@ export function usePrismicImage(
 			src: src.value,
 			width: imageField.value?.dimensions.width || mediaLinkField.value?.width,
 			height: imageField.value?.dimensions.height || mediaLinkField.value?.height,
-			...options,
+			...imgProps,
 			modifiers: {
-				...options?.modifiers,
-				auto: options?.modifiers?.auto || 'compress,format',
+				...imgProps?.modifiers,
+				auto: imgProps?.modifiers?.auto || 'compress,format',
 			},
 		} as VImgProps
 	})
