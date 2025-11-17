@@ -38,7 +38,7 @@ export function getPrismicRoute(type: PrismicDocumentType) {
 	return prismicDocumentRoutes[type]
 }
 
-export function isDynamicDocument(type: string) {
+export function isDynamicRoute(type: string) {
 	const route = prismicDocumentRoutes[type as PrismicDocumentType]
 	return !!route?.path?.includes(':uid')
 }

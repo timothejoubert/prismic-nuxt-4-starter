@@ -1,6 +1,6 @@
 import { usePrismicPreviewRoute } from '~/composables/use-prismic-preview-route'
 import type { PrismicDocumentType } from '~/types/api'
-import { isDynamicDocument } from '~~/shared/prismic-routes'
+import { isDynamicRoute } from '~~/shared/prismic-routes'
 import type { AllDocumentTypes } from '~~/prismicio-types'
 
 export async function usePrismicFetchDocument<T extends AllDocumentTypes>(
@@ -35,7 +35,7 @@ export async function usePrismicFetchDocument<T extends AllDocumentTypes>(
 				else if (
 					uid
 					&& documentType
-					&& isDynamicDocument(documentType)
+					&& isDynamicRoute(documentType)
 				) {
 					return await prismicClient.getByUID(
 						documentType,
