@@ -1,12 +1,13 @@
 <script lang="ts" setup>
-import type { VPrismicImageField } from '../atoms/VPrismicImg.vue'
 import type { VTextContent } from '~/components/atoms/VText.vue'
 
-defineProps<{
+const props = defineProps<{
 	title: string
 	content?: VTextContent
 	image?: VPrismicImageField
 }>()
+
+const imgProps = usePrismicImage(props.image, { width: 1000, height: 600, modifiers: { fit: 'crop' } })
 </script>
 
 <template>
@@ -16,12 +17,9 @@ defineProps<{
 			v-if="content"
 			:content="content"
 		/>
-		<VPrismicImg
-			v-if="image?.url"
-			width="1000"
-			height="600"
-			:field="image"
-			:modifiers="{ fit: 'crop' }"
+		<VImg
+			v-if="imgProps"
+			v-bind="imgProps"
 		/>
 	</header>
 </template>

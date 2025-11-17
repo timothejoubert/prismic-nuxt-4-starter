@@ -1,0 +1,38 @@
+import type { ImageField, LinkField } from '@prismicio/types'
+import type { VImgProps } from '~/components/atoms/VImg.vue'
+import { getImageFieldFilled } from '~/utils/prismic/image-field'
+import { getFilledLinkToMedia } from '~/utils/prismic/link-field.ts'
+
+export type VPrismicImageField = LinkField | ImageField | undefined
+
+export function usePrismicImage(
+	field: MaybeRefOrGetter<VPrismicImageField>,
+	options?: Partial<VImgProps>,
+) {
+	const imageField = computed(() => getImageFieldFilled(field))
+	const mediaLinkField = computed(() => getFilledLinkToMedia(field))
+	const src = computed(() => {
+		const value = imageField.value?.url || mediaLinkField.value?.url || ''
+
+		return value.substring(0, value.lastIndexOf('?'))
+	})
+
+	return computed(() => {
+		if (!src.value) return null
+
+		return {
+			provider: 'imgix',
+			placeholder: '#eee',
+			quality: 70,
+			alt: imageField.value?.alt || mediaLinkField.value?.name,
+			src: src.value,
+			width: imageField.value?.dimensions.width || mediaLinkField.value?.width,
+			height: imageField.value?.dimensions.height || mediaLinkField.value?.height,
+			...options,
+			modifiers: {
+				...options?.modifiers,
+				auto: options?.modifiers?.auto || 'compress,format',
+			},
+		} as VImgProps
+	})
+}

@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import type { VWrapperProps } from '~/components/atoms/VWrapper.vue'
 import VPrismicLink from '../atoms/VPrismicLink.vue'
-import type { VPrismicImageField } from '~/components/atoms/VPrismicImg.vue'
 
 const props = defineProps<{
 	title: string | null
@@ -11,8 +10,13 @@ const props = defineProps<{
 	url?: string | null
 } & VWrapperProps>()
 
-const imgSizes = computed(() => {
-	return 'xs:92vw sm:92vw md:30vw lg:22vw xl:22vw hq:22vw qhd:22vw'
+const imgProps = usePrismicImage(props.image, {
+	sizes: 'xs:92vw sm:92vw md:30vw lg:22vw xl:22vw hq:22vw qhd:22vw',
+	width: 400,
+	height: 400,
+	modifiers: {
+		fit: 'crop',
+	},
 })
 
 const $style = useCssModule()
@@ -61,16 +65,9 @@ const rootClasses = computed(() => {
 			v-if="content"
 			:class="$style.content"
 		>{{ content }}</span>
-		<VPrismicImg
-			v-if="image"
-			:field="image"
-			:width="400"
-			:height="400"
-			:sizes="imgSizes"
-			:modifiers="{
-				fit: 'crop',
-				ar: 1,
-			}"
+		<VImg
+			v-if="imgProps"
+			v-bind="imgProps"
 			:class="$style.image"
 		/>
 	</VWrapper>

@@ -1,7 +1,12 @@
 {
   "repositoryName": "nuxt-4-starter",
   "endpoint": "https://timothe-joubert.cdn.prismic.io/api/v2",
-  "adapter": "@slicemachine/adapter-nuxt",
+  "adapter": {
+    "resolve": "@slicemachine/adapter-nuxt",
+    "options": {
+      "typescript": true
+    }
+  },
   "libraries": [
     "./app/components/slices"
   ],

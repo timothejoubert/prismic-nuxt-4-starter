@@ -1,31 +1,53 @@
 <script setup lang="ts">
-import type { Content } from '@prismicio/client'
+import type { MediaSliceSlice } from '~~/prismicio-types'
 
 const props = defineProps(
-	getSliceComponentProps<Content.ContentSliceSlice>(),
+	getSliceComponentProps<MediaSliceSlice>(),
 )
 
 const primary = computed(() => props.slice.primary)
 
-const $style = useCssModule()
-const rootClasses = computed(() => {
-	return [$style.root]
+const medias = computed(() => {
+	const mediaGroups = primary.value.columns || []
+
+	return mediaGroups.reduce((acc, mediaGroup) => {
+		const imgProps = usePrismicImage(mediaGroup.image)
+
+		if (imgProps) {
+			acc.push({ type: 'img', props: imgProps.value })
+		}
+
+		return acc
+	}, [])
 })
+
+console.log('medias', medias.value)
 </script>
 
 <template>
 	<VSlice
+		v-if="medias?.length"
 		:slice="slice"
-		tag="div"
-		:class="rootClasses"
+		:class="$style.root"
 		:spacing="primary.spacing"
 	>
-		<div>Media Slice</div>
+		<div
+			v-for="(media, i) in medias"
+			:key="`media-${i}`"
+			:class="$style.media"
+		>
+			<VImg
+				v-if="media.type === 'img'"
+				v-bind="media.props"
+			/>
+		</div>
 	</VSlice>
 </template>
 
 <style lang="scss" module>
 .root {
-    position: relative;
+	position: relative;
+	display: flex;
+	gap: var(--media-slice-gap, 24px);
 }
 </style>

@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import type { ProjectPageDocument } from '~~/prismicio-types'
-import VPrismicImg from '../atoms/VPrismicImg.vue'
 import VVideoPlayer from '../atoms/VVideoPlayer.vue'
 import { prismicDocumentRoute } from '~~/shared/prismic-routes'
 
@@ -13,6 +12,8 @@ const project = computed(() => props.document.data)
 const tags = computed(() => {
 	return props.document.tags || []
 })
+
+const imgProps = usePrismicImage(project.value.image)
 </script>
 
 <template>
@@ -42,36 +43,11 @@ const tags = computed(() => {
 				v-if="project.credits"
 				:content="project.credits"
 			/>
-			<VPrismicImg
-				:field="project.image"
+			<VImg
+				v-if="imgProps"
+				v-bind="imgProps"
 			/>
 		</header>
-
-		<main>
-			<div
-				v-if="medias?.length"
-				:class="$style.medias"
-			>
-				<div
-					v-for="(mediaGroup, i) in medias"
-					:key="`media-${i}`"
-					:class="$style.media"
-				>
-					<VVideoPlayer
-						v-if="mediaGroup.type === 'video'"
-						autoplay
-						muted
-						:controls="false"
-						loop
-						:src="mediaGroup.media.url"
-					/>
-					<VPrismicImg
-						v-else
-						:field="mediaGroup.media"
-					/>
-				</div>
-			</div>
-		</main>
 	</div>
 </template>
 
