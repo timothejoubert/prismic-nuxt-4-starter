@@ -22,8 +22,6 @@ const imgProps = usePrismicImage(image, {
 		fit: 'crop',
 	},
 })
-console.log('image', imgProps.value)
-
 
 const $style = useCssModule()
 const rootClasses = computed(() => {
