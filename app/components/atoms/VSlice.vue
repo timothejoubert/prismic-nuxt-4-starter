@@ -14,6 +14,7 @@ defineProps<{
 		:class="[$style.root, $style[`root--spacing-block-${spacing}`]]"
 		:data-slice-type="slice?.slice_type"
 		:data-slice-variation="slice?.variation"
+        class="grid-container"
 	>
 		<slot />
 	</component>

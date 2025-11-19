@@ -11,7 +11,7 @@ const imgProps = usePrismicImage(props.image, { width: 1000, height: 600, modifi
 </script>
 
 <template>
-	<div>
+	<div class="grid-container" :class="$style.root">
 		<h1>{{ title }}</h1>
 		<VText
 			v-if="content"
@@ -24,4 +24,8 @@ const imgProps = usePrismicImage(props.image, { width: 1000, height: 600, modifi
 	</div>
 </template>
 
-<!-- <style lang="scss" module></style> -->
+<style lang="scss" module>
+.root {
+	margin-block: 42px;
+}
+</style>

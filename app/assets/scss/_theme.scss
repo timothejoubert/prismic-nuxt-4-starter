@@ -1,6 +1,9 @@
-@use "mixins/theme" as *;
-@use "variables/themes" as *;
+@use 'assets/scss/mixins/theme' as *;
+@use 'assets/scss/variables/themes' as *;
 
-:root {
+:root  {
     @include theme($default-theme);
+
+    background-color: var(--theme-color-background);
+    color: var(--theme-color-on-background);
 }

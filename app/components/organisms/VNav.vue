@@ -15,7 +15,7 @@ const links = computed(() => data.value.data?.links || [])
 					:key="link.to"
 					:class="$style.item"
 					>
-					<PrismicLink :field="link" />
+					<PrismicLink :field="link" :class="$style.link" />
 				</li>
 			</ul>
 		</nav>
@@ -25,16 +25,23 @@ const links = computed(() => data.value.data?.links || [])
 <style lang="scss" module>
 .root {
 	position: relative;
+	padding-block: 24px;
 }
 
 .list {
 	display: flex;
 	justify-content: center;
 	padding: initial;
+	margin: initial;
 	gap: 14px;
 }
 
 .item {
-	list-style: none;
+	display: contents;
+}
+
+.link {
+	display: block;
+	padding-block: 12px;
 }
 </style>

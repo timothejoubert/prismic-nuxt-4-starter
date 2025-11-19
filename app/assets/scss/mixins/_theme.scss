@@ -1,7 +1,7 @@
 @use "sass:map";
 @use "sass:meta";
 @use "sass:string";
-@use "../variables/themes" as *;
+@use "assets/scss/variables/themes" as *;
 
 // Get css vars for a specific theme
 // Filtered by match
@@ -11,15 +11,15 @@
 
         @each $key, $value in $theme {
             @if not $match {
-                --#{$key}: #{$value};
-            } @else if meta.type-of($match)==list {
+                --theme-#{$key}: #{$value};
+            } @else if meta.type-of($match) == list {
                 @each $match-value in $match {
                     @if string.index($key, $match-value) {
-                        --#{$key}: #{$value};
+                        --theme-#{$key}: #{$value};
                     }
                 }
             } @else if string.index($key, $match) {
-                --#{$key}: #{$value};
+                --theme-#{$key}: #{$value};
             }
         }
     }

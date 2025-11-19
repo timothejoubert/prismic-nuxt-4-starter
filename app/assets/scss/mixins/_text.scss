@@ -1,0 +1,117 @@
+@use 'sass:math';
+@use 'assets/scss/mixins/font-size-fluid' as *;
+@use 'assets/scss/variables/fonts' as *;
+
+// Heading
+@mixin text-h1 {
+    font-family: $norm-font-family;
+    font-weight: 800;
+    line-height: 0.79;
+
+    @include font-size-fluid((xs: 60, xl: 280));
+}
+
+@mixin text-h2 {
+    font-family: $norm-font-family;
+    font-weight: 300;
+    line-height: 0.9;
+
+    @include font-size-fluid((xs: 60, xl: 170));
+}
+
+@mixin text-h3 {
+    font-family: $norm-font-family;
+    font-weight: 300;
+    line-height: 0.9;
+
+    @include font-size-fluid((xs: 48, xl: 102));
+}
+
+@mixin text-h4 {
+    font-family: $norm-font-family;
+    font-weight: 300;
+    line-height: 1;
+
+    @include font-size-fluid((xs: 40, xl: 88));
+}
+
+@mixin text-h5 {
+    font-family: $norm-font-family;
+    font-weight: 400;
+    line-height: 1.1;
+
+    @include font-size-fluid((xs: 32, xl: 62));
+}
+
+// Service slice title
+@mixin text-h6 {
+    font-family: $norm-font-family;
+    font-weight: 400;
+    line-height: 1;
+
+    @include font-size-fluid((xs: 32, xl: 54));
+}
+
+// Body
+@mixin text-body-lg {
+    font-family: $norm-font-family;
+    font-weight: 400;
+    line-height: 1.5;
+
+    @include font-size-fluid((xs: 18, xl: 22));
+}
+
+@mixin text-body-md {
+    font-family: $norm-font-family;
+    font-weight: 400;
+    line-height: 1.5;
+
+    @include font-size-fluid((xs: 15, xl: 17));
+}
+
+@mixin text-body-sm {
+    font-family: $norm-font-family;
+    font-weight: 400;
+    line-height: 1.4;
+
+    @include font-size-fluid((xs: 14, xl: 15));
+}
+
+@mixin text-body-xs {
+    font-family: $norm-font-family;
+    font-weight: 400;
+    line-height: 1.45;
+
+    @include font-size-fluid((xs: 12, xl: 14));
+}
+
+// OverTitle
+@mixin text-over-title-md {
+    font-family: $norm-font-family;
+    font-weight: 600;
+    line-height: 1;
+    text-transform: uppercase;
+
+    @include font-size-fluid((xs: 18, xl: 18));
+}
+
+@mixin text-over-title-sm {
+    color: var(--theme-color-on-background);
+    font-family: $norm-font-family;
+    font-weight: 400;
+    line-height: 0.9;
+    text-transform: uppercase;
+
+
+    @include font-size-fluid((xs: 12, xl: 14));
+}
+
+// Components
+@mixin text-tag-md {
+    font-family: $norm-font-family;
+    font-weight: 500;
+    line-height: 1;
+    text-transform: uppercase;
+
+    @include font-size-fluid((xs: 12, xl: 13));
+}

@@ -1,6 +1,6 @@
 // Utils
 @use "fonts";
-@use "typography";
+@use "text";
 @use "theme";
 @use "grid";
 
@@ -8,7 +8,3 @@
 @use "normalize";
 @use "common";
 @use "font-size";
-
-// Usefull style
-@use "loading-animation";
-@use "transitions/fade";

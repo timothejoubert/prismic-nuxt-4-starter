@@ -36,6 +36,7 @@ const medias = computed(() => {
 		>
 			<VImg
 				v-if="media.type === 'img'"
+				sizes="xs:100vw sm:100vw md:50vw lg:50vw hd:50vw"
 				v-bind="media.props"
 			/>
 		</div>
