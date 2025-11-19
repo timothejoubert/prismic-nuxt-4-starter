@@ -7,37 +7,31 @@ const props = defineProps(
 
 const primary = computed(() => props.slice.primary)
 
-const medias = computed(() => {
-	const mediaGroups = primary.value.columns || []
+const groups = computed(() => {
+	const groups = primary.value.columns || []
 
-	return mediaGroups.reduce((acc, mediaGroup) => {
-		const imgProps = usePrismicImage(mediaGroup.image)
-
-		if (imgProps) {
-			acc.push({ type: 'img', props: imgProps.value })
-		}
-
-		return acc
-	}, [])
+	return groups.filter(group => {
+		return (group.embed?.type === 'video' || group.image?.url)
+	})
 })
 </script>
 
 <template>
 	<VSlice
-		v-if="medias?.length"
+		v-if="groups?.length"
 		:slice="slice"
 		:class="$style.root"
 		:spacing="primary.spacing"
 	>
 		<div
-			v-for="(media, i) in medias"
+			v-for="(group, i) in groups"
 			:key="`media-${i}`"
 			:class="$style.media"
 		>
-			<VImg
-				v-if="media.type === 'img'"
-				sizes="xs:100vw sm:100vw md:50vw lg:50vw hd:50vw"
-				v-bind="media.props"
+			<VPrismicMedia
+				:img-field="group.image"
+				:video-field="group.embed"
+				:img-props="{ sizes: 'xs:100vw sm:100vw md:50vw lg:50vw hd:50vw'}"
 			/>
 		</div>
 	</VSlice>
