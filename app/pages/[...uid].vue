@@ -12,34 +12,33 @@ const projectDocument = computed(() => document.value.type === 'project_page' ? 
 </script>
 
 <template>
-	<div>
-		<LazyVHomePage
-			v-if="homeDocument"
-			:document="homeDocument"
-		/>
-		<LazyVProjectPage
-			v-else-if="projectDocument"
-			:document="projectDocument"
-		/>
-		<LazyVProjectListingPage
-			v-else-if="projectListingDocument"
-			:document="projectListingDocument"
-		/>
-		<LazyVArchivePage
-			v-else-if="archiveDocument"
-			:document="archiveDocument"
-		/>
-		<LazyVAboutPage
-			v-else-if="aboutDocument"
-			:document="aboutDocument"
-		/>
-		<div v-else>
-			<h1>Fallback page</h1>
-		</div>
-		<LazySliceZone
-			v-if="document.data.slices?.length"
-			:slices="document.data.slices"
-			:components="components"
-		/>
+	<LazyVHomePage
+		v-if="homeDocument"
+		:document="homeDocument"
+	/>
+	<LazyVProjectPage
+		v-else-if="projectDocument"
+		:document="projectDocument"
+	/>
+	<LazyVProjectListingPage
+		v-else-if="projectListingDocument"
+		:document="projectListingDocument"
+	/>
+	<LazyVArchivePage
+		v-else-if="archiveDocument"
+		:document="archiveDocument"
+	/>
+	<LazyVAboutPage
+		v-else-if="aboutDocument"
+		:document="aboutDocument"
+	/>
+	<div v-else>
+		<h1>Fallback page</h1>
 	</div>
+	<SliceZone
+		v-if="document.data.slices?.length"
+		:slices="document.data.slices"
+		:components="components"
+		wrapper="main"
+	/>
 </template>

@@ -9,13 +9,11 @@ const page = computed(() => props.document.data)
 </script>
 
 <template>
-	<div>
-		<VHeader
-			:title="page.title"
-			:content="page.content"
-			:image="page.media?.[0]?.image"
-		/>
-	</div>
+	<VPageHeader
+		:title="page.title"
+		:content="page.content"
+		:image="page.media?.[0]?.image"
+	/>
 </template>
 
 <!-- <style lang="scss" module></style> -->

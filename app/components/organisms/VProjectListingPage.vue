@@ -10,25 +10,23 @@ const { data: projects } = await usePrismicFetchProjects()
 </script>
 
 <template>
-	<div>
-		<VHeader
-			:title="page.title"
-			:content="page.content"
+	<VPageHeader
+		:title="page.title"
+		:content="page.content"
+	/>
+	<ul
+		v-if="projects?.length"
+		class="grid"
+		:class="$style.root"
+	>
+		<VProjectCard
+			v-for="project in projects"
+			:key="project.uid"
+			wrapper="li"
+			:project="project"
+			:class="$style.item"
 		/>
-		<ul
-			v-if="projects?.length"
-			class="grid"
-			:class="$style.root"
-		>
-			<VProjectCard
-				v-for="project in projects"
-				:key="project.uid"
-				wrapper="li"
-				:project="project"
-				:class="$style.item"
-			/>
-		</ul>
-	</div>
+	</ul>
 </template>
 
 <style lang="scss" module>

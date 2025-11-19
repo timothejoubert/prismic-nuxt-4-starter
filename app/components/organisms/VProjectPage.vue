@@ -19,36 +19,34 @@ const projectListingRoute = getPrismicRoute(PROJECT_LISTING_TYPE)
 
 <template>
 	<div :class="$style.root">
-		<header>
-			<h1>Project page | {{ document.data.title }}</h1>
-			<VPrismicLink :to="projectListingRoute">
-				Retour
-			</VPrismicLink>
-			<template v-if="tags.length">
-				<button
-					v-for="(tag, i) in tags"
-					:key="tag || i"
-				>
-					{{ tag }}
-				</button>
-			</template>
-			<VTime
-				:date="project.creation_date"
-				format="full"
-			/>
-			<VText
-				v-if="project.content"
-				:content="project.content"
-			/>
-			<VText
-				v-if="project.credits"
-				:content="project.credits"
-			/>
-			<VImg
-				v-if="imgProps"
-				v-bind="imgProps"
-			/>
-		</header>
+		<h1>Project page | {{ document.data.title }}</h1>
+		<VPrismicLink :to="projectListingRoute">
+			Retour
+		</VPrismicLink>
+		<template v-if="tags.length">
+			<button
+				v-for="(tag, i) in tags"
+				:key="tag || i"
+			>
+				{{ tag }}
+			</button>
+		</template>
+		<VTime
+			:date="project.creation_date"
+			format="full"
+		/>
+		<VText
+			v-if="project.content"
+			:content="project.content"
+		/>
+		<VText
+			v-if="project.credits"
+			:content="project.credits"
+		/>
+		<VImg
+			v-if="imgProps"
+			v-bind="imgProps"
+		/>
 	</div>
 </template>
 

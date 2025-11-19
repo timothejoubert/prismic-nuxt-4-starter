@@ -6,10 +6,10 @@ type Simplify<T> = { [KeyType in keyof T]: T[KeyType] }
 
 type PickContentRelationshipFieldData<
 	TRelationship extends
-	| prismic.CustomTypeModelFetchCustomTypeLevel1
-	| prismic.CustomTypeModelFetchCustomTypeLevel2
-	| prismic.CustomTypeModelFetchGroupLevel1
-	| prismic.CustomTypeModelFetchGroupLevel2,
+		| prismic.CustomTypeModelFetchCustomTypeLevel1
+		| prismic.CustomTypeModelFetchCustomTypeLevel2
+		| prismic.CustomTypeModelFetchGroupLevel1
+		| prismic.CustomTypeModelFetchGroupLevel2,
 	TData extends Record<
 		string,
 		| prismic.AnyRegularField
@@ -18,9 +18,9 @@ type PickContentRelationshipFieldData<
 		| prismic.SliceZone
 	>,
 	TLang extends string,
->
+> =
 	// Content relationship fields
-= {
+	{
 		[TSubRelationship in Extract<
 			TRelationship['fields'][number],
 			prismic.CustomTypeModelFetchContentRelationshipLevel1
@@ -28,8 +28,8 @@ type PickContentRelationshipFieldData<
 			TSubRelationship['customtypes'],
 			TLang
 		>
-	} // Group
-	& {
+	} & // Group
+	{
 		[TGroup in Extract<
 			TRelationship['fields'][number],
 			| prismic.CustomTypeModelFetchGroupLevel1
@@ -38,11 +38,11 @@ type PickContentRelationshipFieldData<
 			infer TGroupData
 		>
 			? prismic.GroupField<
-				PickContentRelationshipFieldData<TGroup, TGroupData, TLang>
-			>
+					PickContentRelationshipFieldData<TGroup, TGroupData, TLang>
+				>
 			: never
-	} // Other fields
-	& {
+	} & // Other fields
+	{
 		[TFieldKey in Extract<
 			TRelationship['fields'][number],
 			string
@@ -51,8 +51,8 @@ type PickContentRelationshipFieldData<
 
 type ContentRelationshipFieldWithData<
 	TCustomType extends
-	| readonly (prismic.CustomTypeModelFetchCustomTypeLevel1 | string)[]
-	| readonly (prismic.CustomTypeModelFetchCustomTypeLevel2 | string)[],
+		| readonly (prismic.CustomTypeModelFetchCustomTypeLevel1 | string)[]
+		| readonly (prismic.CustomTypeModelFetchCustomTypeLevel2 | string)[],
 	TLang extends string = string,
 > = {
 	[ID in Exclude<
@@ -160,16 +160,16 @@ interface AboutPageDocumentData {
  *
  * @typeParam Lang - Language API ID of the document.
  */
-export type AboutPageDocument<Lang extends string = string>
-	= prismic.PrismicDocumentWithoutUID<
+export type AboutPageDocument<Lang extends string = string> =
+	prismic.PrismicDocumentWithoutUID<
 		Simplify<AboutPageDocumentData>,
 		'about_page',
 		Lang
 	>
 
-type ArchivePageDocumentDataSlicesSlice
-	= | ContactSliceSlice
-		| SimpleTextSliceSlice
+type ArchivePageDocumentDataSlicesSlice =
+	| ContactSliceSlice
+	| SimpleTextSliceSlice
 
 /**
  * Content for Archive Page documents
@@ -260,8 +260,8 @@ interface ArchivePageDocumentData {
  *
  * @typeParam Lang - Language API ID of the document.
  */
-export type ArchivePageDocument<Lang extends string = string>
-	= prismic.PrismicDocumentWithoutUID<
+export type ArchivePageDocument<Lang extends string = string> =
+	prismic.PrismicDocumentWithoutUID<
 		Simplify<ArchivePageDocumentData>,
 		'archive_page',
 		Lang
@@ -292,11 +292,11 @@ export interface HomePageDocumentDataMediaItem {
 	video_embed: prismic.EmbedField
 }
 
-type HomePageDocumentDataSlicesSlice
-	= | SimpleTextSliceSlice
-		| MediaSliceSlice
-		| ProjectFeedSliceSlice
-		| ContactSliceSlice
+type HomePageDocumentDataSlicesSlice =
+	| SimpleTextSliceSlice
+	| MediaSliceSlice
+	| ProjectFeedSliceSlice
+	| ContactSliceSlice
 
 /**
  * Content for Home page documents
@@ -387,8 +387,8 @@ interface HomePageDocumentData {
  *
  * @typeParam Lang - Language API ID of the document.
  */
-export type HomePageDocument<Lang extends string = string>
-	= prismic.PrismicDocumentWithoutUID<
+export type HomePageDocument<Lang extends string = string> =
+	prismic.PrismicDocumentWithoutUID<
 		Simplify<HomePageDocumentData>,
 		'home_page',
 		Lang
@@ -432,12 +432,12 @@ interface MenuDocumentData {
  *
  * @typeParam Lang - Language API ID of the document.
  */
-export type MenuDocument<Lang extends string = string>
-	= prismic.PrismicDocumentWithoutUID<Simplify<MenuDocumentData>, 'menu', Lang>
+export type MenuDocument<Lang extends string = string> =
+	prismic.PrismicDocumentWithoutUID<Simplify<MenuDocumentData>, 'menu', Lang>
 
-type ProjectListingPageDocumentDataSlicesSlice
-	= | SimpleTextSliceSlice
-		| ContactSliceSlice
+type ProjectListingPageDocumentDataSlicesSlice =
+	| SimpleTextSliceSlice
+	| ContactSliceSlice
 
 /**
  * Content for Project listing page documents
@@ -528,8 +528,8 @@ interface ProjectListingPageDocumentData {
  *
  * @typeParam Lang - Language API ID of the document.
  */
-export type ProjectListingPageDocument<Lang extends string = string>
-	= prismic.PrismicDocumentWithoutUID<
+export type ProjectListingPageDocument<Lang extends string = string> =
+	prismic.PrismicDocumentWithoutUID<
 		Simplify<ProjectListingPageDocumentData>,
 		'project_listing_page',
 		Lang
@@ -701,8 +701,8 @@ interface ProjectPageDocumentData {
  *
  * @typeParam Lang - Language API ID of the document.
  */
-export type ProjectPageDocument<Lang extends string = string>
-	= prismic.PrismicDocumentWithUID<
+export type ProjectPageDocument<Lang extends string = string> =
+	prismic.PrismicDocumentWithUID<
 		Simplify<ProjectPageDocumentData>,
 		'project_page',
 		Lang
@@ -799,21 +799,21 @@ interface SettingsDocumentData {
  *
  * @typeParam Lang - Language API ID of the document.
  */
-export type SettingsDocument<Lang extends string = string>
-	= prismic.PrismicDocumentWithoutUID<
+export type SettingsDocument<Lang extends string = string> =
+	prismic.PrismicDocumentWithoutUID<
 		Simplify<SettingsDocumentData>,
 		'settings',
 		Lang
 	>
 
-export type AllDocumentTypes
-	= | AboutPageDocument
-		| ArchivePageDocument
-		| HomePageDocument
-		| MenuDocument
-		| ProjectListingPageDocument
-		| ProjectPageDocument
-		| SettingsDocument
+export type AllDocumentTypes =
+	| AboutPageDocument
+	| ArchivePageDocument
+	| HomePageDocument
+	| MenuDocument
+	| ProjectListingPageDocument
+	| ProjectPageDocument
+	| SettingsDocument
 
 /**
  * Item in *ContactSlice → Default → Primary → Body*
