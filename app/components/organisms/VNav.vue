@@ -24,8 +24,7 @@ const links = computed(() => data.value.data?.links || [])
 
 <style lang="scss" module>
 .root {
-	position: relative;
-	padding-block: 24px;
+	display: contents;
 }
 
 .list {
@@ -42,6 +41,6 @@ const links = computed(() => data.value.data?.links || [])
 
 .link {
 	display: block;
-	padding-block: 12px;
+	padding-block: 16px;
 }
 </style>
