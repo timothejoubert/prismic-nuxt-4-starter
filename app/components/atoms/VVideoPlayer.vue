@@ -12,14 +12,14 @@ export const videoAttributes = {
 	muted: { type: Boolean, default: undefined },
 }
 
-export const videoFile = {
+export const nativeVideoAttributes = {
 	src: { type: String },
 	mimeType: { type: String },
 }
 
-export const videoDocument = {
-	...videoFile,
-	altSources: { type: Array as PropType<(typeof videoFile)[]> },
+export const nativeVideoProps = {
+	...nativeVideoAttributes,
+	altSources: { type: Object as PropType<(typeof nativeVideoAttributes)[]> },
 }
 
 export const embedVideoProps = {
@@ -31,7 +31,7 @@ export const embedVideoProps = {
 export const vVideoPlayerProps = {
 	...videoAttributes,
 	...embedVideoProps,
-	...videoDocument,
+	...nativeVideoProps,
 	background: Boolean,
 	fit: { type: String as PropType<'cover' | 'contain'> },
 }
@@ -62,11 +62,11 @@ export default defineComponent({
 			return {
 				width: props.width,
 				height: props.height,
-				playsinline: playsinline.value ? '' : undefined,
-				muted: muted.value ? '' : undefined,
-				loop: loop.value ? '' : undefined,
-				autoplay: autoplay.value ? '' : undefined,
-				controls: controls.value ? '' : undefined,
+				playsinline: playsinline.value ? true : undefined,
+				muted: muted.value ? true : undefined,
+				loop: loop.value ? true : undefined,
+				autoplay: autoplay.value ? true : undefined,
+				controls: controls.value ? true : undefined,
 			}
 		})
 
@@ -174,8 +174,8 @@ export default defineComponent({
 				v-for="source in videoSources"
 				:key="source.src"
 				:src="source.src"
-				:type="source.mimeType as string"
-			>
+				:type="source.mimeType"
+			/>
 		</template>
 	</video>
 </template>
@@ -184,19 +184,8 @@ export default defineComponent({
 .iframe,
 .video {
     position: var(--v-player-video-position);
-    display: block;
     width: var(--v-player-video-width, 100%);
-    max-width: var(--v-player-video-max-width, 100%);
     height: var(--v-player-video-height, auto);
     object-fit: var(--v-player-video-object-fit);
-}
-
-.spinner {
-    position: absolute;
-    z-index: 10;
-    top: calc(50% - 35px);
-    left: calc(50% - 35px);
-    width: 70px;
-    height: 70px;
 }
 </style>

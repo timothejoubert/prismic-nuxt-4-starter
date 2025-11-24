@@ -1,40 +1,104 @@
 <script lang="ts" setup>
 import type { EmbedField } from '@prismicio/types'
-import { isFilled } from "@prismicio/client";
+import type { VImgProps } from '~/components/atoms/VImg.vue'
+import { VVideoPlayer } from '#components'
 
-
-// Convert to composable (check if field is filled before use this component)
-export type VPrismicMediaField =  | VPrismicImageField
+type VVideoPlayerProps = InstanceType<typeof VVideoPlayer>["$props"];
 
 const props = defineProps<{
-	imgField?: VPrismicMediaField
-	imgProps?: unknown
+	imgField?: VPrismicImageField
+	imgProps?: Partial<VImgProps>
 	videoField?: EmbedField
-	videoProps?: unknown
+	videoProps?: Partial<VVideoPlayerProps>
 }>()
 
+const prismic = usePrismic()
 const videoProps = computed(() => {
-	if(!props.videoField || !isFilled.embed(props.videoField)) return
+	if(!props.videoField) return
 
-	console.log('videoProps', props.videoField)
-
-	return {
-		// iframe: props.field.embed_url,
-		embedPlatform: props.videoField?.provider_name?.toLowerCase(),
-		embedId: props.videoField?.embed_url ? props.videoField.embed_url.split('/').pop() : undefined,
-		...(props.videoProps || {}),
+	if (prismic.isFilled.embed(props.videoField)) {
+		return {
+			embedPlatform: props.videoField?.provider_name?.toLowerCase(),
+			embedId: props.videoField?.embed_url ? props.videoField.embed_url.split('/').pop() : undefined,
+			...(props.videoProps || {}),
+		}
 	}
+
+	 return undefined
 })
 
-console.log(videoProps.value)
-
 const imgProps = computed(() => {
-	if(!props.imgField || videoProps.value) return
+	if(!props.imgField) return
 
 	return usePrismicImage(props.imgField, props.imgProps)?.value
 })
+
+const hasVideoAndImg = computed(() => !!videoProps.value && !!imgProps.value)
+
+const userHasClicked = ref(false)
+function onWrapperClick() {
+	userHasClicked.value = true
+}
 </script>
 <template>
-	<VVideoPlayer v-if="videoProps" v-bind="videoProps"/>
+	<div
+		v-if="hasVideoAndImg"
+		:class="[
+			$style['wrapper'],
+			userHasClicked && $style['wrapper--clicked'],
+		]"
+		@click="onWrapperClick"
+	>
+		<button :class="$style['wrapper__play']" :aria-label="$t('play_video')">
+			<VIcon
+				name="Play"
+			/>
+		</button>
+		<VImg v-bind="imgProps" :class="$style['wrapper__img']" />
+		<VVideoPlayer
+			v-if="userHasClicked"
+			ref="inner-embed-video"
+			v-bind="videoProps"
+			:class="$style['wrapper__video']"
+			:autoplay="userHasClicked || videoProps?.autoplay"
+		/>
+	</div>
+	<VVideoPlayer v-else-if="videoProps" v-bind="videoProps" />
 	<VImg v-else-if="imgProps" v-bind="imgProps"  />
 </template>
+<style lang="scss" module>
+.wrapper {
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+}
+
+.wrapper__play {
+	position: absolute;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 6px;
+	font-size: 20px;
+
+	.wrapper--clicked & {
+		display: none;
+	}
+}
+
+.wrapper__video {
+	--v-player-video-position: absolute;
+	--v-player-video-height: 100%;
+
+	inset: 0;
+}
+
+.wrapper__img {
+	.wrapper--clicked & {
+		opacity: 0;
+		pointer-events: none;
+	}
+}
+</style>

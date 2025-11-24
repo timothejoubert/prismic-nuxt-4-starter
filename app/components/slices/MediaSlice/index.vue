@@ -7,13 +7,7 @@ const props = defineProps(
 
 const primary = computed(() => props.slice.primary)
 
-const groups = computed(() => {
-	const groups = primary.value.columns || []
-
-	return groups.filter(group => {
-		return (group.embed?.type === 'video' || group.image?.url)
-	})
-})
+const groups = computed(() =>  primary.value.columns || [])
 </script>
 
 <template>
@@ -31,7 +25,7 @@ const groups = computed(() => {
 			<VPrismicMedia
 				:img-field="group.image"
 				:video-field="group.embed"
-				:img-props="{ sizes: 'xs:100vw sm:100vw md:50vw lg:50vw hd:50vw'}"
+				:img-props="{ sizes: 'sm:100vw hd:50vw'}"
 			/>
 		</div>
 	</VSlice>
@@ -40,7 +34,8 @@ const groups = computed(() => {
 <style lang="scss" module>
 .root {
 	position: relative;
-	display: flex;
+	display: grid;
 	gap: var(--media-slice-gap, 24px);
+	grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 </style>

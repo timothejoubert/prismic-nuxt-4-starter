@@ -147,4 +147,18 @@ export default defineNuxtConfig({
 			routes: prismicRouteList,
 		},
 	},
+	    // https://nuxt.com/modules/icon#usage
+    icon: {
+        componentName: 'NuxtIcon',
+        class: '',
+        fallbackToApi: false,
+        localApiEndpoint: '/_nuxt_icon',
+        customCollections: [
+            {
+                normalizeIconName: false,
+                prefix: 'icon',
+                dir: './app/assets/images/icons',
+            },
+        ],
+    },
 })
