@@ -27,7 +27,6 @@ const medias = computed(() => {
 	})
 })
 
-console.log('mediaGroup', mediaGroup.value, medias.value);
 </script>
 
 <template>
