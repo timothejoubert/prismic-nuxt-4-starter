@@ -1,39 +1,16 @@
 <script lang="ts" setup>
-import type { EmbedField } from '@prismicio/types'
-import type { VImgProps } from '~/components/atoms/VImg.vue'
-import { VVideoPlayer } from '#components'
+import type { UsePrismicMediaFieldOptions } from '~/composables/use-prismic-media-field'
 
-type VVideoPlayerProps = InstanceType<typeof VVideoPlayer>["$props"];
+const props = defineProps<UsePrismicMediaFieldOptions>()
 
-const props = defineProps<{
-	imgField?: VPrismicImageField
-	imgProps?: Partial<VImgProps>
-	videoField?: EmbedField
-	videoProps?: Partial<VVideoPlayerProps>
-}>()
-
-const prismic = usePrismic()
-const videoProps = computed(() => {
-	if(!props.videoField) return
-
-	if (prismic.isFilled.embed(props.videoField)) {
-		return {
-			embedPlatform: props.videoField?.provider_name?.toLowerCase(),
-			embedId: props.videoField?.embed_url ? props.videoField.embed_url.split('/').pop() : undefined,
-			...(props.videoProps || {}),
-		}
-	}
-
-	 return undefined
+const { filledImage, imageProps, filledEmbed, embedProps } = usePrismicMediaField({
+	imgField: props.imgField,
+	imgProps: props.imgProps,
+	videoField: props.videoField,
+	videoProps: props.videoProps,
 })
 
-const imgProps = computed(() => {
-	if(!props.imgField) return
-
-	return usePrismicImage(props.imgField, props.imgProps)?.value
-})
-
-const hasVideoAndImg = computed(() => !!videoProps.value && !!imgProps.value)
+const hasVideoAndImg = computed(() => !!filledImage.value && !!filledEmbed.value)
 
 const userHasClicked = ref(false)
 function onWrapperClick() {
@@ -54,18 +31,19 @@ function onWrapperClick() {
 				name="Play"
 			/>
 		</button>
-		<VImg v-bind="imgProps" :class="$style['wrapper__img']" />
+		<VImg v-bind="imageProps" :class="$style['wrapper__img']" />
 		<VVideoPlayer
 			v-if="userHasClicked"
 			ref="inner-embed-video"
-			v-bind="videoProps"
+			v-bind="embedProps"
 			:class="$style['wrapper__video']"
-			:autoplay="userHasClicked || videoProps?.autoplay"
+			:autoplay="userHasClicked || embedProps?.autoplay"
 		/>
 	</div>
-	<VVideoPlayer v-else-if="videoProps" v-bind="videoProps" />
-	<VImg v-else-if="imgProps" v-bind="imgProps"  />
+	<VVideoPlayer v-else-if="embedProps" v-bind="embedProps" />
+	<VImg v-else-if="imageProps" v-bind="imageProps"  />
 </template>
+
 <style lang="scss" module>
 .wrapper {
 	position: relative;

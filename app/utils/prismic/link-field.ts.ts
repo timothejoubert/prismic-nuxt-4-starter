@@ -1,16 +1,25 @@
 import type {
 	LinkField,
-	FilledLinkToMediaField,
 	FilledLinkToWebField,
+	LinkToMediaField,
 } from '@prismicio/types'
 import { LinkType } from '@prismicio/types'
 import { hasAllKeys } from '~/utils/object/object-validation'
 import { getFilledContentRelationshipField } from './content-relationship-field'
 
-const fieldKeys = ['link_type']
+const defaultFieldKeys = ['link_type']
+const fieldKeys = [...defaultFieldKeys, 'id', 'link_type', 'name', 'kind', 'url', 'size']
 
 export function isLinkToMediaField(field: unknown) {
-	return hasAllKeys(field, fieldKeys) ? (field as LinkField) : undefined
+	if (!field || typeof field !== 'object' || !hasAllKeys(field, defaultFieldKeys)) return undefined
+
+	return (field as LinkToMediaField).link_type === LinkType.Media ? (field as LinkToMediaField) : undefined
+}
+
+export function isLinkToMediaFieldFilled(field: unknown) {
+	if (!isLinkToMediaField(field) || !hasAllKeys(field, fieldKeys)) return undefined
+
+	return (field as LinkToMediaField).link_type === LinkType.Media ? (field as LinkToMediaField<'filled'>) : undefined
 }
 
 export function getLinkFieldFilled(field: unknown) {
@@ -20,14 +29,6 @@ export function getLinkFieldFilled(field: unknown) {
 
 	if (fieldTyped && 'url' in fieldTyped && fieldTyped.url) return fieldTyped
 
-	return undefined
-}
-
-export function getFilledLinkToMedia(field: unknown) {
-	const fieldTyped = getLinkFieldFilled(field)
-
-	if (fieldTyped?.link_type === LinkType.Media && fieldTyped.url)
-		return fieldTyped as FilledLinkToMediaField
 	return undefined
 }
 

@@ -1,12 +1,11 @@
 <script setup lang="ts">
-import type { MediaSliceSlice } from '~~/prismicio-types'
+import type { Content } from '@prismicio/client'
 
 const props = defineProps(
-	getSliceComponentProps<MediaSliceSlice>(),
+	getSliceComponentProps<Content.MediaSliceSlice>(),
 )
 
 const primary = computed(() => props.slice.primary)
-
 const groups = computed(() =>  primary.value.columns || [])
 </script>
 
@@ -24,8 +23,8 @@ const groups = computed(() =>  primary.value.columns || [])
 		>
 			<VPrismicMedia
 				:img-field="group.image"
-				:video-field="group.embed"
 				:img-props="{ sizes: 'sm:100vw hd:50vw'}"
+				:video-field="group.embed"
 			/>
 		</div>
 	</VSlice>

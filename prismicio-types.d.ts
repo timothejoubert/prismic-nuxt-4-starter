@@ -293,6 +293,7 @@ export interface HomePageDocumentDataMediaItem {
 }
 
 type HomePageDocumentDataSlicesSlice =
+	| AllFieldsTestSlice
 	| SimpleTextSliceSlice
 	| MediaSliceSlice
 	| ProjectFeedSliceSlice
@@ -816,6 +817,120 @@ export type AllDocumentTypes =
 	| SettingsDocument
 
 /**
+ * Item in *AllFieldsTest → Default → Primary → Media group*
+ */
+export interface AllFieldsTestSliceDefaultPrimaryMediaGroupItem {
+	/**
+	 * Image field in *AllFieldsTest → Default → Primary → Media group*
+	 *
+	 * - **Field Type**: Image
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: all_fields_test.default.primary.media_group[].image
+	 * - **Documentation**: https://prismic.io/docs/fields/image
+	 */
+	image: prismic.ImageField<never>
+
+	/**
+	 * Responsive image field in *AllFieldsTest → Default → Primary → Media group*
+	 *
+	 * - **Field Type**: Image
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: all_fields_test.default.primary.media_group[].responsive_image
+	 * - **Documentation**: https://prismic.io/docs/fields/image
+	 */
+	responsive_image: prismic.ImageField<'medium' | 'small'>
+
+	/**
+	 * link field in *AllFieldsTest → Default → Primary → Media group*
+	 *
+	 * - **Field Type**: Link
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: all_fields_test.default.primary.media_group[].link
+	 * - **Documentation**: https://prismic.io/docs/fields/link
+	 */
+	link: prismic.LinkField<string, string, unknown, prismic.FieldState, never>
+
+	/**
+	 * Link repeatable field in *AllFieldsTest → Default → Primary → Media group*
+	 *
+	 * - **Field Type**: Link
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: all_fields_test.default.primary.media_group[].link_repeatable
+	 * - **Documentation**: https://prismic.io/docs/fields/link
+	 */
+	link_repeatable: prismic.Repeatable<
+		prismic.LinkField<string, string, unknown, prismic.FieldState, never>
+	>
+
+	/**
+	 * Embed field in *AllFieldsTest → Default → Primary → Media group*
+	 *
+	 * - **Field Type**: Embed
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: all_fields_test.default.primary.media_group[].embed
+	 * - **Documentation**: https://prismic.io/docs/fields/embed
+	 */
+	embed: prismic.EmbedField
+
+	/**
+	 * Media field in *AllFieldsTest → Default → Primary → Media group*
+	 *
+	 * - **Field Type**: Link to Media
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: all_fields_test.default.primary.media_group[].media
+	 * - **Documentation**: https://prismic.io/docs/fields/link-to-media
+	 */
+	media: prismic.LinkToMediaField<prismic.FieldState, never>
+}
+
+/**
+ * Primary content in *AllFieldsTest → Default → Primary*
+ */
+export interface AllFieldsTestSliceDefaultPrimary {
+	/**
+	 * Media group field in *AllFieldsTest → Default → Primary*
+	 *
+	 * - **Field Type**: Group
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: all_fields_test.default.primary.media_group[]
+	 * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+	 */
+	media_group: prismic.GroupField<
+		Simplify<AllFieldsTestSliceDefaultPrimaryMediaGroupItem>
+	>
+}
+
+/**
+ * Default variation for AllFieldsTest Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type AllFieldsTestSliceDefault = prismic.SharedSliceVariation<
+	'default',
+	Simplify<AllFieldsTestSliceDefaultPrimary>,
+	never
+>
+
+/**
+ * Slice variation for *AllFieldsTest*
+ */
+type AllFieldsTestSliceVariation = AllFieldsTestSliceDefault
+
+/**
+ * AllFieldsTest Shared Slice
+ *
+ * - **API ID**: `all_fields_test`
+ * - **Description**: AllFieldsTest
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type AllFieldsTestSlice = prismic.SharedSlice<
+	'all_fields_test',
+	AllFieldsTestSliceVariation
+>
+
+/**
  * Item in *ContactSlice → Default → Primary → Body*
  */
 export interface ContactSliceSliceDefaultPrimaryBodyItem {
@@ -1211,6 +1326,11 @@ declare module '@prismicio/client' {
 			SettingsDocumentData,
 			SettingsDocumentDataSocialsItem,
 			AllDocumentTypes,
+			AllFieldsTestSlice,
+			AllFieldsTestSliceDefaultPrimaryMediaGroupItem,
+			AllFieldsTestSliceDefaultPrimary,
+			AllFieldsTestSliceVariation,
+			AllFieldsTestSliceDefault,
 			ContactSliceSlice,
 			ContactSliceSliceDefaultPrimaryBodyItem,
 			ContactSliceSliceDefaultPrimary,

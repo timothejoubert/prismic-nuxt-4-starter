@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import type { ContactSliceSliceDefault } from '~~/prismicio-types'
+import type { Content } from '@prismicio/client'
 
 const props = defineProps(
-	getSliceComponentProps<ContactSliceSliceDefault>(),
+	getSliceComponentProps<Content.ContactSliceSlice>(),
 )
 
 const primary = computed(() => props.slice.primary)

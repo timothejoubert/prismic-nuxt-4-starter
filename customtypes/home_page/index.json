@@ -51,6 +51,9 @@
 				"fieldset": "Slice Zone",
 				"config": {
 					"choices": {
+						"all_fields_test": {
+							"type": "SharedSlice"
+						},
 						"simple_text_slice": {
 							"type": "SharedSlice"
 						},

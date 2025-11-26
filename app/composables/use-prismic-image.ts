@@ -1,23 +1,37 @@
 import type { ImageField, LinkField } from '@prismicio/types'
 import type { VImgProps } from '~/components/atoms/VImg.vue'
-import { getImageFieldFilled } from '~/utils/prismic/image-field'
-import { getFilledLinkToMedia } from '~/utils/prismic/link-field.ts'
+import { isImageField } from '~/utils/prismic/image-field'
+import { isLinkToMediaFieldFilled } from '~/utils/prismic/link-field.ts'
 
-export type VPrismicImageField = LinkField | ImageField | undefined
+export type VPrismicImageField = LinkField | ImageField | undefined | null
 
 export function usePrismicImage(
 	field: MaybeRefOrGetter<VPrismicImageField>,
 	imgProps?: Partial<VImgProps>,
 ) {
-	const imageField = computed(() => getImageFieldFilled(toValue(field)))
-	const mediaLinkField = computed(() => getFilledLinkToMedia(toValue(field)))
+	const prismic = usePrismic()
+
+	const imageField = computed(() => {
+		const imgField = toValue(field) && isImageField(toValue(field))
+		return prismic.isFilled.image(imgField) ? imgField : undefined
+	})
+
+	const mediaLinkField = computed(() => {
+		const linkToMediaField = toValue(field) && isLinkToMediaFieldFilled(toValue(field))
+		return prismic.isFilled.linkToMedia(linkToMediaField) ? linkToMediaField : undefined
+	})
+
+	const filledField = computed(() => {
+		return imageField.value || mediaLinkField.value
+	})
+
 	const src = computed(() => {
-		const value = imageField.value?.url || mediaLinkField.value?.url || ''
+		const value = filledField.value?.url || ''
 
 		return value.substring(0, value.lastIndexOf('?'))
 	})
 
-	return computed(() => {
+	const componentProps = computed(() => {
 		if (!src.value) return null
 
 		return {
@@ -35,4 +49,9 @@ export function usePrismicImage(
 			},
 		} as VImgProps
 	})
+
+	return {
+		filledField,
+		componentProps
+	}
 }
