@@ -6,8 +6,6 @@ const props = defineProps<{
 	content?: VTextContent
 	image?: VPrismicImageField
 }>()
-
-const imgProps = usePrismicImage(props.image, { width: 1000, height: 600, modifiers: { fit: 'crop' } })
 </script>
 
 <template>
@@ -17,9 +15,13 @@ const imgProps = usePrismicImage(props.image, { width: 1000, height: 600, modifi
 			v-if="content"
 			:content="content"
 		/>
-		<VImg
-			v-if="imgProps"
-			v-bind="imgProps"
+		<VPrismicImage
+			:media-props="{
+				width: 1000,
+				height: 600,
+				modifiers: { fit: 'crop'}
+			}"
+			:field="image"
 		/>
 	</section>
 </template>
