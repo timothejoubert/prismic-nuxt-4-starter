@@ -13,8 +13,6 @@ function isEmbedFilled(field: EmbedField) {
 	return !!usePrismicEmbed(field).filledField.value
 }
 
-
-
 const sizes = {
 	width: 600,
 	height: 400,

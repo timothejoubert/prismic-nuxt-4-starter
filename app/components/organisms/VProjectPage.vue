@@ -13,7 +13,6 @@ const tags = computed(() => {
 	return props.document.tags || []
 })
 
-const imgProps = usePrismicImage(project.value.image)
 const projectListingRoute = getPrismicRoute(PROJECT_LISTING_TYPE)
 </script>
 
@@ -43,9 +42,9 @@ const projectListingRoute = getPrismicRoute(PROJECT_LISTING_TYPE)
 			v-if="project.credits"
 			:content="project.credits"
 		/>
-		<VImg
-			v-if="imgProps"
-			v-bind="imgProps"
+		<VPrismicImage
+			v-if="project.image"
+			:field="project.image"
 		/>
 	</div>
 </template>

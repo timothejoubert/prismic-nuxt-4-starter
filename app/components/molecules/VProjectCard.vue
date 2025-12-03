@@ -13,16 +13,6 @@ const image = computed(() => props.project.data.image)
 const tags = computed(() => props.project.tags || [])
 const url = computed(() => props.project.url)
 
-
-const imgProps = usePrismicImage(image, {
-	sizes: 'xs:92vw sm:92vw md:30vw lg:22vw xl:22vw hq:22vw qhd:22vw',
-	width: 400,
-	height: 400,
-	modifiers: {
-		fit: 'crop',
-	},
-})
-
 const $style = useCssModule()
 const rootClasses = computed(() => {
 	return [
@@ -69,9 +59,16 @@ const rootClasses = computed(() => {
 			:class="$style.content"
 			:content="content"
 		/>
-		<VImg
-			v-if="imgProps"
-			v-bind="imgProps"
+		<VPrismicImage
+			:field="image"
+			:media-props="{
+				sizes: 'xs:92vw sm:92vw md:30vw lg:22vw xl:22vw hq:22vw qhd:22vw',
+				width: 400,
+				height: 400,
+				modifiers: {
+					fit: 'crop',
+				},
+			}"
 			:class="$style.image"
 		/>
 	</div>

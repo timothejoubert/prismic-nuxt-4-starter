@@ -32,8 +32,6 @@ const sources = computed(() => {
 	}).filter(m => m.srcset)
 })
 
-console.log(sources.value)
-
 </script>
 <template>
 	<picture v-if="sources?.length">
