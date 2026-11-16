@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { EmbedField } from '@prismicio/types'
 import { VVideoPlayer } from '#components'
-import type { VImgProps } from '~/components/atoms/VImg.vue'
+import type { VImgProps } from '~/components/VImg.vue'
 
 export type VVideoPlayerProps = InstanceType<typeof VVideoPlayer>['$props']
 

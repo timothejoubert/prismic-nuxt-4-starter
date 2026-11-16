@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { VTextContent } from '~/components/atoms/VText.vue'
+import type { VTextContent } from '~/components/VText.vue'
 
 const props = defineProps<{
     title: string

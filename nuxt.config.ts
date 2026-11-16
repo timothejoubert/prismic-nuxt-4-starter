@@ -18,11 +18,6 @@ export default defineNuxtConfig({
         '@nuxtjs/i18n',
         '@nuxtjs/prismic',
     ],
-    components: [
-        '~/components/atoms',
-        '~/components/molecules',
-        '~/components/organisms',
-    ],
     devtools: { enabled: true },
 
     css: ['~~/app/assets/scss/main.scss'],

@@ -1,5 +1,5 @@
 import type { ImageField, LinkField } from '@prismicio/types'
-import type { VImgProps } from '~/components/atoms/VImg.vue'
+import type { VImgProps } from '~/components/VImg.vue'
 import { isImageField } from '~/utils/prismic/image-field'
 import { isLinkToMediaFieldFilled } from '~/utils/prismic/link-field.ts'
 

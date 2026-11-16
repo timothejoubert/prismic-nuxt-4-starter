@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { ImageField } from '@prismicio/client'
-import type { VImgProps } from '~/components/atoms/VImg.vue'
+import type { VImgProps } from '~/components/VImg.vue'
 
 const props = defineProps<{
     field?: VPrismicImageField
