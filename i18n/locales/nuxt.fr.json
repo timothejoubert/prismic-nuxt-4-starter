@@ -3,8 +3,6 @@
   "skip_to_content": "Aller au contenu",
   "main_nav": "Menu principal",
   "link.new_window": "nouvelle fenêtre",
-  "video_player.iframe_title": "Lecteur vidéo",
-  "video_player.play": "Lire la vidéo {title}",
   "project_page.back_to_listing": "Retour aux projets",
   "error_page.status": "Erreur {code}",
   "error_page.not_found_title": "Page introuvable",
@@ -16,5 +14,9 @@
   "error_page.fallback_title": "Une erreur est survenue",
   "error_page.content": "Une erreur inattendue est survenue.",
   "error_page.refresh": "Recharger la page",
-  "error_page.back_home": "Retour à l'accueil"
+  "error_page.back_home": "Retour à l'accueil",
+  "media.play": "Lire la vidéo {title}",
+  "media.embed_title": "Vidéo intégrée",
+  "media.play_background": "Lire la vidéo d'arrière-plan",
+  "media.pause_background": "Mettre en pause la vidéo d'arrière-plan"
 }

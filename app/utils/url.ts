@@ -1,9 +1,3 @@
-export function encodeUrlParams(params: object): string {
-    return Object.entries(params)
-        .map(kv => kv.map(encodeURIComponent).join('='))
-        .join('&')
-}
-
 /**
  * Guarantees a URL has a scheme, defaulting to `http://` for localhost and `https://` otherwise.
  * `NUXT_PUBLIC_SITE_URL` is easy to misconfigure without a scheme (e.g. `localhost:3000`), which

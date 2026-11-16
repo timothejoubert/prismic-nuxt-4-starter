@@ -4,38 +4,23 @@ import type { Content } from '@prismicio/client'
 const props = defineProps(getSliceComponentProps<Content.MediaSliceSlice>())
 
 const primary = computed(() => props.slice.primary)
-const columns = computed(() => primary.value.columns)
-const prismic = usePrismic()
-
-const sizes = 'xs:100vw md:33vw'
 </script>
 
 <template>
     <VSlice
-        v-if="columns.length"
+        v-if="primary.columns.length"
         :slice="slice"
         :class="$style.root"
         :spacing="primary.spacing"
     >
-        <div
-            v-for="(column, i) in columns"
+        <!-- The embed when filled, with the image as its poster; the image alone otherwise -->
+        <VPrismicMedia
+            v-for="(column, i) in primary.columns"
             :key="`media-${i}`"
-        >
-            <VPrismicEmbed
-                v-if="prismic.isFilled.embed(column.embed)"
-                :field="column.embed"
-                :thumbnail="column.image"
-                :thumbnail-sizes="sizes"
-            />
-            <VPrismicImg
-                v-else-if="column.image"
-                :field="column.image"
-                :sizes="sizes"
-                :width="600"
-                :height="400"
-                :modifiers="{ fit: 'crop' }"
-            />
-        </div>
+            :field="column.embed"
+            :poster="column.image"
+            sizes="xs:100vw md:33vw"
+        />
     </VSlice>
 </template>
 

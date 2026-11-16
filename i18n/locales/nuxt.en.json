@@ -3,8 +3,6 @@
   "skip_to_content": "Skip to content",
   "main_nav": "Main menu",
   "link.new_window": "new window",
-  "video_player.iframe_title": "Video player",
-  "video_player.play": "Play the video {title}",
   "project_page.back_to_listing": "Back to projects",
   "error_page.status": "Error {code}",
   "error_page.not_found_title": "Page not found",
@@ -16,5 +14,9 @@
   "error_page.fallback_title": "Something went wrong",
   "error_page.content": "An unexpected error occurred.",
   "error_page.refresh": "Reload the page",
-  "error_page.back_home": "Back to home"
+  "error_page.back_home": "Back to home",
+  "media.play": "Play the video {title}",
+  "media.embed_title": "Embedded video",
+  "media.play_background": "Play the background video",
+  "media.pause_background": "Pause the background video"
 }

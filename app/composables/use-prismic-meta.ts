@@ -5,6 +5,7 @@ import { getFormattedLocale } from '~/composables/use-prismic-locale'
 import type { PageMetaAlternateLink } from '~/composables/use-page-meta'
 import { ensureProtocol } from '~/utils/url'
 import { getSchemaOrgPrimaryImageId } from '~/utils/schema-org'
+import { getPrismicImage } from '~/utils/prismic/media'
 import { prismicDocumentType } from '#shared/prismic-schema'
 import { I18N_DEFAULT_LOCALE } from '~~/i18n/i18n'
 
@@ -42,13 +43,13 @@ export function usePrismicMeta(documentOrRef?: MaybeRefOrGetter<ReachableDocumen
     const description = computed(() => docData.value?.meta_description || asText(docData.value?.content) || undefined)
 
     const image = computed(() => {
-        const imgUrl = docData.value?.meta_image?.url || docData.value?.image?.url
-        if (!imgUrl) return joinURL(siteUrl, '/share.jpg')
+        const prismicImage = getPrismicImage(docData.value?.meta_image) || getPrismicImage(docData.value?.image)
+        if (!prismicImage) return joinURL(siteUrl, '/share.jpg')
 
-        // Prismic URLs already carry imgix params (`?auto=compress,format`): drop them so the
-        // provider doesn't append a second `?`. Social crawlers don't all support AVIF/WebP,
-        // hence a forced JPEG, at the 1200×630 size Open Graph recommends.
-        return generateImg(imgUrl.split('?')[0]!, { width: 1200, height: 630, fit: 'crop', format: 'jpg', quality: 80 })
+        // Keeps Prismic's crop (`rect`) but not `auto=format`: social crawlers don't all support
+        // AVIF/WebP, hence a forced JPEG, at the 1200×630 size Open Graph recommends.
+        const { auto: _auto, ...modifiers } = prismicImage.modifiers
+        return generateImg(prismicImage.src, { ...modifiers, width: 1200, height: 630, fit: 'crop', format: 'jpg', quality: 80 })
     })
 
     const noindex = usePrismicPreviewRoute().isPreview

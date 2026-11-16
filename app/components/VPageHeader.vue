@@ -1,12 +1,11 @@
 <script lang="ts" setup>
-import type { KeyTextField } from '@prismicio/client'
+import type { ImageField, KeyTextField } from '@prismicio/client'
 import type { VTextContent } from '~/components/VText.vue'
-import type { VPrismicImageField } from '~/components/VPrismicImg.vue'
 
 defineProps<{
     title: KeyTextField | string
     content?: VTextContent
-    image?: VPrismicImageField
+    image?: ImageField
 }>()
 </script>
 

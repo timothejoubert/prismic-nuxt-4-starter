@@ -56,9 +56,21 @@ No test runner. Check a change with `pnpm lint`, `pnpm typecheck` and
   `usePrismicFetchProjects`, `usePrismicMeta`, `useLocale`); `use-*.ts` hold the
   rest (`useFetchPage`, `usePageMeta`, `useLinkResolver`).
 - `app/components/` is flat, `V`-prefixed. Prismic field renderers: `VText`
-  (string, key text or rich text), `VPrismicImg` (image or link to media, imgix
-  params moved to modifiers), `VPrismicLink`, `VPrismicEmbed`.
-- `app/utils/prismic/` holds field guards and the URL → document type resolver.
+  (string, key text or rich text), `VPrismicLink`, and the media ones below.
+- Media, in two layers:
+  - generic components: `VImg` (thin `<NuxtImg>` wrapper, `alt` required),
+    `VVideo` (native video, `background` mode with pause button and
+    reduced-motion check; the one place to plug a player library, see issue #1),
+    `VEmbed` (YouTube/Vimeo iframe, loaded on demand behind a `poster` slot);
+  - Prismic components: `VPrismicImg` (image field or link to an image, optional
+    `views` for art direction with `<picture>`) and `VPrismicMedia`, which
+    renders whatever a field holds (embed, video file, image) with an optional
+    poster;
+  - helpers: `app/utils/media/` (generic: embed URL parsing and player URLs,
+    video MIME types, aspect ratio) and `app/utils/prismic/media.ts` (Prismic
+    fields → normalized image, video and embed objects; imgix params split into
+    modifiers so the crop is kept and the URL never gets a second `?`).
+- `app/utils/prismic/` also holds the URL → document type resolver.
 - SEO: `@nuxtjs/sitemap` (projects listed by `shared/prismic-sitemap-urls.ts`),
   `@nuxtjs/robots`, `nuxt-schema-org`, site config from `NUXT_PUBLIC_SITE_*`.
 - Icons: local SVGs in `app/assets/images/icons`, used as

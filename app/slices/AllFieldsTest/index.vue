@@ -5,7 +5,6 @@ import type { Content } from '@prismicio/client'
 const props = defineProps(getSliceComponentProps<Content.AllFieldsTestSlice>())
 
 const mediaGroup = computed(() => props.slice.primary.media_group)
-const prismic = usePrismic()
 </script>
 
 <template>
@@ -16,41 +15,35 @@ const prismic = usePrismic()
         <div
             v-for="(group, i) in mediaGroup"
             :key="`media-${i}`"
+            :class="$style.group"
         >
-            <VPrismicEmbed
-                v-if="prismic.isFilled.embed(group.embed)"
+            <VPrismicMedia
                 :field="group.embed"
-                :thumbnail="group.image"
+                :poster="group.image"
             />
+            <VPrismicMedia :field="group.image" />
             <VPrismicImg
-                v-else-if="prismic.isFilled.image(group.image)"
-                :field="group.image"
-            />
-            <VPrismicImg
-                v-else-if="prismic.isFilled.image(group.responsive_image)"
                 :field="group.responsive_image"
+                :views="[{ name: 'small', media: '(width < 768px)' }, { name: 'medium', media: '(width < 1024px)' }]"
             />
-            <VPrismicImg
-                v-else-if="prismic.isFilled.linkToMedia(group.media)"
-                :field="group.media"
+            <VPrismicMedia :field="group.media" />
+            <VPrismicMedia :field="group.link" />
+            <VPrismicMedia
+                v-for="(link, linkIndex) in group.link_repeatable"
+                :key="`repeatable-${linkIndex}`"
+                :field="link"
             />
-            <VPrismicImg
-                v-else-if="prismic.isFilled.link(group.link)"
-                :field="group.link"
-            />
-            <template v-else-if="group.link_repeatable.length">
-                <VPrismicImg
-                    v-for="(link, linkIndex) in group.link_repeatable"
-                    :key="`repeatable-${linkIndex}`"
-                    :field="link"
-                />
-            </template>
         </div>
     </VSlice>
 </template>
 
 <style lang="scss" module>
 .root {
+    display: grid;
+    gap: 24px;
+}
+
+.group {
     display: grid;
     gap: 24px;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
