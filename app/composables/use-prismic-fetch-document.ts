@@ -1,18 +1,21 @@
-import { usePrismicPreviewRoute } from '~/composables/use-prismic-preview-route'
-import type { PrismicDocumentType } from '~/types/api'
-import { isDynamicRoute } from '~~/shared/prismic-routes'
-import type { AllDocumentTypes } from '~~/prismicio-types'
+import { NotFoundError } from '@prismicio/client'
+import type { AsyncDataOptions } from '#app'
+import type { ExtractPrismicDocument, PrismicDocumentType } from '~/types/api'
+import { isDynamicDocument } from '~~/shared/prismic-schema'
 
-export async function usePrismicFetchDocument<T extends AllDocumentTypes>(
-    documentType: PrismicDocumentType | undefined,
+export function usePrismicFetchDocument<Type extends PrismicDocumentType = PrismicDocumentType>(
+    prismicDocument: Type | undefined,
+    options?: { uid?: string } & AsyncDataOptions<ExtractPrismicDocument<Type> | undefined>,
 ) {
+    const { uid: uidOverride, ...asyncDataOptions } = options ?? {}
+
     const route = useRoute()
-    const routeUid = route.params?.uid || ''
+    const routeUid = uidOverride || route.params?.uid || ''
     const uid = Array.isArray(routeUid) ? routeUid.at(-1) : routeUid // get the last uid when route has subPage
 
     const { documentId, isPreview } = usePrismicPreviewRoute()
 
-    const dataKey = `page-${documentType}-${uid || documentId.value || 'single-document'}`
+    const dataKey = `page-${prismicDocument}-${uid || documentId.value || 'single-document'}`
 
     const prismicClient = usePrismic().client
     const { fetchLocaleOption } = useLocale()
@@ -22,49 +25,31 @@ export async function usePrismicFetchDocument<T extends AllDocumentTypes>(
         brokenRoute: '/404',
     }
 
-    const { data, error } = await useAsyncData(
-        dataKey,
-        async () => {
-            try {
-                if (isPreview.value && documentId.value) {
-                    return await prismicClient.getByID(
-                        documentId.value,
-                        prismicFetchOptions,
-                    )
-                }
-                else if (
-                    uid
-                    && documentType
-                    && isDynamicRoute(documentType)
-                ) {
-                    return await prismicClient.getByUID(
-                        documentType,
-                        uid,
-                        prismicFetchOptions,
-                    )
-                }
-                else if (documentType) {
-                    return await prismicClient.getSingle(
-                        documentType,
-                        prismicFetchOptions,
-                    )
-                }
+    return useAsyncData<ExtractPrismicDocument<Type> | undefined>(dataKey, async () => {
+        try {
+            if (isPreview.value && documentId.value) {
+                return await prismicClient.getByID(documentId.value, prismicFetchOptions)
             }
-            catch (error) {
-                console.error('Error during Prismic document fetch', error)
-                return { data: null }
+            if (uid && prismicDocument && isDynamicDocument(prismicDocument)) {
+                // @ts-expect-error - prismicDocument is a generic string, getByUID expects a narrower literal type
+                return await prismicClient.getByUID(prismicDocument, uid, prismicFetchOptions)
             }
-        },
-        {
-            getCachedData: (key, nuxtApp) =>
-                nuxtApp.static.data?.[key] ?? nuxtApp.payload.data?.[key],
-            dedupe: 'defer',
-            deep: false,
-        },
-    )
-
-    return {
-        data: computed(() => data.value as T),
-        error,
-    }
+            if (prismicDocument) {
+                // @ts-expect-error - prismicDocument is a generic string, getSingle expects a narrower literal type
+                return await prismicClient.getSingle(prismicDocument, prismicFetchOptions)
+            }
+            return undefined
+        }
+        catch (e) {
+            if (e instanceof NotFoundError) {
+                throw createError({ statusCode: 404, statusMessage: 'Not Found', cause: e })
+            }
+            throw e
+        }
+    }, {
+        getCachedData: (key, nuxtApp) => nuxtApp.static.data?.[key] ?? nuxtApp.payload.data?.[key],
+        dedupe: 'defer',
+        deep: false,
+        ...asyncDataOptions,
+    })
 }

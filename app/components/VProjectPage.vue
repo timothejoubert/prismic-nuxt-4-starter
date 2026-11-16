@@ -1,35 +1,33 @@
 <script lang="ts" setup>
+import { components } from '~/slices'
 import type { ProjectPageDocument } from '~~/prismicio-types'
-import { PROJECT_LISTING_TYPE } from '~~/shared/prismic-documents'
-import { getPrismicRoute } from '~~/shared/prismic-routes'
+import { prismicRouteByName } from '~~/shared/prismic-schema'
 
 const props = defineProps<{
     document: ProjectPageDocument
 }>()
 
 const project = computed(() => props.document.data)
-
-const tags = computed(() => {
-    return props.document.tags || []
-})
-
-const projectListingRoute = getPrismicRoute(PROJECT_LISTING_TYPE)
+const tags = computed(() => props.document.tags)
 </script>
 
 <template>
-    <div :class="$style.root">
-        <h1>Project page | {{ document.data.title }}</h1>
-        <VPrismicLink :to="projectListingRoute">
-            Retour
+    <article :class="$style.root">
+        <h1>{{ project.title }}</h1>
+        <VPrismicLink :to="prismicRouteByName.projects">
+            {{ $t('project_page.back_to_listing') }}
         </VPrismicLink>
-        <template v-if="tags.length">
-            <button
-                v-for="(tag, i) in tags"
-                :key="tag || i"
+        <ul
+            v-if="tags.length"
+            :class="$style.tags"
+        >
+            <li
+                v-for="tag in tags"
+                :key="tag"
             >
                 {{ tag }}
-            </button>
-        </template>
+            </li>
+        </ul>
         <VTime
             :date="project.creation_date"
             format="full"
@@ -46,11 +44,25 @@ const projectListingRoute = getPrismicRoute(PROJECT_LISTING_TYPE)
             v-if="project.image"
             :field="project.image"
         />
-    </div>
+        <SliceZone
+            v-if="project.slices.length"
+            :slices="project.slices"
+            :components="components"
+        />
+    </article>
 </template>
 
 <style lang="scss" module>
 .root {
     position: relative;
+}
+
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    padding: initial;
+    margin: initial;
+    gap: 6px;
+    list-style: none;
 }
 </style>

@@ -2,7 +2,7 @@ import { repositoryName } from './prismic.config.json'
 import { version } from './package.json'
 import svgLoader from 'vite-svg-loader'
 import { I18N_DEFAULT_LOCALE, I18N_LOCALES } from './i18n/i18n'
-import { prismicRouteList } from './shared/prismic-routes'
+import { getPrismicAliasRedirects, prismicDocumentRoutes } from './shared/prismic-schema'
 import { PREVIEW_PATH } from './app/constants/prismic-preview'
 
 // const isDev = process.env.NODE_ENV === 'development'
@@ -33,6 +33,10 @@ export default defineNuxtConfig({
         },
     },
 
+    routeRules: {
+        // Redirect prismicDocumentRoutes' `alias` paths (e.g. /projects) to their canonical route.
+        ...getPrismicAliasRedirects(),
+    },
     experimental: {
         asyncContext: true,
     },
@@ -150,7 +154,7 @@ export default defineNuxtConfig({
         preview: PREVIEW_PATH,
         toolbar: !isProd,
         clientConfig: {
-            routes: prismicRouteList,
+            routes: [...prismicDocumentRoutes],
         },
     },
 })

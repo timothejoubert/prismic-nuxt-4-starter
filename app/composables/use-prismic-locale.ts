@@ -9,20 +9,17 @@ export function useLocale() {
     const route = useRoute()
     const { $i18n } = useNuxtApp()
 
-    const availableLocaleCodes = computed(() =>
-        $i18n.locales.value.map(
-            locale => getFormattedLocale(locale.code) || locale.code,
-        ))
+    const availableLocaleCodes = computed(() => $i18n.locales.value.map(locale => getFormattedLocale(locale.code) || locale.code))
 
+    // Match the first path segment only — a substring check against the whole path (e.g. `.includes('fr')`)
+    // false-positives on any uid that happens to contain a locale code, such as "exo-front" or "diesel-fragrance".
     const extractLocaleFromUrl = computed(() => {
-        return availableLocaleCodes.value.find((localeCode) => {
-            return route.fullPath.includes(localeCode)
-        })
+        const firstSegment = route.path.split('/').filter(Boolean)[0]
+        return availableLocaleCodes.value.find(localeCode => localeCode === firstSegment)
     })
 
     const fetchLocaleOption = computed(() => {
         if (!extractLocaleFromUrl.value) {
-            // If prismic as unique default locale, we don't need to add lang param
             return undefined // { lang: $i18n.defaultLocale }
         }
         else return { lang: extractLocaleFromUrl.value }

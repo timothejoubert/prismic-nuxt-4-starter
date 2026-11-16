@@ -1,57 +1,36 @@
-import type { ExtractDocumentType } from '~/types/api'
-import { prismicDocumentRoutes } from '~~/shared/prismic-routes'
-import type { ProjectPageDocument } from '~~/prismicio-types'
+import type { RepeatableDocument } from '~/types/api'
 import { generateHashFromObject } from '~/utils/hash'
-import type { PrismicDocument } from '@prismicio/types'
 
 type PrismicClient = ReturnType<typeof usePrismic>['client']
 export type GetAllByTypeParams = Parameters<PrismicClient['getAllByType']>[1]
 
-export type RepeatableDocument = ProjectPageDocument
-export type RepeatableDocumentType = ExtractDocumentType<ProjectPageDocument>
+export type RepeatableDocumentType = RepeatableDocument['type']
 
-export function usePrismicFetchDocuments<
-    T extends PrismicDocument = RepeatableDocument,
->(prismicDocument: RepeatableDocumentType, options: GetAllByTypeParams = {}) {
+export function usePrismicFetchDocumentListing(
+    prismicDocument: RepeatableDocumentType,
+    options: MaybeRefOrGetter<GetAllByTypeParams> = {},
+) {
     const prismicClient = usePrismic().client
-    const fetchOptions = {
-        // pageSize: options.pageSize || 12, // default 20
-        limit: options.pageSize || 2, // default 20
-        // routes: prismicDocumentRoutes,
+    const { fetchLocaleOption } = useLocale()
+
+    // Route resolution comes from the client config (nuxt.config.ts `prismic.clientConfig.routes`).
+    const fetchOptions = computed(() => ({
         brokenRoute: '/404',
-        ...useLocale()?.fetchLocaleOption.value,
-        ...options,
-    }
+        ...fetchLocaleOption.value,
+        ...toValue(options),
+    }))
 
-    const hash: string[] = [prismicDocument]
-    if (Object.keys(fetchOptions).length)
-        hash.push(generateHashFromObject(fetchOptions))
+    const key = `documents-${prismicDocument}-${generateHashFromObject(fetchOptions.value)}`
 
-    const key = `documents-${hash.join('-')}`
-
-    return useAsyncData(
-        key,
-        () => {
-            return prismicClient.getAllByType<T>(prismicDocument, options)
+    return useAsyncData(key, () => prismicClient.getAllByType(prismicDocument, fetchOptions.value), {
+        // Only reuse cached data for the component's initial fetch, not for `watch`-triggered
+        // refetches: otherwise changing `fetchOptions` (e.g. a sort ordering) would re-serve the
+        // stale cached list instead of actually refetching.
+        getCachedData: (key, nuxtApp, ctx) => {
+            if (ctx.cause !== 'initial') return undefined
+            return nuxtApp.static.data?.[key] ?? nuxtApp.payload.data?.[key]
         },
-        {
-            getCachedData: (key, nuxtApp) =>
-                nuxtApp.static.data[key] ?? nuxtApp.payload.data[key],
-            dedupe: 'defer', // wait for the first request to finish before making another request
-            deep: false,
-            // lazy: true,
-            // default: () => {
-            //     return {
-            //         page: options.page || 0,
-            //         results_per_page: 0,
-            //         results_size: 0,
-            //         total_results_size: size,
-            //         total_pages: 0,
-            //         next_page: null,
-            //         prev_page: null,
-            //         results: [...Array(size).keys()].map(() => null),
-            //     }
-            // },
-        },
-    )
+        deep: false,
+        watch: [fetchOptions],
+    })
 }

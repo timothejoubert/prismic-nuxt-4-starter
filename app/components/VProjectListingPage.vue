@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { components } from '~/slices'
 import type { ProjectListingPageDocument } from '~~/prismicio-types'
 
 const props = defineProps<{
@@ -27,6 +28,11 @@ const { data: projects } = await usePrismicFetchProjects()
             :class="$style.item"
         />
     </ul>
+    <SliceZone
+        v-if="document.data.slices.length"
+        :slices="document.data.slices"
+        :components="components"
+    />
 </template>
 
 <style lang="scss" module>

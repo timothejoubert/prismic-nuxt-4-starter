@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { VTextContent } from '~/components/VText.vue'
 
-const props = defineProps<{
+defineProps<{
     title: string
     content?: VTextContent
     image?: VPrismicImageField

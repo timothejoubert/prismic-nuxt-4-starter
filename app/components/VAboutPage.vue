@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { components } from '~/slices'
 import type { AboutPageDocument } from '~~/prismicio-types'
 
 const props = defineProps<{
@@ -14,6 +15,9 @@ const page = computed(() => props.document.data)
         :content="page.content"
         :image="page.image"
     />
+    <SliceZone
+        v-if="document.data.slices.length"
+        :slices="document.data.slices"
+        :components="components"
+    />
 </template>
-
-<!-- <style lang="scss" module></style> -->

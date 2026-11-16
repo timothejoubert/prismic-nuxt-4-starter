@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-import { MAIN_MENU_TYPE } from '~~/shared/prismic-documents'
+import { prismicDocumentType } from '~~/shared/prismic-schema'
 
-const { data } = await usePrismicFetchDocument(MAIN_MENU_TYPE)
+const { data } = await usePrismicFetchDocument(prismicDocumentType.MENU)
 
-const links = computed(() => data.value.data?.links || [])
+const links = computed(() => data.value?.data.links || [])
 </script>
 
 <template>
@@ -14,8 +14,8 @@ const links = computed(() => data.value.data?.links || [])
                 :class="$style.list"
             >
                 <li
-                    v-for="link in links"
-                    :key="link.to"
+                    v-for="(link, index) in links"
+                    :key="index"
                     :class="$style.item"
                 >
                     <PrismicLink

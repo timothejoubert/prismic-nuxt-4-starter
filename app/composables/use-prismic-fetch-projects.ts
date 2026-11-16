@@ -1,14 +1,9 @@
+import { filter } from '@prismicio/client'
 import type { GetAllByTypeParams } from '~/composables/use-prismic-fetch-document-listing'
-import { PROJECT_TYPE } from '~~/shared/prismic-documents'
+import { prismicDocumentType } from '~~/shared/prismic-schema'
 
-export function usePrismicFetchProjects(
-    archived = false,
-    options: GetAllByTypeParams = {},
-) {
-    const { $prismic } = useNuxtApp()
-    const prismicFilter = $prismic.filter
-
-    return usePrismicFetchDocuments(PROJECT_TYPE, {
+export function usePrismicFetchProjects(archived = false, options: GetAllByTypeParams = {}) {
+    return usePrismicFetchDocumentListing(prismicDocumentType.PROJECT_PAGE, {
         orderings: [
             {
                 field: 'my.project_page.publication_date',
@@ -19,7 +14,7 @@ export function usePrismicFetchProjects(
                 direction: 'desc',
             },
         ],
-        filters: [prismicFilter.at('my.project_page.archived', archived)],
+        filters: [filter.at('my.project_page.archived', archived)],
         ...options,
     })
 }
