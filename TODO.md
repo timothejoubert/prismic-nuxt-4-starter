@@ -8,6 +8,6 @@
   favicon set (`favicon-*.png`, `apple-touch-icon.png`, `site.webmanifest`).
 
 ## Ideas
-- VVideoPlayer: native and embed video behind one player (Plyr?), with a
-  `displayThumbnail` option.
+- Media components refactor and Video.js instead of Plyr:
+  https://github.com/timothejoubert/prismic-nuxt-4-starter/issues/1
 - Split text, splash screen, VButton component.
