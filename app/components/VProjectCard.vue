@@ -1,76 +1,56 @@
 <script lang="ts" setup>
 import type { ProjectPageDocument } from '~~/prismicio-types'
-import { VPrismicLink } from '#components'
 
 const props = defineProps<{
     project: ProjectPageDocument
+    headingLevel?: 'h2' | 'h3'
 }>()
 
-const title = computed(() => props.project.data.title)
-const content = computed(() => props.project.data.content)
-const image = computed(() => props.project.data.image)
-const tags = computed(() => props.project.tags || [])
-const url = computed(() => props.project.url)
-
-const $style = useCssModule()
-const rootClasses = computed(() => {
-    return [
-        url.value && $style['root--has-link'],
-        $style.root,
-    ]
-})
+const data = computed(() => props.project.data)
 </script>
 
 <template>
-    <div
-        :class="rootClasses"
-    >
+    <article :class="$style.root">
+        <!-- A single link, stretched over the whole card: the card is announced and focused once -->
         <component
-            :is="url ? VPrismicLink : 'h3'"
-            v-if="title"
-            :to="url"
-            :class="[$style.title]"
+            :is="headingLevel || 'h2'"
+            :class="$style.title"
         >
-            {{ title }}
-        </component>
-        <template v-if="tags && tags.length">
-            <TransitionGroup
-                :name="$style['tag-animation']"
-                tag="div"
-                :class="$style.tags"
+            <VPrismicLink
+                :to="project"
+                :class="$style.link"
             >
-                <button
-                    v-for="(tag, i) in tags"
-                    :key="tag"
-                    theme="accent"
-                    tag="div"
-                    :filled="true"
-                    :style="{ '--tag-index': tags.length - i }"
-                    size="xs"
-                    :class="$style.tag"
-                >
-                    {{ tag }}
-                </button>
-            </TransitionGroup>
-        </template>
+                {{ data.title }}
+            </VPrismicLink>
+        </component>
+        <ul
+            v-if="project.tags.length"
+            :class="$style.tags"
+        >
+            <li
+                v-for="tag in project.tags"
+                :key="tag"
+            >
+                {{ tag }}
+            </li>
+        </ul>
         <VText
-            v-if="content"
+            v-if="data.content"
             :class="$style.content"
-            :content="content"
+            :content="data.content"
         />
-        <VPrismicImage
-            :field="image"
-            :media-props="{
-                sizes: 'xs:92vw sm:92vw md:30vw lg:22vw xl:22vw hq:22vw qhd:22vw',
-                width: 400,
-                height: 400,
-                modifiers: {
-                    fit: 'crop',
-                },
-            }"
+        <!-- Decorative: the title already names the project -->
+        <VPrismicImg
+            v-if="data.image"
+            :field="data.image"
+            alt=""
+            sizes="xs:92vw sm:92vw md:30vw lg:22vw"
+            :width="400"
+            :height="400"
+            :modifiers="{ fit: 'crop' }"
             :class="$style.image"
         />
-    </div>
+    </article>
 </template>
 
 <style lang="scss" module>
@@ -83,8 +63,13 @@ const rootClasses = computed(() => {
 .title {
     order: 2;
     margin-block: 10px;
+}
 
-    @at-root .root a#{&}::before {
+.link {
+    color: inherit;
+    text-decoration: none;
+
+    &::before {
         position: absolute;
         content: '';
         inset: 0;
@@ -95,7 +80,10 @@ const rootClasses = computed(() => {
     display: flex;
     flex-wrap: wrap;
     order: 3;
+    padding: initial;
+    margin: initial;
     gap: 6px;
+    list-style: none;
 }
 
 .content {

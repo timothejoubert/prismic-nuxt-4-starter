@@ -20,13 +20,13 @@ const { data: projects } = await usePrismicFetchProjects()
         class="grid"
         :class="$style.root"
     >
-        <VProjectCard
+        <li
             v-for="project in projects"
             :key="project.uid"
-            wrapper="li"
-            :project="project"
             :class="$style.item"
-        />
+        >
+            <VProjectCard :project="project" />
+        </li>
     </ul>
     <SliceZone
         v-if="document.data.slices.length"

@@ -1,19 +1,11 @@
 <script setup lang="ts">
 import type { Content } from '@prismicio/client'
-import type { EmbedField } from '@prismicio/types'
 
-const props = defineProps(
-    getSliceComponentProps<Content.AllFieldsTestSlice>(),
-)
+// Test slice: renders every media field type the starter supports, to check them in the slice simulator.
+const props = defineProps(getSliceComponentProps<Content.AllFieldsTestSlice>())
 
 const mediaGroup = computed(() => props.slice.primary.media_group)
-function isEmbedFilled(field: EmbedField) {
-    return !!usePrismicEmbed(field).filledField.value
-}
-
-function isImageFilled(field: VPrismicImageField) {
-    return !!usePrismicImage(field).filledField.value
-}
+const prismic = usePrismic()
 </script>
 
 <template>
@@ -21,42 +13,39 @@ function isImageFilled(field: VPrismicImageField) {
         :slice="slice"
         :class="$style.root"
     >
-        <template
+        <div
             v-for="(group, i) in mediaGroup"
             :key="`media-${i}`"
-            :class="$style.media"
         >
             <VPrismicEmbed
-                v-if="isEmbedFilled(group.embed)"
+                v-if="prismic.isFilled.embed(group.embed)"
                 :field="group.embed"
                 :thumbnail="group.image"
             />
-            <VPrismicImage
-                v-else-if="isImageFilled(group.image)"
+            <VPrismicImg
+                v-else-if="prismic.isFilled.image(group.image)"
                 :field="group.image"
             />
-            <VPrismicImage
-                v-else-if="isImageFilled(group.link)"
-                :field="group.link"
-            />
-            <VPrismicImage
-                v-else-if="isImageFilled(group.responsive_image)"
+            <VPrismicImg
+                v-else-if="prismic.isFilled.image(group.responsive_image)"
                 :field="group.responsive_image"
-                :source-keys="['small', 'medium']"
             />
-            <VPrismicImage
-                v-else-if="isImageFilled(group.media)"
+            <VPrismicImg
+                v-else-if="prismic.isFilled.linkToMedia(group.media)"
                 :field="group.media"
             />
+            <VPrismicImg
+                v-else-if="prismic.isFilled.link(group.link)"
+                :field="group.link"
+            />
             <template v-else-if="group.link_repeatable.length">
-                <VPrismicImage
-                    v-for="(link, i) in group.link_repeatable"
-                    :key="'repeatable-' + i"
+                <VPrismicImg
+                    v-for="(link, linkIndex) in group.link_repeatable"
+                    :key="`repeatable-${linkIndex}`"
                     :field="link"
                 />
             </template>
-            <pre v-else>{{ group }}</pre>
-        </template>
+        </div>
     </VSlice>
 </template>
 
@@ -64,6 +53,6 @@ function isImageFilled(field: VPrismicImageField) {
 .root {
     display: grid;
     gap: 24px;
-    grid-template-columns: repeat(auto-fit, minmax(auto, 200px));
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 }
 </style>

@@ -4,17 +4,9 @@ import ScssGrid from '~/assets/scss/export/_grid.module.scss'
 const maxColumnLength = Math.max(...Object.values(ScssGrid).map(v => Number(v)))
 const isVisible = ref(false)
 
-function onKeyDown(e: KeyboardEvent) {
-    const isValidKeyDown = e.shiftKey && (e.key === 'g' || e.key === 'G')
-    if (isValidKeyDown) isVisible.value = !isVisible.value
-}
-
-onMounted(() => {
-    window.addEventListener('keydown', onKeyDown)
-})
-
-onBeforeUnmount(() => {
-    window.removeEventListener('keydown', onKeyDown)
+// Dev-only tool: Shift + G toggles the grid overlay
+onKeyStroke(['g', 'G'], (event) => {
+    if (event.shiftKey) isVisible.value = !isVisible.value
 })
 </script>
 

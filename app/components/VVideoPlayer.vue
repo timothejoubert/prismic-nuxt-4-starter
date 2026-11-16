@@ -1,5 +1,5 @@
 <script lang="ts">
-import type { PropType } from 'vue'
+import type { ExtractPublicPropTypes, PropType } from 'vue'
 import { getEmbedSrc } from '~/utils/embed'
 
 export const videoAttributes = {
@@ -12,20 +12,23 @@ export const videoAttributes = {
     muted: { type: Boolean, default: undefined },
 }
 
-export const nativeVideoAttributes = {
-    src: { type: String },
-    mimeType: { type: String },
+export interface VideoSource {
+    src: string
+    mimeType?: string
 }
 
 export const nativeVideoProps = {
-    ...nativeVideoAttributes,
-    altSources: { type: Object as PropType<(typeof nativeVideoAttributes)[]> },
+    src: String,
+    mimeType: String,
+    altSources: Array as PropType<VideoSource[]>,
 }
 
 export const embedVideoProps = {
-    iframe: { type: String },
-    embedPlatform: { type: String as PropType<string | 'youtube' | 'vimeo'> },
-    embedId: { type: String },
+    iframe: String,
+    embedPlatform: String as PropType<string | 'youtube' | 'vimeo'>,
+    embedId: String,
+    // RGAA: every iframe needs a title describing its content
+    title: String,
 }
 
 export const vVideoPlayerProps = {
@@ -35,6 +38,8 @@ export const vVideoPlayerProps = {
     background: Boolean,
     fit: { type: String as PropType<'cover' | 'contain'> },
 }
+
+export type VVideoPlayerProps = ExtractPublicPropTypes<typeof vVideoPlayerProps>
 
 export default defineComponent({
     props: vVideoPlayerProps,
@@ -123,7 +128,7 @@ export default defineComponent({
 
             const altSources = (props.altSources || []).filter(file => !!file.src && !!file.mimeType)
 
-            return [{ src: src.value, mimeType: props.mimeType || 'video/mp4' }, ...altSources]
+            return [{ src: src.value, mimeType: props.mimeType || 'video/mp4' }, ...altSources].filter(source => !!source.src)
         })
 
         // STYLE
@@ -148,7 +153,10 @@ export default defineComponent({
             return style
         })
 
-        return { controls, isEmbed, playerStyle, videoAttrs, videoSources, src }
+        const { t } = useI18n()
+        const iframeTitle = computed(() => props.title || t('video_player.iframe_title'))
+
+        return { controls, isEmbed, playerStyle, videoAttrs, videoSources, src, iframeTitle }
     },
 })
 </script>
@@ -157,8 +165,9 @@ export default defineComponent({
     <iframe
         v-if="isEmbed"
         :style="playerStyle"
-        :class="[$style['iframe'], !controls && $style['iframe-wrapper--no-controls']]"
+        :class="$style.iframe"
         :src="src"
+        :title="iframeTitle"
         frameborder="0"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share;"
         allowfullscreen
@@ -166,17 +175,14 @@ export default defineComponent({
     <video
         v-else
         v-bind="videoAttrs"
-        ref="playerComponent"
         :class="$style.video"
     >
-        <template v-if="videoSources.length">
-            <source
-                v-for="source in videoSources"
-                :key="source.src"
-                :src="source.src"
-                :type="source.mimeType"
-            >
-        </template>
+        <source
+            v-for="source in videoSources"
+            :key="source.src"
+            :src="source.src"
+            :type="source.mimeType"
+        >
     </video>
 </template>
 

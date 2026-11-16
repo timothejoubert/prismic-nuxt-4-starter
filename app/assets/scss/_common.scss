@@ -1,3 +1,5 @@
+@use './mixins/visually-hidden' as *;
+
 body {
     margin: initial;
     font-family: sans-serif;
@@ -8,4 +10,9 @@ body {
 *:focus-visible {
     outline: 2px solid var(--colors-content-primary, currentColor);
     outline-offset: 6px;
+}
+
+// Hidden visually, still read by assistive technologies
+.visually-hidden {
+    @include visually-hidden;
 }

@@ -16,15 +16,15 @@ export default defineComponent({
     props: vPrismicLinkProps,
     setup(props, { attrs, slots }) {
         const { isRelative, isExternal, url } = useLinkResolver(props.to)
+        const { t } = useI18n()
 
-        // Define attributes
         const attributes = computed(() => {
-            const result = { ...attrs, ...props.nuxtLinkProps }
+            const result: Record<string, unknown> = { ...attrs, ...props.nuxtLinkProps }
 
             if (isRelative.value) {
-                Object.assign(result, { to: url })
+                Object.assign(result, { to: url.value })
             }
-            else if (isExternal) {
+            else if (isExternal.value) {
                 Object.assign(result, {
                     target: attrs?.target || '_blank',
                     rel: attrs?.rel || 'noopener noreferrer',
@@ -35,17 +35,19 @@ export default defineComponent({
             return result
         })
 
+        // RGAA: a link opening a new window must say so, here as text read by assistive technologies
+        const opensNewWindow = computed(() => attributes.value.target === '_blank')
+
         return () => {
             if (props.custom) {
-                // Custom VRoadizLink will pass all attributes to the default slot
-                // and render it (i.e. render-less component behavior)
-                return slots.default?.({ ...attributes.value, url: attributes.value.href || attributes.value.to }) || ''
+                // Render-less: pass every attribute to the default slot
+                return slots.default?.({ ...attributes.value, url: attributes.value.href || attributes.value.to, opensNewWindow: opensNewWindow.value }) || ''
             }
 
-            return h(
-                NuxtLink,
-                attributes.value, slots.default || (() => (typeof props.label === 'string' && props.label) || ''),
-            )
+            return h(NuxtLink, attributes.value, () => [
+                slots.default ? slots.default() : (typeof props.label === 'string' && props.label) || '',
+                opensNewWindow.value && h('span', { class: 'visually-hidden' }, ` (${t('link.new_window')})`),
+            ])
         }
     },
 })

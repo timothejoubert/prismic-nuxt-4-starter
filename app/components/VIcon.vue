@@ -1,19 +1,15 @@
 <script setup lang="ts">
-const DEFAULT_PREFIX = 'icon'
-
-defineProps({
-    name: {
-        type: String,
-        required: true,
-    },
-    prefix: {
-        type: String,
-    },
-})
+defineProps<{
+    // Full `prefix:name` icon id, e.g. `icon:Play` for app/assets/images/icons/Play.svg
+    name: string
+    size?: number | string
+}>()
 </script>
 
 <template>
     <NuxtIcon
-        :name="(prefix || DEFAULT_PREFIX) + ':' + name"
+        aria-hidden="true"
+        :name="name"
+        :size="size"
     />
 </template>

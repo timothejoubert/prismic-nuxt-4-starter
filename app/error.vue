@@ -22,7 +22,7 @@ const title = computed(() => {
     return t('error_page.fallback_title')
 })
 
-const subtitle = computed(() => t('error_status', { code: error.statusCode }))
+const subtitle = computed(() => t('error_page.status', { code: error.statusCode }))
 const content = computed(() => {
     if (error.statusCode === 404) return t('error_page.not_found_content')
     else if (isServerError.value) return t('error_page.server_error_content')
@@ -30,35 +30,62 @@ const content = computed(() => {
     return t('error_page.content')
 })
 
+const errorMessage = computed(() => import.meta.dev ? error.message : undefined)
+
 useHead({
     title: title.value,
 })
 
 function goToHome() {
-    clearError({ redirect: ' /' })
+    clearError({ redirect: '/' })
+}
+
+function reload() {
+    window.location.reload()
 }
 </script>
 
 <template>
-    <div>
-        <h1>{{ title }}</h1>
-        <h2> {{ subtitle }}</h2>
-        <p>{{ content }}</p>
-        <pre>{{ error.message }}</pre>
-        <button
-            v-if="isServerError"
-            onclick="window.location.reload()"
+    <VSkipLink />
+    <VNav />
+    <VPageWrapper>
+        <VErrorContent
+            :title="title"
+            :subtitle="subtitle"
+            :content="content"
+            :error-message="errorMessage"
         >
-            {{ $t('refresh') }}
-        </button>
-        <button
-            v-else
-            @click="goToHome"
-        >
-            {{ $t('back_home') }}
-        </button>
-        <VNav />
-    </div>
+            <button
+                v-if="isServerError"
+                type="button"
+                :class="$style.button"
+                @click="reload"
+            >
+                {{ $t('error_page.refresh') }}
+            </button>
+            <button
+                v-else
+                :class="$style.button"
+                @click="goToHome"
+            >
+                {{ $t('error_page.back_home') }}
+            </button>
+        </VErrorContent>
+    </VPageWrapper>
 </template>
 
-<!-- <style lang="scss" module></style> -->
+<style lang="scss" module>
+.button {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 9px;
+    background-color: var(--color-surface);
+    color: var(--color-content);
+    cursor: pointer;
+
+    @supports (corner-shape: squircle) {
+        border-radius: 24px;
+        corner-shape: squircle;
+    }
+}
+</style>

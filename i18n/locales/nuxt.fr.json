@@ -1,7 +1,20 @@
 {
-  "error_page.not_found_title": "Page introuvable",
-  "error_page.fallback_title": "Une erreur est survenue",
+  "skip_link.aria_label": "Liens d'évitement",
+  "skip_to_content": "Aller au contenu",
   "main_nav": "Menu principal",
-  "play_video": "Lire la vidéo",
-  "project_page.back_to_listing": "Retour aux projets"
+  "link.new_window": "nouvelle fenêtre",
+  "video_player.iframe_title": "Lecteur vidéo",
+  "video_player.play": "Lire la vidéo {title}",
+  "project_page.back_to_listing": "Retour aux projets",
+  "error_page.status": "Erreur {code}",
+  "error_page.not_found_title": "Page introuvable",
+  "error_page.not_found_content": "La page demandée n'existe pas ou a été déplacée.",
+  "error_page.unauthenticated_user_error_title": "Connexion requise",
+  "error_page.unauthorized_access_error_title": "Accès refusé",
+  "error_page.server_error_title": "Erreur serveur",
+  "error_page.server_error_content": "Le serveur n'a pas pu répondre. Réessayez dans quelques instants.",
+  "error_page.fallback_title": "Une erreur est survenue",
+  "error_page.content": "Une erreur inattendue est survenue.",
+  "error_page.refresh": "Recharger la page",
+  "error_page.back_home": "Retour à l'accueil"
 }

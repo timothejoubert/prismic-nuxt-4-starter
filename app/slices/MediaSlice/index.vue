@@ -1,55 +1,39 @@
 <script setup lang="ts">
 import type { Content } from '@prismicio/client'
-import type { EmbedField } from '@prismicio/types'
 
-const props = defineProps(
-    getSliceComponentProps<Content.MediaSliceSlice>(),
-)
+const props = defineProps(getSliceComponentProps<Content.MediaSliceSlice>())
 
 const primary = computed(() => props.slice.primary)
-const groups = computed(() => primary.value.columns || [])
+const columns = computed(() => primary.value.columns)
+const prismic = usePrismic()
 
-function isEmbedFilled(field: EmbedField) {
-    return !!usePrismicEmbed(field).filledField.value
-}
-
-const sizes = {
-    width: 600,
-    height: 400,
-}
-
-const imageProps = {
-    ...sizes,
-    sizes: 'sm:100vw hd:50vw',
-    modifiers: {
-        fit: 'cover',
-    },
-}
+const sizes = 'xs:100vw md:33vw'
 </script>
 
 <template>
     <VSlice
-        v-if="groups?.length"
+        v-if="columns.length"
         :slice="slice"
         :class="$style.root"
         :spacing="primary.spacing"
     >
         <div
-            v-for="(group, i) in groups"
+            v-for="(column, i) in columns"
             :key="`media-${i}`"
-            :class="$style.media"
         >
             <VPrismicEmbed
-                v-if="isEmbedFilled(group.embed)"
-                :field="group.embed"
-                :media-props="sizes"
-                :thumbnail-props="imageProps"
-                :thumbnail="group.image"
+                v-if="prismic.isFilled.embed(column.embed)"
+                :field="column.embed"
+                :thumbnail="column.image"
+                :thumbnail-sizes="sizes"
             />
-            <VPrismicImage
-                v-else
-                :field="group.image"
-                :media-props="imageProps"
+            <VPrismicImg
+                v-else-if="column.image"
+                :field="column.image"
+                :sizes="sizes"
+                :width="600"
+                :height="400"
+                :modifiers="{ fit: 'crop' }"
             />
         </div>
     </VSlice>
@@ -60,6 +44,9 @@ const imageProps = {
     position: relative;
     display: grid;
     gap: var(--media-slice-gap, 24px);
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+
+    @include media('>=md') {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
 }
 </style>

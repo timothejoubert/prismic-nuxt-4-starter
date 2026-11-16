@@ -6,10 +6,10 @@ usePrismicMeta(document, { schemaOrgType: 'AboutPage' })
 </script>
 
 <template>
-    <main>
+    <VPageWrapper>
         <VAboutPage
             v-if="document"
             :document="document"
         />
-    </main>
+    </VPageWrapper>
 </template>

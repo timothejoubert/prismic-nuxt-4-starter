@@ -1,32 +1,39 @@
 <script lang="ts" setup>
+import type { KeyTextField } from '@prismicio/client'
 import type { VTextContent } from '~/components/VText.vue'
+import type { VPrismicImageField } from '~/components/VPrismicImg.vue'
 
 defineProps<{
-    title: string
+    title: KeyTextField | string
     content?: VTextContent
     image?: VPrismicImageField
 }>()
 </script>
 
 <template>
-    <section
+    <header
         class="grid-container"
         :class="$style.root"
     >
-        <h1>{{ title }}</h1>
+        <h1 v-if="title">
+            {{ title }}
+        </h1>
         <VText
             v-if="content"
             :content="content"
         />
-        <VPrismicImage
-            :media-props="{
-                width: 1000,
-                height: 600,
-                modifiers: { fit: 'crop' },
-            }"
+        <!-- Above the fold: loaded eagerly with a high priority (LCP candidate) -->
+        <VPrismicImg
+            v-if="image"
             :field="image"
+            :width="1000"
+            :height="600"
+            :modifiers="{ fit: 'crop' }"
+            sizes="xs:100vw md:100vw lg:80vw"
+            loading="eager"
+            fetchpriority="high"
         />
-    </section>
+    </header>
 </template>
 
 <style lang="scss" module>

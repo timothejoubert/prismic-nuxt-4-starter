@@ -58,9 +58,6 @@ importers:
       '@prismicio/client':
         specifier: ^7.23.1
         version: 7.23.1
-      '@prismicio/types':
-        specifier: ^0.2.9
-        version: 0.2.9
       '@prismicio/vue':
         specifier: ^6.2.0
         version: 6.2.0(@prismicio/client@7.23.1)(vue@3.5.45(typescript@6.0.3))
@@ -1784,11 +1781,6 @@ packages:
     engines: {node: '>=20'}
     peerDependencies:
       '@prismicio/client': ^7
-
-  '@prismicio/types@0.2.9':
-    resolution: {integrity: sha512-1uhHnZTiGeCi+rmO507B8jtnUTCNetdgrC5sfZEw9zsCplfgBELt0+BN1RFsXWLbZbyvR9xzHcrJ87Ykqa8JZA==}
-    engines: {node: '>=12.7.0'}
-    deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
 
   '@prismicio/vue@6.2.0':
     resolution: {integrity: sha512-LfPXNEAaiSkdLSDugxlLXas2TvLkfuYTCk7Zwf2Xgvl12mtjrvoq63cxjDCXLinK83/6wH2bTodfTDOBYJSfvQ==}
@@ -7261,8 +7253,6 @@ snapshots:
   '@prismicio/simulator@0.2.4(@prismicio/client@7.23.1)':
     dependencies:
       '@prismicio/client': 7.23.1
-
-  '@prismicio/types@0.2.9': {}
 
   '@prismicio/vue@6.2.0(@prismicio/client@7.23.1)(vue@3.5.45(typescript@6.0.3))':
     dependencies:

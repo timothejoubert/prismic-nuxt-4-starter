@@ -1,3 +1,20 @@
 {
-  "project_page.back_to_listing": "Back to projects"
+  "skip_link.aria_label": "Skip links",
+  "skip_to_content": "Skip to content",
+  "main_nav": "Main menu",
+  "link.new_window": "new window",
+  "video_player.iframe_title": "Video player",
+  "video_player.play": "Play the video {title}",
+  "project_page.back_to_listing": "Back to projects",
+  "error_page.status": "Error {code}",
+  "error_page.not_found_title": "Page not found",
+  "error_page.not_found_content": "The requested page doesn't exist or has moved.",
+  "error_page.unauthenticated_user_error_title": "Sign-in required",
+  "error_page.unauthorized_access_error_title": "Access denied",
+  "error_page.server_error_title": "Server error",
+  "error_page.server_error_content": "The server couldn't respond. Try again in a moment.",
+  "error_page.fallback_title": "Something went wrong",
+  "error_page.content": "An unexpected error occurred.",
+  "error_page.refresh": "Reload the page",
+  "error_page.back_home": "Back to home"
 }
