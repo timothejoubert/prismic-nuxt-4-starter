@@ -1,22 +1,20 @@
 {
-  "id": "project_feed_slice",
-  "type": "SharedSlice",
-  "name": "ProjectFeedSlice",
   "description": "ProjectFeedSlice",
+  "id": "project_feed_slice",
+  "name": "ProjectFeedSlice",
+  "type": "SharedSlice",
   "variations": [
     {
-      "id": "default",
-      "name": "Default",
-      "docURL": "...",
-      "version": "initial",
       "description": "Default",
-      "imageUrl": "",
+      "docURL": "...",
+      "id": "default",
+      "imageUrl": "https://images.prismic.io/nuxt-4-starter/shared-slices/project_feed_slice/default/af90ae1beb1d2424040f2728ec5ab1fe995c52b4.png?auto=compress%2Cformat",
+      "items": {},
+      "name": "Default",
       "primary": {
         "spacing": {
-          "type": "Select",
           "config": {
             "label": "Spacing",
-            "placeholder": "",
             "options": [
               "none",
               "xs",
@@ -25,55 +23,57 @@
               "lg",
               "xl",
               "xxl"
-            ]
-          }
+            ],
+            "placeholder": ""
+          },
+          "type": "Select"
         },
         "title": {
-          "type": "Text",
           "config": {
             "label": "Title",
             "placeholder": ""
-          }
+          },
+          "type": "Text"
         },
         "automatic_projects_length": {
-          "type": "Number",
           "config": {
             "label": "Automatic projects length",
             "placeholder": "Default is 3"
-          }
+          },
+          "type": "Number"
         },
         "custom_projects": {
-          "type": "Group",
           "config": {
-            "label": "Custom projects",
-            "repeat": true,
             "fields": {
               "project": {
-                "type": "Link",
                 "config": {
-                  "label": "Project",
-                  "select": "document",
                   "customtypes": [
                     "project_page"
-                  ]
-                }
+                  ],
+                  "label": "Project",
+                  "select": "document"
+                },
+                "type": "Link"
               }
-            }
-          }
+            },
+            "label": "Custom projects",
+            "repeat": true
+          },
+          "type": "Group"
         },
         "link": {
-          "type": "Link",
           "config": {
-            "label": "Link",
-            "placeholder": "",
-            "select": null,
             "allowTargetBlank": true,
             "allowText": true,
-            "repeat": false
-          }
+            "label": "Link",
+            "placeholder": "",
+            "repeat": false,
+            "select": null
+          },
+          "type": "Link"
         }
       },
-      "items": {}
+      "version": "initial"
     }
   ]
 }

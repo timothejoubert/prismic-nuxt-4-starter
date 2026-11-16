@@ -1,22 +1,21 @@
 {
-  "id": "media_slice",
-  "type": "SharedSlice",
-  "name": "MediaSlice",
   "description": "MediaSlice",
+  "id": "media_slice",
+  "name": "MediaSlice",
+  "type": "SharedSlice",
   "variations": [
     {
-      "id": "default",
-      "name": "Default",
-      "docURL": "...",
-      "version": "initial",
       "description": "Default",
-      "imageUrl": "",
+      "docURL": "...",
+      "id": "default",
+      "imageUrl": "https://images.prismic.io/nuxt-4-starter/shared-slices/media_slice/default/003a2e5e759f4fba9d9f7fb4eb1a82dc69103ffe.png?auto=compress%2Cformat",
+      "items": {},
+      "name": "Default",
       "primary": {
         "spacing": {
-          "type": "Select",
           "config": {
+            "default_value": "none",
             "label": "Spacing",
-            "placeholder": "",
             "options": [
               "none",
               "xs",
@@ -26,35 +25,36 @@
               "xl",
               "xxl"
             ],
-            "default_value": "none"
-          }
+            "placeholder": ""
+          },
+          "type": "Select"
         },
         "columns": {
-          "type": "Group",
           "config": {
-            "label": "columns",
-            "repeat": true,
             "fields": {
               "embed": {
-                "type": "Embed",
                 "config": {
                   "label": "Embed video",
                   "placeholder": ""
-                }
+                },
+                "type": "Embed"
               },
               "image": {
-                "type": "Image",
                 "config": {
-                  "label": "Image",
                   "constraint": {},
+                  "label": "Image",
                   "thumbnails": []
-                }
+                },
+                "type": "Image"
               }
-            }
-          }
+            },
+            "label": "columns",
+            "repeat": true
+          },
+          "type": "Group"
         }
       },
-      "items": {}
+      "version": "initial"
     }
   ]
 }

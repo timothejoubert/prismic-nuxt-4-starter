@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { AboutPageDocument, ArchivePageDocument, HomePageDocument, ProjectListingPageDocument, ProjectPageDocument } from '~~/prismicio-types'
-import { components } from '~/components/slices/index'
+import { components } from '~/slices'
 
 const { document } = await useFetchPage(undefined)
 

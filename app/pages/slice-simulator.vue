@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { SliceSimulator } from '@slicemachine/adapter-nuxt/simulator'
-import { components } from '~/components/slices/index'
+import { components } from '~/slices'
 </script>
 
 <template>

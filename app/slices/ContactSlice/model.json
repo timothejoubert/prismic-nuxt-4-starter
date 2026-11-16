@@ -1,22 +1,21 @@
 {
-  "id": "contact_slice",
-  "type": "SharedSlice",
-  "name": "ContactSlice",
   "description": "ContactSlice",
+  "id": "contact_slice",
+  "name": "ContactSlice",
+  "type": "SharedSlice",
   "variations": [
     {
-      "id": "default",
-      "name": "Default",
-      "docURL": "...",
-      "version": "initial",
       "description": "Default",
-      "imageUrl": "",
+      "docURL": "...",
+      "id": "default",
+      "imageUrl": "https://images.prismic.io/nuxt-4-starter/shared-slices/contact_slice/default/6630fbe25593a4698de13b4e9f9e131d2e64c6f6.png?auto=compress%2Cformat",
+      "items": {},
+      "name": "Default",
       "primary": {
         "spacing": {
-          "type": "Select",
           "config": {
+            "default_value": "none",
             "label": "Spacing",
-            "placeholder": "",
             "options": [
               "none",
               "xs",
@@ -26,43 +25,44 @@
               "xl",
               "xxl"
             ],
-            "default_value": "none"
-          }
+            "placeholder": ""
+          },
+          "type": "Select"
         },
         "title": {
-          "type": "Text",
           "config": {
             "label": "Title",
             "placeholder": ""
-          }
+          },
+          "type": "Text"
         },
         "body": {
-          "type": "Group",
           "config": {
-            "label": "Body",
-            "repeat": false,
             "fields": {
               "title": {
-                "type": "Text",
                 "config": {
                   "label": "Title",
                   "placeholder": ""
-                }
+                },
+                "type": "Text"
               },
               "content": {
-                "type": "StructuredText",
                 "config": {
-                  "label": "Content",
-                  "placeholder": "",
                   "allowTargetBlank": true,
-                  "multi": "paragraph,strong,em,hyperlink"
-                }
+                  "label": "Content",
+                  "multi": "paragraph,strong,em,hyperlink",
+                  "placeholder": ""
+                },
+                "type": "StructuredText"
               }
-            }
-          }
+            },
+            "label": "Body",
+            "repeat": false
+          },
+          "type": "Group"
         }
       },
-      "items": {}
+      "version": "initial"
     }
   ]
 }

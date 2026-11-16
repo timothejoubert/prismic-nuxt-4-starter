@@ -1,0 +1,7 @@
+{
+  "repositoryName": "nuxt-4-starter",
+  "libraries": [
+    "./app/slices"
+  ],
+  "routes": []
+}
