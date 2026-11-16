@@ -2,6 +2,7 @@
 import { prismicDocumentType } from '~~/shared/prismic-schema'
 
 const { document } = await useFetchPage(prismicDocumentType.PROJECT_PAGE)
+usePrismicMeta(document, { schemaOrgType: 'ItemPage' })
 </script>
 
 <template>

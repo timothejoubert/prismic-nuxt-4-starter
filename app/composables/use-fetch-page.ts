@@ -30,11 +30,6 @@ export async function useFetchPage<T extends PrismicDocumentPageType>(type: T | 
 
     usePage({ document: data.value })
 
-    if (data.value) {
-        usePrismicHead(data.value)
-        usePrismicSeoMeta(data.value)
-    }
-
     return {
         document: data,
         documentType,
