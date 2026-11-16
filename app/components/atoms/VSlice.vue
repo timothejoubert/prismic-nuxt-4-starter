@@ -1,23 +1,23 @@
-<script  lang="ts" setup>
+<script lang="ts" setup>
 import type { SharedSlice } from '@prismicio/types'
 
 defineProps<{
-	slice?: SharedSlice
-	tag?: string
-	spacing?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl' | 'none'
+    slice?: SharedSlice
+    tag?: string
+    spacing?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl' | 'none'
 }>()
 </script>
 
 <template>
-	<component
-		:is="tag || 'section'"
-		:class="[$style.root, $style[`root--spacing-block-${spacing}`]]"
-		:data-slice-type="slice?.slice_type"
-		:data-slice-variation="slice?.variation"
+    <component
+        :is="tag || 'section'"
+        :class="[$style.root, $style[`root--spacing-block-${spacing}`]]"
+        :data-slice-type="slice?.slice_type"
+        :data-slice-variation="slice?.variation"
         class="grid-container"
-	>
-		<slot />
-	</component>
+    >
+        <slot />
+    </component>
 </template>
 
 <style lang="scss" module>
@@ -28,7 +28,7 @@ defineProps<{
     margin-block: var(--v-slice-padding-block);
 
     &--spacing-block-xs {
-		--v-slice-padding-block: #{fluid((xs: 10, xl: 24))};
+        --v-slice-padding-block: #{fluid((xs: 10, xl: 24))};
     }
 
     &--spacing-block-sm {
@@ -45,10 +45,10 @@ defineProps<{
 
     &--spacing-block-xl {
         --v-slice-padding-block: #{fluid((xs: 112, xl: 222))};
-	}
+    }
 
     &--spacing-block-xxl {
-		--v-slice-padding-block: #{fluid((xs: 194, xl: 322))};
+        --v-slice-padding-block: #{fluid((xs: 194, xl: 322))};
     }
 }
 </style>

@@ -7,40 +7,46 @@ const links = computed(() => data.value.data?.links || [])
 </script>
 
 <template>
-	<header :class="$style.root">
-		<nav :aria-label="$t('main_nav')">
-			<ul v-if="links?.length" :class="$style.list">
-				<li
-					v-for="link in links"
-					:key="link.to"
-					:class="$style.item"
-					>
-					<PrismicLink :field="link" :class="$style.link" />
-				</li>
-			</ul>
-		</nav>
-	</header>
+    <header :class="$style.root">
+        <nav :aria-label="$t('main_nav')">
+            <ul
+                v-if="links?.length"
+                :class="$style.list"
+            >
+                <li
+                    v-for="link in links"
+                    :key="link.to"
+                    :class="$style.item"
+                >
+                    <PrismicLink
+                        :field="link"
+                        :class="$style.link"
+                    />
+                </li>
+            </ul>
+        </nav>
+    </header>
 </template>
 
 <style lang="scss" module>
 .root {
-	display: contents;
+    display: contents;
 }
 
 .list {
-	display: flex;
-	justify-content: center;
-	padding: initial;
-	margin: initial;
-	gap: 14px;
+    display: flex;
+    justify-content: center;
+    padding: initial;
+    margin: initial;
+    gap: 14px;
 }
 
 .item {
-	display: contents;
+    display: contents;
 }
 
 .link {
-	display: block;
-	padding-block: 16px;
+    display: block;
+    padding-block: 16px;
 }
 </style>

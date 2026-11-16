@@ -12,19 +12,19 @@ export type VWrapperProps = { wrapper?: ComponentOrTagName | false | undefined }
 defineProps<VWrapperProps>()
 
 defineOptions({
-	inheritAttrs: false,
+    inheritAttrs: false,
 })
 </script>
 
 <template>
-	<component
-		:is="wrapper"
-		v-if="wrapper"
-		v-bind="$attrs"
-	>
-		<slot />
-	</component>
-	<template v-else>
-		<slot />
-	</template>
+    <component
+        :is="wrapper"
+        v-if="wrapper"
+        v-bind="$attrs"
+    >
+        <slot />
+    </component>
+    <template v-else>
+        <slot />
+    </template>
 </template>

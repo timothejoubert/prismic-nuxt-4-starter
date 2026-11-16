@@ -6,28 +6,28 @@ import { prismicRouteList } from '~~/shared/prismic-routes'
 
 // TODO: find item by alias too
 export function getDocumentTypeByUrl(path: string) {
-	const firstSegment = extractValueBetweenOccurrence(path, '/', [1, 2]) || ''
+    const firstSegment = extractValueBetweenOccurrence(path, '/', [1, 2]) || ''
 
-	const route = prismicRouteList.find((prismicRoute) => {
-		if (path === prismicRoute.path) return true
+    const route = prismicRouteList.find((prismicRoute) => {
+        if (path === prismicRoute.path) return true
 
-		// Replace locale or uid if exist
-		const hasLocale = I18N_LOCALES.includes(
-			firstSegment as (typeof I18N_LOCALES)[number],
-		)
-		const dynamicUid
-			= prismicRoute.path?.includes(':uid')
-				&& path.substring(path.lastIndexOf('/') + 1)
+        // Replace locale or uid if exist
+        const hasLocale = I18N_LOCALES.includes(
+            firstSegment as (typeof I18N_LOCALES)[number],
+        )
+        const dynamicUid
+            = prismicRoute.path?.includes(':uid')
+              && path.substring(path.lastIndexOf('/') + 1)
 
-		const filteredPath
-			= prismicRoute.path
-				?.replace('/:lang?', hasLocale ? `/${firstSegment}` : '')
-				.replace(':uid', dynamicUid || '') || '/'
+        const filteredPath
+            = prismicRoute.path
+                ?.replace('/:lang?', hasLocale ? `/${firstSegment}` : '')
+                .replace(':uid', dynamicUid || '') || '/'
 
-		return path === filteredPath
-	})
+        return path === filteredPath
+    })
 
-	if (route) return route.type
+    if (route) return route.type
 
-	return undefined
+    return undefined
 }

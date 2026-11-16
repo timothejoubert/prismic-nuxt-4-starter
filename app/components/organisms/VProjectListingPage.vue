@@ -2,7 +2,7 @@
 import type { ProjectListingPageDocument } from '~~/prismicio-types'
 
 const props = defineProps<{
-	document: ProjectListingPageDocument
+    document: ProjectListingPageDocument
 }>()
 
 const page = computed(() => props.document.data)
@@ -10,23 +10,23 @@ const { data: projects } = await usePrismicFetchProjects()
 </script>
 
 <template>
-	<VPageHeader
-		:title="page.title"
-		:content="page.content"
-	/>
-	<ul
-		v-if="projects?.length"
-		class="grid"
-		:class="$style.root"
-	>
-		<VProjectCard
-			v-for="project in projects"
-			:key="project.uid"
-			wrapper="li"
-			:project="project"
-			:class="$style.item"
-		/>
-	</ul>
+    <VPageHeader
+        :title="page.title"
+        :content="page.content"
+    />
+    <ul
+        v-if="projects?.length"
+        class="grid"
+        :class="$style.root"
+    >
+        <VProjectCard
+            v-for="project in projects"
+            :key="project.uid"
+            wrapper="li"
+            :project="project"
+            :class="$style.item"
+        />
+    </ul>
 </template>
 
 <style lang="scss" module>
