@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { getPrismicEmbed, getPrismicImage, getPrismicVideo } from '~/utils/prismic/media'
+import { getPrismicMediaKind } from '~/utils/prismic/media'
 import type { PrismicImageFieldValue, PrismicVideoFieldValue, VPrismicMediaProps } from '~/types/media'
 
 /**
@@ -11,10 +11,9 @@ import type { PrismicImageFieldValue, PrismicVideoFieldValue, VPrismicMediaProps
 const props = defineProps<VPrismicMediaProps>()
 
 // The field narrowed to what each component accepts, undefined when it holds something else
-const imageField = computed(() => getPrismicImage(props.field) ? props.field as PrismicImageFieldValue : undefined)
-const videoField = computed(() => !imageField.value && (getPrismicVideo(props.field) || getPrismicEmbed(props.field))
-    ? props.field as PrismicVideoFieldValue
-    : undefined)
+const kind = computed(() => getPrismicMediaKind(props.field))
+const imageField = computed(() => kind.value === 'image' ? props.field as PrismicImageFieldValue : undefined)
+const videoField = computed(() => kind.value === 'video' || kind.value === 'embed' ? props.field as PrismicVideoFieldValue : undefined)
 </script>
 
 <template>

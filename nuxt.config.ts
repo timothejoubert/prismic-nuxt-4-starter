@@ -5,12 +5,12 @@ import { version } from './package.json'
 import { repositoryName } from './prismic.config.json'
 import { getPrismicAliasRedirects, prismicDocumentRoutes } from './shared/prismic-schema'
 import { getPrismicSitemapUrls } from './shared/prismic-sitemap-urls'
+import { getImageSizes, IMAGE_SCREENS } from './app/utils/media/image'
+import { VIDEOJS_ELEMENTS } from './app/utils/media/videojs'
 
 const isProd = process.env.NUXT_PUBLIC_SITE_ENV === 'production'
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
-const VIDEOJS_ELEMENTS = new Set(['media-i18n', 'video-player', 'video-skin', 'youtube-video', 'vimeo-video'])
-
 export default defineNuxtConfig({
     modules: [
         '@nuxt/eslint',
@@ -37,7 +37,7 @@ export default defineNuxtConfig({
     vue: {
         compilerOptions: {
             // Video.js 10 web components (VPrismicVideo): list each tag, never a prefix rule
-            isCustomElement: tag => VIDEOJS_ELEMENTS.has(tag),
+            isCustomElement: tag => VIDEOJS_ELEMENTS.includes(tag),
         },
     },
     // https://nuxtseo.com/site-config — shared by @nuxtjs/sitemap, @nuxtjs/robots and nuxt-schema-org
@@ -182,21 +182,14 @@ export default defineNuxtConfig({
             baseURL: '',
         },
         quality: 75,
-        screens: {
-            xs: 375, // override nuxt/img sizes to match our breakpoints
-            sm: 480, // override
-            vl: 1280, // override
-            xl: 1440, // override
-            xxl: 1600, // override
-            hd: 1920, // additional size
-            qhd: 2500, // additional size
-        },
+        // Our breakpoints, overriding and extending @nuxt/image's; `getImageSizes()` builds `sizes` from them
+        screens: { ...IMAGE_SCREENS },
         // 2x candidates too: without them a retina screen (and any width between two breakpoints) gets a
         // blurry image. `sizes` must list every breakpoint: each key yields one width, at its lower bound.
         densities: [1, 2],
         presets: {
             default: {
-                sizes: 'xs:100vw md:100vw lg:100vw vl:100vw xl:100vw hd:100vw qhd:100vw',
+                sizes: getImageSizes({ xs: '100vw' }),
             },
         },
     },

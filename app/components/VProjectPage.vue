@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { getImageSizes } from '~/utils/media/image'
 import { components } from '~/slices'
 import type { ProjectPageDocument } from '~~/prismicio-types'
 import { prismicRouteByName } from '~~/shared/prismic-schema'
@@ -9,6 +10,8 @@ const props = defineProps<{
 
 const project = computed(() => props.document.data)
 const tags = computed(() => props.document.tags)
+
+const IMAGE_SIZES = getImageSizes({ xs: '100vw', lg: '80vw' })
 </script>
 
 <template>
@@ -43,7 +46,7 @@ const tags = computed(() => props.document.tags)
         <VPrismicImage
             v-if="project.image"
             :field="project.image"
-            sizes="xs:100vw sm:100vw md:100vw lg:80vw vl:80vw xl:80vw xxl:80vw hd:80vw"
+            :sizes="IMAGE_SIZES"
         />
         <SliceZone
             v-if="project.slices.length"

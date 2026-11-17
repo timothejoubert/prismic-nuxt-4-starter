@@ -6,6 +6,7 @@ import {
     type ImageFieldImage,
     type LinkToMediaField,
 } from '@prismicio/client'
+import type { $Img } from '@nuxt/image'
 import { getQuery } from 'ufo'
 import { type EmbedSource, parseEmbedUrl } from '~/utils/media/embed'
 import { getVideoMimeType } from '~/utils/media/video'
@@ -129,4 +130,42 @@ export function getPrismicEmbed(field: unknown): PrismicEmbed | undefined {
         width: toNumber(field.width),
         height: toNumber(field.height),
     }
+}
+
+export type PrismicMediaKind = 'image' | 'video' | 'embed'
+
+/** What a field holds: an image, a video file or an embed (YouTube, Vimeo or another provider). */
+export function getPrismicMediaKind(field: unknown): PrismicMediaKind | undefined {
+    if (getPrismicImage(field)) return 'image'
+    if (getPrismicVideo(field)) return 'video'
+    if (getPrismicEmbed(field)) return 'embed'
+
+    return undefined
+}
+
+export interface PrismicImageUrlOptions {
+    width: number
+    height?: number
+    /** Default `crop` when `height` is set */
+    fit?: string
+    /** Drops Prismic's `auto=format`, which would override it */
+    format?: string
+    quality?: number
+}
+
+/**
+ * Single imgix URL of a Prismic image (thumbnail, Open Graph image...): keeps Prismic's params (crop `rect`,
+ * compression) and adds the size. Takes `useImage()`, so it can't run outside a component or composable.
+ */
+export function getPrismicImageUrl($img: $Img, image: PrismicImage, { width, height, fit, format, quality }: PrismicImageUrlOptions) {
+    const { auto: _auto, ...withoutAuto } = image.modifiers
+
+    return $img(image.src, {
+        ...(format ? withoutAuto : image.modifiers),
+        width,
+        height,
+        fit: fit ?? (height ? 'crop' : undefined),
+        format,
+        quality,
+    }, { provider: 'imgix' })
 }

@@ -1,7 +1,8 @@
 <script lang="ts" setup>
-import { getAspectRatio } from '~/utils/media/aspect-ratio'
+import { getAspectRatio, getHeightForWidth } from '~/utils/media/aspect-ratio'
 import { getEmbedPlayerSource } from '~/utils/media/embed'
-import { getPrismicEmbed, getPrismicImage, getPrismicMediaUrl, getPrismicVideo } from '~/utils/prismic/media'
+import { loadVideojsEmbedMedia, loadVideojsPlayer } from '~/utils/media/videojs'
+import { getPrismicEmbed, getPrismicImage, getPrismicImageUrl, getPrismicMediaUrl, getPrismicVideo } from '~/utils/prismic/media'
 import type { VPrismicVideoProps } from '~/types/media'
 
 /**
@@ -47,12 +48,7 @@ const ratio = computed(() => {
 const posterUrl = computed(() => {
     if (typeof props.poster === 'string') return props.poster
     if (posterImage.value) {
-        return $img(posterImage.value.src, {
-            ...posterImage.value.modifiers,
-            width: 1600,
-            height: props.width && props.height ? Math.round(1600 * Number(props.height) / Number(props.width)) : undefined,
-            fit: 'crop',
-        }, { provider: 'imgix' })
+        return getPrismicImageUrl($img, posterImage.value, { width: 1600, height: getHeightForWidth(1600, props.width, props.height) })
     }
 
     return embed.value?.thumbnailUrl
@@ -78,19 +74,9 @@ const isActive = ref(false)
 const isLoading = ref(false)
 const isPaused = ref(true)
 
-function loadPlayer() {
-    return Promise.all([
-        import('@videojs/html/i18n'),
-        import('@videojs/html/video/player'),
-        import('@videojs/html/video/skin'),
-        platform.value === 'youtube' && import('@videojs/html/media/youtube-video'),
-        platform.value === 'vimeo' && import('@videojs/html/media/vimeo-video'),
-    ])
-}
-
 async function play() {
     isLoading.value = true
-    if (!isHtml.value) await loadPlayer()
+    if (!isHtml.value) await loadVideojsPlayer(platform.value)
     isActive.value = true
     isLoading.value = false
 
@@ -113,9 +99,7 @@ const reducedMotion = usePreferredReducedMotion()
 async function startBackgroundEmbed() {
     if (isActive.value || isLoading.value) return
     isLoading.value = true
-    // Two static imports: Vite can't resolve a computed module specifier
-    if (platform.value === 'youtube') await import('@videojs/html/media/youtube-video')
-    else await import('@videojs/html/media/vimeo-video')
+    if (platform.value) await loadVideojsEmbedMedia(platform.value)
     isActive.value = true
     isLoading.value = false
 }

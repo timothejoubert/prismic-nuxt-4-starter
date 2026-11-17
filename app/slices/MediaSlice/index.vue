@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { type Content, isFilled } from '@prismicio/client'
+import { getImageSizes } from '~/utils/media/image'
 
 const props = defineProps(getSliceComponentProps<Content.MediaSliceSlice>())
 
 const primary = computed(() => props.slice.primary)
 
-// Every breakpoint listed: @nuxt/image yields one image width per key (one column below md, three above)
-const SIZES = 'xs:100vw sm:100vw md:33vw lg:33vw vl:33vw xl:33vw xxl:33vw hd:33vw'
+// One column below md, three above
+const SIZES = getImageSizes({ xs: '100vw', md: '33vw' })
 </script>
 
 <template>

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { type Content, isFilled } from '@prismicio/client'
+import { getImageSizes } from '~/utils/media/image'
 
 // Test slice: renders every media field the starter supports in each rendering of the media components
 // (media-components.md), to check them in a page or the slice simulator. A case only shows when its field is
@@ -8,8 +9,7 @@ const props = defineProps(getSliceComponentProps<Content.AllFieldsTestSlice>())
 
 const mediaGroup = computed(() => props.slice.primary.media_group)
 
-// Every breakpoint listed: @nuxt/image yields one image width per key
-const SIZES = 'xs:100vw sm:100vw md:33vw lg:33vw vl:33vw xl:33vw xxl:33vw hd:33vw'
+const SIZES = getImageSizes({ xs: '100vw', md: '33vw' })
 
 const RESPONSIVE_SOURCES = [
     { view: 'small', media: '(width < 768px)' },

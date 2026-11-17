@@ -61,8 +61,22 @@ PrismicImageOptions              NuxtImg options: width, height, sizes, densitie
   the type of the `getSource(field, options)` options given to the `#sources`
   slot.
 - `imageProps` also accepts free `<img>` attributes (`fetchpriority`…).
-- Runtime helpers (Prismic fields → normalized image, video and embed objects)
-  stay in `app/utils/prismic/media.ts`, generic ones in `app/utils/media/`.
+- Runtime helpers, reused rather than rewritten in a component:
+  - `app/utils/prismic/media.ts`: Prismic fields → normalized image, video
+    and embed objects, `getPrismicMediaKind(field)`, and
+    `getPrismicImageUrl($img, image, { width, height, format… })` for a single
+    imgix URL (video thumbnail, Open Graph image);
+  - `app/utils/media/image.ts`: `IMAGE_SCREENS` (the one breakpoint list,
+    also used by `nuxt.config.ts`), `getImageSizes({ xs: '100vw', md: '33vw' })`
+    to build a `sizes` that lists every breakpoint (a missing one leaves a
+    range served by a too small image), `pickImageOptions(props)`;
+  - `app/utils/media/aspect-ratio.ts`: `getAspectRatio`, `getHeightForWidth`;
+  - `app/utils/media/videojs.ts`: `VIDEOJS_ELEMENTS` (for `isCustomElement`),
+    `loadVideojsPlayer(platform?)`, `loadVideojsEmbedMedia(platform)`;
+  - `app/utils/media/embed.ts`, `video.ts`: URL parsing, player sources, MIME
+    types.
+  `image.ts` and `videojs.ts` are imported by `nuxt.config.ts`: no `~` import
+  in them (relative within the folder).
 
 ## VPrismicMedia
 

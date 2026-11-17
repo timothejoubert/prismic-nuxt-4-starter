@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import type { Component } from 'vue'
 import { NuxtImg } from '#components'
+import { getHeightForWidth } from '~/utils/media/aspect-ratio'
+import { pickImageOptions } from '~/utils/media/image'
 import { getPrismicImage } from '~/utils/prismic/media'
 import type { PrismicImageOptions, VPrismicImageProps } from '~/types/media'
 
@@ -31,12 +33,7 @@ const image = computed(() => getPrismicImage(props.field))
 
 function getInheritedOptions(options: PrismicImageOptions): PrismicImageOptions {
     return {
-        sizes: props.sizes,
-        densities: props.densities,
-        fit: props.fit,
-        format: props.format,
-        quality: props.quality,
-        preset: props.preset,
+        ...pickImageOptions(props),
         ...options,
         modifiers: { ...props.modifiers, ...options.modifiers },
     }
@@ -55,9 +52,7 @@ function getSource(field: unknown, options: PrismicImageOptions & { view?: strin
     const width = Number(optionWidth) || source.width
     // A width alone keeps the source's ratio
     const height = Number(optionHeight)
-      || (optionWidth && width && source.width && source.height
-          ? Math.round(width * source.height / source.width)
-          : source.height)
+      || (optionWidth && width ? getHeightForWidth(width, source.width, source.height) : source.height)
 
     const { srcset, sizes } = $img.getSizes(source.src, {
         sizes: merged.sizes,
@@ -103,12 +98,7 @@ const imgProps = computed(() => {
         width: props.width ?? image.value.width,
         height: props.height ?? image.value.height,
         loading: props.loading,
-        sizes: props.sizes,
-        densities: props.densities,
-        fit: props.fit,
-        format: props.format,
-        quality: props.quality,
-        preset: props.preset,
+        ...pickImageOptions(props),
         provider: 'imgix' as const,
         modifiers: { ...image.value.modifiers, ...props.modifiers },
         ...imgAttrs,
