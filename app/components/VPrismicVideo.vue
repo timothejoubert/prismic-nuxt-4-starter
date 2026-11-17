@@ -25,11 +25,30 @@ const isHtml = computed(() => !!embed.value?.html)
 // The provider html can't autoplay muted in a loop: it always renders behind the thumbnail
 const isBackground = computed(() => props.background && (!!video.value || !!platform.value))
 
-// YouTube / Vimeo oEmbed dimensions are the thumbnail's (often 200 × 150), not the video's: 16 / 9 by default.
-// The provider html sizes its iframe from the field's dimensions, so the fallback keeps them.
-const ratio = computed(() => isHtml.value
-    ? getAspectRatio(props.width ?? embed.value?.width, props.height ?? embed.value?.height)
-    : getAspectRatio(props.width, props.height))
+// The video sets the ratio, the thumbnail is cropped to it. First known of:
+// - `width` + `height` props;
+// - the provider html and Vimeo: the embed's dimensions (YouTube's oEmbed ones are its thumbnail's, 200 × 150);
+// - a YouTube Short: 9 / 16;
+// - a file: its own dimensions, once its metadata loads (first-frame thumbnail, background, or player after the click);
+// - else 16 / 9 (CSS default).
+const fileRatio = ref<string>()
+
+function readFileRatio(media: HTMLVideoElement) {
+    fileRatio.value = getAspectRatio(media.videoWidth, media.videoHeight)
+}
+
+function onMetadata(event: Event) {
+    readFileRatio(event.target as HTMLVideoElement)
+}
+
+const ratio = computed(() => {
+    const propRatio = getAspectRatio(props.width, props.height)
+    if (propRatio) return propRatio
+    if (isHtml.value || platform.value === 'vimeo') return getAspectRatio(embed.value?.width, embed.value?.height)
+    if (embed.value?.source?.vertical) return '9 / 16'
+
+    return fileRatio.value
+})
 
 const $img = useImage()
 const posterField = computed(() => typeof props.poster === 'string' ? undefined : props.poster)
@@ -113,6 +132,10 @@ async function startBackgroundEmbed() {
 const canAutoplay = () => isBackground.value && reducedMotion.value !== 'reduce'
 
 onMounted(() => {
+    // A server-rendered <video> may load its metadata before hydration, so before `loadedmetadata` is listened to
+    const loaded = root.value?.querySelector('video')
+    if (loaded && loaded.readyState >= HTMLMediaElement.HAVE_METADATA) readFileRatio(loaded)
+
     if (canAutoplay() && video.value) backgroundMedia.value?.play().catch(() => {})
 })
 
@@ -170,6 +193,7 @@ async function toggleBackground() {
                 playsinline
                 aria-hidden="true"
                 tabindex="-1"
+                @loadedmetadata="onMetadata"
             />
         </template>
 
@@ -184,6 +208,7 @@ async function toggleBackground() {
                 playsinline
                 preload="metadata"
                 aria-hidden="true"
+                @loadedmetadata="onMetadata"
                 @play="isPaused = false"
                 @pause="isPaused = true"
             >
@@ -259,6 +284,7 @@ async function toggleBackground() {
                         :crossorigin="trackList.length ? 'anonymous' : undefined"
                         autoplay
                         playsinline
+                        @loadedmetadata="onMetadata"
                     >
                         <track
                             v-for="track in trackList"
