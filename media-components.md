@@ -85,7 +85,8 @@ PrismicImageOptions              NuxtImg options: width, height, sizes, densitie
     types.
   Imports use the `~` alias, never a relative path. `app/utils/media/image.ts`
   and `app/constants/videojs.ts` are also loaded by `nuxt.config.ts`, where
-  `~` isn't resolved: they import nothing.
+  `~` isn't resolved: they import nothing (a relative path would be allowed
+  there).
 
 ## VPrismicMedia
 
