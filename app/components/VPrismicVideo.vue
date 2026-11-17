@@ -268,12 +268,14 @@ async function toggleBackground() {
                     <youtube-video
                         v-else-if="platform === 'youtube'"
                         :source.prop="playerSource"
+                        :class="$style.media"
                         autoplay
                         playsinline
                     />
                     <vimeo-video
                         v-else-if="platform === 'vimeo'"
                         :source.prop="playerSource"
+                        :class="$style.media"
                         autoplay
                         playsinline
                     />
@@ -309,6 +311,8 @@ async function toggleBackground() {
     }
 }
 
+// Also stretches the player's <youtube-video> / <vimeo-video>: the skin only sizes a <video>, and
+// their host defaults to a 300 × 150 inline-block
 .media {
     display: block;
     width: 100%;
