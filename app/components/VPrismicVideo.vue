@@ -353,12 +353,16 @@ async function toggleBackground() {
 
 .toggle {
     display: flex;
-    padding: 8px;
+    width: 1.5em;
+    align-items: center;
+    justify-content: center;
     border: none;
     border-radius: 50%;
     margin: 12px;
+    aspect-ratio: 1;
     background-color: var(--theme-color-background, #fff);
     cursor: pointer;
+    font-size: 16px;
     place-self: end start;
 }
 </style>
