@@ -78,12 +78,14 @@ PrismicImageOptions              NuxtImg options: width, height, sizes, densitie
     to build a `sizes` that lists every breakpoint (a missing one leaves a
     range served by a too small image), `pickImageOptions(props)`;
   - `app/utils/media/aspect-ratio.ts`: `getAspectRatio`, `getHeightForWidth`;
-  - `app/utils/media/videojs.ts`: `VIDEOJS_ELEMENTS` (for `isCustomElement`),
-    `loadVideojsPlayer(platform?)`, `loadVideojsEmbedMedia(platform)`;
+  - `app/utils/media/videojs.ts`: `loadVideojsPlayer(platform?)`,
+    `loadVideojsEmbedMedia(platform)`; the tag list for `isCustomElement` is
+    `VIDEOJS_ELEMENTS` in `app/constants/videojs.ts`;
   - `app/utils/media/embed.ts`, `video.ts`: URL parsing, player sources, MIME
     types.
-  `image.ts` and `videojs.ts` are imported by `nuxt.config.ts`: no `~` import
-  in them (relative within the folder).
+  Imports use the `~` alias, never a relative path. `app/utils/media/image.ts`
+  and `app/constants/videojs.ts` are also loaded by `nuxt.config.ts`, where
+  `~` isn't resolved: they import nothing.
 
 ## VPrismicMedia
 

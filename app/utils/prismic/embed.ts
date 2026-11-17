@@ -1,6 +1,6 @@
 import { isFilled, type EmbedField } from '@prismicio/client'
 import { type EmbedSource, parseEmbedUrl } from '~/utils/media/embed'
-import { isObject, toNumber, toText } from './field'
+import { isObject, toNumber, toText } from '~/utils/prismic/field'
 
 export interface PrismicEmbed {
     /** YouTube or Vimeo video, played by Video.js; undefined for any other provider */

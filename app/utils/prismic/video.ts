@@ -1,5 +1,5 @@
 import { getVideoMimeType } from '~/utils/media/video'
-import { getFilledLinkToMedia } from './field'
+import { getFilledLinkToMedia } from '~/utils/prismic/field'
 
 export interface PrismicVideo {
     src: string

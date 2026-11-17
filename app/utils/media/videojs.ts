@@ -1,8 +1,4 @@
-// Relative: nuxt.config.ts imports this file, where the `~` alias isn't resolved
-import type { EmbedPlatform } from './embed'
-
-/** Video.js custom element tags used in templates, for Vue's `isCustomElement` (nuxt.config.ts): list each one. */
-export const VIDEOJS_ELEMENTS = ['media-i18n', 'video-player', 'video-skin', 'youtube-video', 'vimeo-video']
+import type { EmbedPlatform } from '~/utils/media/embed'
 
 /** Video.js media element of a YouTube or Vimeo video. Static paths: Vite can't resolve a computed specifier. */
 export function loadVideojsEmbedMedia(platform: EmbedPlatform) {

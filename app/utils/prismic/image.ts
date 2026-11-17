@@ -1,7 +1,7 @@
 import { isFilled, type ImageFieldImage } from '@prismicio/client'
 import type { $Img } from '@nuxt/image'
 import { getQuery } from 'ufo'
-import { getFilledLinkToMedia, isObject, toNumber } from './field'
+import { getFilledLinkToMedia, isObject, toNumber } from '~/utils/prismic/field'
 
 export interface PrismicImage {
     src: string

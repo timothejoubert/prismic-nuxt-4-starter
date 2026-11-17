@@ -1,6 +1,6 @@
-import { getPrismicEmbed } from './embed'
-import { getPrismicImage } from './image'
-import { getPrismicVideo } from './video'
+import { getPrismicEmbed } from '~/utils/prismic/embed'
+import { getPrismicImage } from '~/utils/prismic/image'
+import { getPrismicVideo } from '~/utils/prismic/video'
 
 export type PrismicMediaKind = 'image' | 'video' | 'embed'
 

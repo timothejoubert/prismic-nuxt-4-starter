@@ -6,7 +6,7 @@ import { repositoryName } from './prismic.config.json'
 import { getPrismicAliasRedirects, prismicDocumentRoutes } from './shared/prismic-schema'
 import { getPrismicSitemapUrls } from './shared/prismic-sitemap-urls'
 import { getImageSizes, IMAGE_SCREENS } from './app/utils/media/image'
-import { VIDEOJS_ELEMENTS } from './app/utils/media/videojs'
+import { VIDEOJS_ELEMENTS } from './app/constants/videojs'
 
 const isProd = process.env.NUXT_PUBLIC_SITE_ENV === 'production'
 
