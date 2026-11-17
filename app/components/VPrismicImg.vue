@@ -50,7 +50,6 @@ const sources = computed(() => (props.views || []).flatMap(({ name, media }) => 
 <template>
     <picture
         v-if="imgProps && sources.length"
-        :class="$style.picture"
     >
         <source
             v-for="source in sources"
@@ -67,10 +66,3 @@ const sources = computed(() => (props.views || []).flatMap(({ name, media }) => 
         v-bind="{ ...imgProps, ...$attrs }"
     />
 </template>
-
-<style lang="scss" module>
-.picture {
-    // The <img> keeps the layout and the classes, <picture> only picks its source
-    display: contents;
-}
-</style>
