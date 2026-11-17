@@ -6,11 +6,17 @@ Starter for Timothé's Nuxt 4 + Prismic sites: duplicated to start a new site,
 never deployed on its own. Personal project (`timothejoubert/*` on GitHub), not
 a Rezo Zero one. Prismic repository: `nuxt-4-starter` (Type Builder).
 
-Conventions live in the `home` repo and apply here:
-`../home/docs/front-conventions.md`, `nuxt-conventions.md`,
-`prismic-conventions.md`. Starting a site from this repo:
-`../home/docs/new-nuxt-prismic-project.md`. When a convention changes here,
-port it to the starter rather than fixing it again in each site.
+Conventions live in the `home` repo (`../home/docs/`) and apply here:
+`front-conventions.md`, `nuxt-conventions.md`, `prismic-conventions.md`. This
+file only adds what is specific to the starter, and wins on conflict.
+
+- Duplicating the starter: follow `../home/docs/new-nuxt-prismic-project.md`.
+  Its step 0 happens here first: update dependencies, `pnpm audit`, clear
+  `TODO.md` and the open issues, commit in this repo.
+- A fix or convention found while building a site is ported back here, so
+  the next site starts with it.
+- Debugging Prismic, rendering, deploy or a11y: check
+  `../home/docs/learnings.md` first; add an entry there when a fix cost time.
 
 ## Commands
 
@@ -37,10 +43,9 @@ No test runner. Check a change with `pnpm lint`, `pnpm typecheck` and
 - Adding a routable type: create it in Prismic, `npx prismic pull`,
   `pnpm type-gen`, add its constant and route entry, then a thin page in
   `app/pages/` calling `useFetchPage` and `usePrismicMeta`.
-- Models (`customtypes/`, `app/slices/*/model.json`) change only through the
-  Type Builder or the `prismic` CLI (`prismic` skill). Generated files
-  (`prismicio-types.d.ts`, `app/slices/index.ts`, `prismic.config.json`
-  routes) are never edited by hand.
+- Models live in `customtypes/` and `app/slices/*/model.json`; generated
+  files are `prismicio-types.d.ts`, `app/slices/index.ts` and the `routes` of
+  `prismic.config.json` (all rebuilt by `pnpm type-gen`).
 - The CLI needs `--task-id` (from `npx prismic task-id`) and `--user-intent`
   on every command when an agent runs it.
 - Previews: `/preview` (module route, `app/constants/prismic-preview.ts`) and
@@ -51,11 +56,10 @@ No test runner. Check a change with `pnpm lint`, `pnpm typecheck` and
 
 ## Code map
 
-- `app/composables/use-prismic-*.ts` fetch or derive Prismic data
-  (`usePrismicFetchDocument`, `usePrismicFetchDocumentListing`,
-  `usePrismicFetchProjects`, `usePrismicMeta`, `useLocale`); `use-*.ts` hold the
-  rest (`useFetchPage`, `usePageMeta`, `useLinkResolver`).
-- `app/components/` is flat, `V`-prefixed. Prismic field renderers: `VText`
+- Composables: `usePrismicFetchDocument`, `usePrismicFetchDocumentListing`,
+  `usePrismicFetchProjects`, `usePrismicMeta`, `useLocale` (Prismic side);
+  `useFetchPage`, `usePageMeta`, `useLinkResolver`.
+- Prismic field renderers: `VText`
   (string, key text or rich text), `VPrismicLink`, and the media ones below.
 - Media, in two layers:
   - generic components: `VImg` (thin `<NuxtImg>` wrapper, `alt` required),
@@ -86,5 +90,5 @@ No test runner. Check a change with `pnpm lint`, `pnpm typecheck` and
 
 ## Open points
 
-See `TODO.md`: the committed font (TT Norms Pro) has no known web license, and
-`public/` lacks `share.jpg` and the favicon set.
+`TODO.md` lists what blocks the next duplication, and ideas. Tick or remove
+an item in the commit that resolves it.

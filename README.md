@@ -41,4 +41,6 @@ Les modèles Prismic se modifient dans le Type Builder ou avec le CLI
 - **Styles** : SCSS modules, tokens dans `app/assets/scss/`.
 - **i18n** : textes d'interface dans `i18n/locales/nuxt.<locale>.json`.
 
-Détails pour reprendre le projet (et pour les agents) : `CLAUDE.md`.
+Conventions (front, Nuxt, Prismic) : repo `home`, `docs/`. Détails pour
+reprendre le projet (et pour les agents) : `CLAUDE.md` ; à corriger avant la
+prochaine duplication : `TODO.md`.
