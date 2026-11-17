@@ -289,6 +289,10 @@ async function toggleBackground() {
     --v-prismic-image-height: 100%;
     --v-prismic-image-object-fit: cover;
 
+    // Video.js skin theme, inherited through its shadow root (other variables: media-components.md)
+    --media-accent-color: var(--theme-color-primary);
+    --media-accent-text-color: var(--theme-color-on-primary);
+
     position: relative;
     display: grid;
     overflow: hidden;

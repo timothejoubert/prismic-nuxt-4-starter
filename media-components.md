@@ -132,6 +132,11 @@ Player: Video.js 10 (`@videojs/html`, `@videojs/youtube-video`,
 Web components, client side only, declared in Nuxt's
 `vue.compilerOptions.isCustomElement`. Same controls for files, YouTube and
 Vimeo; default skin, themed per site through its CSS custom properties.
+They cross the skin's shadow root, so they are set on the `VPrismicVideo` root:
+`--media-accent-color` and `--media-accent-text-color` (sliders, focus ring),
+mapped to the site theme's `primary` / `on-primary`. Others a site may set:
+`--media-foreground`, `--media-background`, `--media-controls` (control bar
+background), `--media-control-radius`, `--media-font-family`.
 
 ### Facade (default)
 
