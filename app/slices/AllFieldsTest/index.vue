@@ -8,6 +8,9 @@ const props = defineProps(getSliceComponentProps<Content.AllFieldsTestSlice>())
 
 const mediaGroup = computed(() => props.slice.primary.media_group)
 
+// Every breakpoint listed: @nuxt/image yields one image width per key
+const SIZES = 'xs:100vw sm:100vw md:33vw lg:33vw vl:33vw xl:33vw xxl:33vw hd:33vw'
+
 const RESPONSIVE_SOURCES = [
     { view: 'small', media: '(width < 768px)' },
     { view: 'medium', media: '(width < 1024px)' },
@@ -31,7 +34,7 @@ const RESPONSIVE_SOURCES = [
                 <h3>image: &lt;img&gt;, field ratio</h3>
                 <VPrismicImage
                     :field="group.image"
-                    sizes="xs:100vw md:33vw"
+                    :sizes="SIZES"
                 />
             </section>
             <section
@@ -43,7 +46,7 @@ const RESPONSIVE_SOURCES = [
                     :field="group.image"
                     width="1600"
                     height="900"
-                    sizes="xs:100vw md:33vw"
+                    :sizes="SIZES"
                 />
             </section>
             <section
@@ -56,7 +59,7 @@ const RESPONSIVE_SOURCES = [
                     width="800"
                     height="800"
                     :modifiers="{ crop: ['faces', 'entropy'], sat: -100 }"
-                    sizes="xs:100vw md:33vw"
+                    :sizes="SIZES"
                 />
             </section>
             <section
@@ -66,7 +69,7 @@ const RESPONSIVE_SOURCES = [
                 <h3>image: &lt;figure&gt; (#caption slot + field copyright)</h3>
                 <VPrismicImage
                     :field="group.image"
-                    sizes="xs:100vw md:33vw"
+                    :sizes="SIZES"
                 >
                     <template #caption>
                         Caption from the #caption slot
@@ -81,7 +84,7 @@ const RESPONSIVE_SOURCES = [
                 <VPrismicImage
                     :field="group.responsive_image"
                     :sources="RESPONSIVE_SOURCES"
-                    sizes="xs:100vw md:33vw"
+                    :sizes="SIZES"
                 />
             </section>
             <section
@@ -91,7 +94,7 @@ const RESPONSIVE_SOURCES = [
                 <h3>responsive_image: #sources slot (image field below 768px)</h3>
                 <VPrismicImage
                     :field="group.responsive_image"
-                    sizes="xs:100vw md:33vw"
+                    :sizes="SIZES"
                 >
                     <template #sources="{ getSource }">
                         <source
@@ -109,7 +112,7 @@ const RESPONSIVE_SOURCES = [
                 <VPrismicVideo
                     :field="group.embed"
                     :poster="group.image"
-                    sizes="xs:100vw md:33vw"
+                    :sizes="SIZES"
                 />
             </section>
             <section
@@ -137,7 +140,7 @@ const RESPONSIVE_SOURCES = [
                 <h3>media (link to media): VPrismicMedia</h3>
                 <VPrismicMedia
                     :field="group.media"
-                    :image-props="{ sizes: 'xs:100vw md:33vw' }"
+                    :image-props="{ sizes: SIZES }"
                 />
             </section>
             <section

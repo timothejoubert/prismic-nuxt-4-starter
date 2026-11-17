@@ -27,7 +27,7 @@ defineProps<{
             :field="image"
             width="1000"
             height="400"
-            sizes="xs:100vw md:100vw lg:80vw"
+            sizes="xs:100vw sm:100vw md:100vw lg:80vw vl:80vw xl:80vw xxl:80vw hd:80vw"
             loading="eager"
             fetchpriority="high"
         />

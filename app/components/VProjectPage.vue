@@ -43,7 +43,7 @@ const tags = computed(() => props.document.tags)
         <VPrismicImage
             v-if="project.image"
             :field="project.image"
-            sizes="xs:100vw lg:80vw"
+            sizes="xs:100vw sm:100vw md:100vw lg:80vw vl:80vw xl:80vw xxl:80vw hd:80vw"
         />
         <SliceZone
             v-if="project.slices.length"

@@ -191,8 +191,9 @@ export default defineNuxtConfig({
             hd: 1920, // additional size
             qhd: 2500, // additional size
         },
-        // @ts-expect-error not working with [1]
-        densities: '1',
+        // 2x candidates too: without them a retina screen (and any width between two breakpoints) gets a
+        // blurry image. `sizes` must list every breakpoint: each key yields one width, at its lower bound.
+        densities: [1, 2],
         presets: {
             default: {
                 sizes: 'xs:100vw md:100vw lg:100vw vl:100vw xl:100vw hd:100vw qhd:100vw',
