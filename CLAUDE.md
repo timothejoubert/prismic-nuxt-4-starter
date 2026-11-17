@@ -24,10 +24,8 @@ fetches the real Prismic repository.
 
 - Route paths come from `getRoutePath(name)` or `prismicRouteByName`
   (`shared/prismic-schema.ts`), never written by hand.
-- Media components come in two layers: generic ones (`VImg`, `VVideo`,
-  `VEmbed`, helpers in `app/utils/media/`) know nothing of Prismic; the
-  Prismic ones (`VPrismicImg`, `VPrismicMedia`, `app/utils/prismic/media.ts`)
-  turn fields into their props. A player library plugs into `VVideo` only.
+- Media components: read `media-components.md` before touching them. It is
+  the target design (issue #1), not yet the code.
 
 ## Version notes
 

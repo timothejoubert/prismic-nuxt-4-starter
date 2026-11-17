@@ -11,6 +11,6 @@
   favicon set (`favicon-*.png`, `apple-touch-icon.png`, `site.webmanifest`).
 
 ## Ideas
-- Plug Video.js into `VVideo` (the media components refactor is done):
+- Media components rework and Video.js 10 (`media-components.md`):
   https://github.com/timothejoubert/prismic-nuxt-4-starter/issues/1
 - Split text, splash screen, VButton component.
