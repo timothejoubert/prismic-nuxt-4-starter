@@ -17,7 +17,7 @@
         "lint:js": "eslint .",
         "lint:css": "stylelint \"**/*.{vue,css,scss}\"",
         "typecheck": "nuxt typecheck",
-        "type-gen": "prismic gen types && node scripts/sync-prismic-routes.js"
+        "type-gen": "npx prismic gen types && node scripts/sync-prismic-routes.js"
     },
     "dependencies": {
         "@nuxt/icon": "2.6.2",

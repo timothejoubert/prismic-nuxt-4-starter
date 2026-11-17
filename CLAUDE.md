@@ -20,6 +20,10 @@ specific to the starter, and wins on conflict.
 No test runner: `pnpm lint`, `pnpm typecheck`, then `pnpm generate`, which
 fetches the real Prismic repository.
 
+`pnpm type-gen` runs `npx prismic gen types`, which an agent can't run without
+`--task-id` and `--user-intent`: run `npx prismic gen types --task-id … --user-intent …`
+then `node scripts/sync-prismic-routes.js` instead.
+
 ## Architecture
 
 - Route paths come from `getRoutePath(name)` or `prismicRouteByName`
