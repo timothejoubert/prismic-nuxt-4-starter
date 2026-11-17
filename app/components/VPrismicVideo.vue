@@ -13,7 +13,7 @@ import type { VPrismicVideoProps } from '~/types/media'
  * in Video.js, other providers render the html Prismic stores). Renders nothing when the field is empty.
  *
  * Default: a server-rendered thumbnail and a play button; Video.js (or the provider html) only loads on
- * click, so nothing reaches YouTube or Vimeo before it.
+ * click. Before it, only the embed thumbnail image comes from the provider (a `poster` avoids it).
  * `background`: decorative muted loop with a pause button (RGAA 13.8), started even with reduced motion.
  * A file plays in a plain `<video>`; YouTube and Vimeo load when the player nears the viewport.
  */

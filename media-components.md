@@ -144,8 +144,9 @@ Vimeo; default skin, themed per site through its CSS custom properties.
   1. `poster` prop: Prismic image field (through imgix at the ratio) or URL;
   2. embed field `thumbnail_url` (YouTube / Vimeo / other);
   3. video file: `<video preload="metadata">`, which shows its first frame.
-- Privacy: `youtube-nocookie.com`, Vimeo `dnt`; nothing reaches the provider
-  before the click.
+- Privacy: `youtube-nocookie.com`, Vimeo `dnt`; no provider iframe or script
+  loads before the click. Only the embed thumbnail image (step 2 above) is
+  fetched from the provider (`i.ytimg.com`, Vimeo's CDN); a `poster` avoids it.
 
 ### Background mode (`background` prop)
 
