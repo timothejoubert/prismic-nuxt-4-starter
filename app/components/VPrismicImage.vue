@@ -4,7 +4,7 @@ import { NuxtImg } from '#components'
 import { getHeightForWidth } from '~/utils/media/aspect-ratio'
 import { pickImageOptions } from '~/utils/media/image'
 import { getPrismicImage } from '~/utils/prismic/image'
-import type { PrismicImageOptions, VPrismicImageProps } from '~/types/media'
+import type { PrismicImageOptions, PrismicImageSource, VPrismicImageProps } from '~/types/media'
 
 /**
  * Image field (or link to an image) rendered through @nuxt/image and imgix:
@@ -43,7 +43,7 @@ function getInheritedOptions(options: PrismicImageOptions): PrismicImageOptions 
  * `<source>` attributes (srcset, sizes, width, height) for an image field or one of its views,
  * built like the `<img>` (imgix params kept, crop to width + height). Exposed to the `#sources` slot.
  */
-function getSource(field: unknown, options: PrismicImageOptions & { view?: string } = {}) {
+function getSource(field: unknown, options: Omit<PrismicImageSource, 'media' | 'field'> = {}) {
     const source = getPrismicImage(field, options.view)
     if (!source) return undefined
 

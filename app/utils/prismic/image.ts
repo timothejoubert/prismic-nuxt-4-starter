@@ -2,6 +2,7 @@ import { isFilled, type ImageFieldImage } from '@prismicio/client'
 import type { $Img } from '@nuxt/image'
 import { getQuery } from 'ufo'
 import { getFilledLinkToMedia, isObject, toNumber } from '~/utils/prismic/field'
+import type { ImgixParams } from '~/types/media'
 
 export interface PrismicImage {
     src: string
@@ -58,9 +59,9 @@ export interface PrismicImageUrlOptions {
     width: number
     height?: number
     /** Default `crop` when `height` is set */
-    fit?: string
+    fit?: ImgixParams['fit']
     /** Drops Prismic's `auto=format`, which would override it */
-    format?: string
+    format?: ImgixParams['fm']
     quality?: number
 }
 
