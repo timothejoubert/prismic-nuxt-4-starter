@@ -3,7 +3,7 @@ import type { Component } from 'vue'
 import { NuxtImg } from '#components'
 import { getHeightForWidth } from '~/utils/media/aspect-ratio'
 import { pickImageOptions } from '~/utils/media/image'
-import { getPrismicImage } from '~/utils/prismic/media'
+import { getPrismicImage } from '~/utils/prismic/image'
 import type { PrismicImageOptions, VPrismicImageProps } from '~/types/media'
 
 /**

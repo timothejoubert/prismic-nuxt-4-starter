@@ -5,7 +5,7 @@ import { getFormattedLocale } from '~/composables/use-prismic-locale'
 import type { PageMetaAlternateLink } from '~/composables/use-page-meta'
 import { ensureProtocol } from '~/utils/url'
 import { getSchemaOrgPrimaryImageId } from '~/utils/schema-org'
-import { getPrismicImage, getPrismicImageUrl } from '~/utils/prismic/media'
+import { getPrismicImage, getPrismicImageUrl } from '~/utils/prismic/image'
 import { prismicDocumentType } from '#shared/prismic-schema'
 import { I18N_DEFAULT_LOCALE } from '~~/i18n/i18n'
 

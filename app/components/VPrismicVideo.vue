@@ -2,7 +2,10 @@
 import { getAspectRatio, getHeightForWidth } from '~/utils/media/aspect-ratio'
 import { getEmbedPlayerSource } from '~/utils/media/embed'
 import { loadVideojsEmbedMedia, loadVideojsPlayer } from '~/utils/media/videojs'
-import { getPrismicEmbed, getPrismicImage, getPrismicImageUrl, getPrismicMediaUrl, getPrismicVideo } from '~/utils/prismic/media'
+import { getPrismicEmbed } from '~/utils/prismic/embed'
+import { getPrismicMediaUrl } from '~/utils/prismic/field'
+import { getPrismicImage, getPrismicImageUrl } from '~/utils/prismic/image'
+import { getPrismicVideo } from '~/utils/prismic/video'
 import type { VPrismicVideoProps } from '~/types/media'
 
 /**

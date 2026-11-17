@@ -62,10 +62,17 @@ PrismicImageOptions              NuxtImg options: width, height, sizes, densitie
   slot.
 - `imageProps` also accepts free `<img>` attributes (`fetchpriority`…).
 - Runtime helpers, reused rather than rewritten in a component:
-  - `app/utils/prismic/media.ts`: Prismic fields → normalized image, video
-    and embed objects, `getPrismicMediaKind(field)`, and
-    `getPrismicImageUrl($img, image, { width, height, format… })` for a single
-    imgix URL (video thumbnail, Open Graph image);
+  - `app/utils/prismic/`, Prismic fields → normalized objects, mirroring
+    `app/utils/media/`:
+    - `image.ts`: `getPrismicImage(field, view?)`, `getImgixSource(url)` and
+      `getPrismicImageUrl($img, image, { width, height, format… })` for a
+      single imgix URL (video thumbnail, Open Graph image);
+    - `video.ts`: `getPrismicVideo(field)` (video file of a link to media);
+    - `embed.ts`: `getPrismicEmbed(field)` (YouTube / Vimeo source, or the
+      provider html);
+    - `media.ts`: `getPrismicMediaKind(field)`, the dispatch of `VPrismicMedia`;
+    - `field.ts`: the low-level readers the files above share (`isObject`,
+      `toNumber`, `toText`, `getFilledLinkToMedia`) and `getPrismicMediaUrl`;
   - `app/utils/media/image.ts`: `IMAGE_SCREENS` (the one breakpoint list,
     also used by `nuxt.config.ts`), `getImageSizes({ xs: '100vw', md: '33vw' })`
     to build a `sizes` that lists every breakpoint (a missing one leaves a
