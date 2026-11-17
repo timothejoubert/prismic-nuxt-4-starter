@@ -310,6 +310,10 @@ async function toggleBackground() {
     aspect-ratio: var(--v-prismic-video-ratio, 16 / 9);
     background-color: var(--v-prismic-video-background, #000);
 
+    // One cell the size of the box: a thumbnail of another ratio must not stretch the row (it would
+    // offset the centered play button), it is cropped by object-fit instead
+    grid-template: minmax(0, 1fr) / minmax(0, 1fr);
+
     // Thumbnail, media and buttons stack in the same cell
     > * {
         grid-area: 1 / 1;
