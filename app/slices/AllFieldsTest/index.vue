@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import type { Content } from '@prismicio/client'
+import { type Content, isFilled } from '@prismicio/client'
 
 // Test slice: renders every media field the starter supports in each rendering of the media components
-// (media-components.md), to check them in a page or the slice simulator. Labels are dev-only, not UI copy.
+// (media-components.md), to check them in a page or the slice simulator. A case only shows when its field is
+// filled. Labels are dev-only, not UI copy.
 const props = defineProps(getSliceComponentProps<Content.AllFieldsTestSlice>())
 
 const mediaGroup = computed(() => props.slice.primary.media_group)
@@ -23,14 +24,20 @@ const RESPONSIVE_SOURCES = [
             :key="`media-${i}`"
             :class="$style.group"
         >
-            <section :class="$style.case">
+            <section
+                v-if="isFilled.image(group.image)"
+                :class="$style.case"
+            >
                 <h3>image: &lt;img&gt;, field ratio</h3>
                 <VPrismicImage
                     :field="group.image"
                     sizes="xs:100vw md:33vw"
                 />
             </section>
-            <section :class="$style.case">
+            <section
+                v-if="isFilled.image(group.image)"
+                :class="$style.case"
+            >
                 <h3>image: width 1600 + height 900 (16 / 9 crop)</h3>
                 <VPrismicImage
                     :field="group.image"
@@ -39,7 +46,10 @@ const RESPONSIVE_SOURCES = [
                     sizes="xs:100vw md:33vw"
                 />
             </section>
-            <section :class="$style.case">
+            <section
+                v-if="isFilled.image(group.image)"
+                :class="$style.case"
+            >
                 <h3>image: square, modifiers crop faces + grayscale</h3>
                 <VPrismicImage
                     :field="group.image"
@@ -49,7 +59,10 @@ const RESPONSIVE_SOURCES = [
                     sizes="xs:100vw md:33vw"
                 />
             </section>
-            <section :class="$style.case">
+            <section
+                v-if="isFilled.image(group.image)"
+                :class="$style.case"
+            >
                 <h3>image: &lt;figure&gt; (#caption slot + field copyright)</h3>
                 <VPrismicImage
                     :field="group.image"
@@ -60,7 +73,10 @@ const RESPONSIVE_SOURCES = [
                     </template>
                 </VPrismicImage>
             </section>
-            <section :class="$style.case">
+            <section
+                v-if="isFilled.image(group.responsive_image)"
+                :class="$style.case"
+            >
                 <h3>responsive_image: &lt;picture&gt; from the views (resize the window)</h3>
                 <VPrismicImage
                     :field="group.responsive_image"
@@ -68,7 +84,10 @@ const RESPONSIVE_SOURCES = [
                     sizes="xs:100vw md:33vw"
                 />
             </section>
-            <section :class="$style.case">
+            <section
+                v-if="isFilled.image(group.responsive_image)"
+                :class="$style.case"
+            >
                 <h3>responsive_image: #sources slot (image field below 768px)</h3>
                 <VPrismicImage
                     :field="group.responsive_image"
@@ -82,7 +101,10 @@ const RESPONSIVE_SOURCES = [
                     </template>
                 </VPrismicImage>
             </section>
-            <section :class="$style.case">
+            <section
+                v-if="isFilled.embed(group.embed)"
+                :class="$style.case"
+            >
                 <h3>embed: thumbnail from the image field, Video.js on click</h3>
                 <VPrismicVideo
                     :field="group.embed"
@@ -90,11 +112,17 @@ const RESPONSIVE_SOURCES = [
                     sizes="xs:100vw md:33vw"
                 />
             </section>
-            <section :class="$style.case">
+            <section
+                v-if="isFilled.embed(group.embed)"
+                :class="$style.case"
+            >
                 <h3>embed: provider thumbnail, Video.js on click</h3>
                 <VPrismicVideo :field="group.embed" />
             </section>
-            <section :class="$style.case">
+            <section
+                v-if="isFilled.embed(group.embed)"
+                :class="$style.case"
+            >
                 <h3>embed: background (YouTube / Vimeo only)</h3>
                 <VPrismicVideo
                     :field="group.embed"
@@ -102,21 +130,30 @@ const RESPONSIVE_SOURCES = [
                     background
                 />
             </section>
-            <section :class="$style.case">
+            <section
+                v-if="isFilled.linkToMedia(group.media)"
+                :class="$style.case"
+            >
                 <h3>media (link to media): VPrismicMedia</h3>
                 <VPrismicMedia
                     :field="group.media"
                     :image-props="{ sizes: 'xs:100vw md:33vw' }"
                 />
             </section>
-            <section :class="$style.case">
+            <section
+                v-if="isFilled.linkToMedia(group.media)"
+                :class="$style.case"
+            >
                 <h3>media (link to media): video file in background</h3>
                 <VPrismicMedia
                     :field="group.media"
                     :video-props="{ background: true, poster: group.image }"
                 />
             </section>
-            <section :class="$style.case">
+            <section
+                v-if="isFilled.link(group.link)"
+                :class="$style.case"
+            >
                 <h3>link (any link): VPrismicMedia, renders only a media</h3>
                 <VPrismicMedia :field="group.link" />
             </section>
