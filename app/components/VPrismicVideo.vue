@@ -78,6 +78,8 @@ const isLoading = ref(false)
 const isPaused = ref(true)
 
 async function play() {
+    // aria-disabled, not disabled: a disabled button would drop the focus to <body> while loading
+    if (isLoading.value) return
     isLoading.value = true
     if (!isHtml.value) await loadVideojsPlayer(platform.value)
     isActive.value = true
@@ -226,7 +228,7 @@ async function toggleBackground() {
             v-else-if="!isActive"
             type="button"
             :class="$style.play"
-            :disabled="isLoading"
+            :aria-disabled="isLoading || undefined"
             :aria-busy="isLoading || undefined"
             @click="play"
         >
@@ -336,7 +338,7 @@ async function toggleBackground() {
     font-size: 20px;
     place-self: center;
 
-    &:disabled {
+    &[aria-disabled='true'] {
         cursor: progress;
     }
 }
