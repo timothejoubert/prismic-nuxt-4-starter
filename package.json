@@ -17,7 +17,7 @@
         "lint:js": "eslint .",
         "lint:css": "stylelint \"**/*.{vue,css,scss}\"",
         "typecheck": "nuxt typecheck",
-        "type-gen": "prismic gen types && node scripts/sync-prismic-routes.js"
+        "type-gen": "npx prismic gen types && node scripts/sync-prismic-routes.js"
     },
     "dependencies": {
         "@nuxt/icon": "2.6.2",
@@ -25,6 +25,9 @@
         "@nuxtjs/i18n": "10.6.0",
         "@nuxtjs/robots": "^7.0.2",
         "@nuxtjs/sitemap": "^9.1.0",
+        "@videojs/html": "10.4.0",
+        "@videojs/vimeo-video": "10.4.0",
+        "@videojs/youtube-video": "10.4.0",
         "@vueuse/nuxt": "^15.0.0",
         "nuxt": "^4.6.4",
         "nuxt-schema-org": "^7.0.1",

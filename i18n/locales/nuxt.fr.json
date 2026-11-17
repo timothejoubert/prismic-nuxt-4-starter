@@ -15,8 +15,9 @@
   "error_page.content": "Une erreur inattendue est survenue.",
   "error_page.refresh": "Recharger la page",
   "error_page.back_home": "Retour à l'accueil",
-  "media.play": "Lire la vidéo {title}",
-  "media.embed_title": "Vidéo intégrée",
+  "media.play": "Lire la vidéo",
   "media.play_background": "Lire la vidéo d'arrière-plan",
-  "media.pause_background": "Mettre en pause la vidéo d'arrière-plan"
+  "media.pause_background": "Mettre en pause la vidéo d'arrière-plan",
+  "media.play_title": "Lire la vidéo : {title}",
+  "media.copyright": "© {copyright}"
 }
