@@ -22,6 +22,31 @@ https://github.com/timothejoubert/prismic-nuxt-4-starter/issues/1
   other-provider html; 16 / 9 for files, YouTube and Vimeo (their oEmbed
   dimensions are the thumbnail's, often 200 × 150).
 
+## Types
+
+`app/types/media.ts` is the single place for the props of the three
+components; each one only calls `defineProps<VPrismic…Props>()`, and prop docs
+live there as JSDoc. Add or change a prop in that file, never inline.
+
+```text
+PrismicMediaBaseProps            field, width, height, loading
+├── VPrismicImageProps           + alt, sources, copyright, PrismicImageOptions (minus width/height)
+├── VPrismicVideoProps           + title, poster, sizes, background, tracks (PrismicVideoTrack[])
+└── VPrismicMediaProps           + alt, title (picked from the two above),
+                                   imageProps / videoProps: the type-specific props of each
+
+PrismicImageOptions              NuxtImg options: width, height, sizes, densities, fit,
+│                                format, quality, preset, modifiers
+└── PrismicImageSource           + media, view?, field?  (one entry of `sources`)
+```
+
+- `PrismicImageOptions` is shared by the `<img>` and every `<source>`, and is
+  the type of the `getSource(field, options)` options given to the `#sources`
+  slot.
+- `imageProps` also accepts free `<img>` attributes (`fetchpriority`…).
+- Runtime helpers (Prismic fields → normalized image, video and embed objects)
+  stay in `app/utils/prismic/media.ts`, generic ones in `app/utils/media/`.
+
 ## VPrismicMedia
 
 Dispatches on what the field holds: image → `VPrismicImage`; video file or
