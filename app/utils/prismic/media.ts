@@ -4,15 +4,11 @@ import {
     type EmbedField,
     type FilledLinkToMediaField,
     type ImageFieldImage,
-    type LinkField,
     type LinkToMediaField,
 } from '@prismicio/client'
 import { getQuery } from 'ufo'
 import { type EmbedSource, parseEmbedUrl } from '~/utils/media/embed'
 import { getVideoMimeType } from '~/utils/media/video'
-
-/** Prismic fields a media can come from: image field, link (to media) field, embed field. */
-export type PrismicMediaField = ImageFieldImage | LinkField | EmbedField | null | undefined
 
 export interface PrismicImage {
     src: string

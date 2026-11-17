@@ -32,7 +32,8 @@ const ratio = computed(() => isHtml.value
     : getAspectRatio(props.width, props.height))
 
 const $img = useImage()
-const posterImage = computed(() => typeof props.poster === 'string' ? undefined : getPrismicImage(props.poster))
+const posterField = computed(() => typeof props.poster === 'string' ? undefined : props.poster)
+const posterImage = computed(() => getPrismicImage(posterField.value))
 const posterUrl = computed(() => {
     if (typeof props.poster === 'string') return props.poster
     if (posterImage.value) {
@@ -138,7 +139,7 @@ async function toggleBackground() {
             <!-- Thumbnail: the background file is its own -->
             <VPrismicImage
                 v-if="posterImage && !(isBackground && video)"
-                :field="poster"
+                :field="posterField"
                 :width="width"
                 :height="height"
                 :sizes="sizes"

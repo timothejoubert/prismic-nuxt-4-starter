@@ -1,8 +1,25 @@
 // Props of the Prismic media components, see media-components.md
+import type { asImageSrc, EmbedField, ImageFieldImage, LinkField, LinkToMediaField } from '@prismicio/client'
+
+/** Every imgix URL parameter, typed (imgix-url-builder's `ImgixURLParams`, through @prismicio/client). */
+export type ImgixParams = NonNullable<Parameters<typeof asImageSrc>[1]>
+
+/** imgix params for `modifiers`, spelled as imgix spells them. Size and ratio go through `width`, `height` and `fit`. */
+export type PrismicImageModifiers = Omit<ImgixParams, 'w' | 'h' | 'fit'>
+
+/**
+ * Field values each component accepts, as generated in prismicio-types.d.ts. `LinkField` covers a
+ * link allowing any target: only its media variant renders. An image field with responsive views
+ * (`ImageField<'small'>`) is an `ImageFieldImage` plus its views.
+ */
+type Empty = null | undefined
+export type PrismicImageFieldValue = ImageFieldImage | LinkToMediaField | LinkField | Empty
+export type PrismicVideoFieldValue = LinkToMediaField | LinkField | EmbedField | Empty
+export type PrismicMediaFieldValue = PrismicImageFieldValue | PrismicVideoFieldValue
 
 /** Shared by VPrismicMedia, VPrismicImage and VPrismicVideo. */
-export interface PrismicMediaBaseProps {
-    field: unknown
+export interface PrismicMediaBaseProps<Field = PrismicMediaFieldValue> {
+    field: Field
     /** With `height`, sets the ratio: an image is cropped to it, a video box reserves it. */
     width?: number | string
     height?: number | string
@@ -16,16 +33,21 @@ export interface PrismicImageOptions {
     height?: number | string
     sizes?: string
     densities?: string
-    /** Default `cover` (imgix `fit=crop`): `width` + `height` crop to that ratio. */
-    fit?: string
-    format?: string
-    quality?: number | string
+    /**
+     * Default `cover` (imgix `fit=crop`): `width` + `height` crop to that ratio. NuxtImg names
+     * (`cover`, `contain`, `fill`, `inside`, `outside`) are mapped to imgix's; imgix values pass as is.
+     */
+    fit?: 'cover' | 'contain' | 'fill' | 'inside' | 'outside' | ImgixParams['fit']
+    /** imgix `fm` */
+    format?: ImgixParams['fm']
+    /** imgix `q` */
+    quality?: number
     preset?: string
     /**
-     * Extra imgix params (`crop: 'faces'`...), merged over the ones Prismic puts in the URL.
+     * Extra imgix params (`crop: ['faces']`, `sat: -100`...), merged over the ones Prismic puts in the URL.
      * Size and ratio go through `width`, `height` and `fit`: NuxtImg lets them override modifiers.
      */
-    modifiers?: Record<string, string | number>
+    modifiers?: PrismicImageModifiers
 }
 
 export interface PrismicImageSource extends PrismicImageOptions {
@@ -33,10 +55,10 @@ export interface PrismicImageSource extends PrismicImageOptions {
     /** Responsive view of the component's field */
     view?: string
     /** Another image field (or link to an image) */
-    field?: unknown
+    field?: PrismicImageFieldValue
 }
 
-export interface VPrismicImageProps extends PrismicMediaBaseProps, Omit<PrismicImageOptions, 'width' | 'height'> {
+export interface VPrismicImageProps extends PrismicMediaBaseProps<PrismicImageFieldValue>, Omit<PrismicImageOptions, 'width' | 'height'> {
     /** Overrides the alt text written in Prismic; `""` for a decorative image. */
     alt?: string
     /**
@@ -50,7 +72,7 @@ export interface VPrismicImageProps extends PrismicMediaBaseProps, Omit<PrismicI
 
 export interface PrismicVideoTrack {
     /** Link to media field holding a WebVTT file */
-    field?: unknown
+    field?: LinkToMediaField | LinkField
     src?: string
     srclang: string
     label: string
@@ -58,11 +80,11 @@ export interface PrismicVideoTrack {
     default?: boolean
 }
 
-export interface VPrismicVideoProps extends PrismicMediaBaseProps {
+export interface VPrismicVideoProps extends PrismicMediaBaseProps<PrismicVideoFieldValue> {
     /** Names the video in the play button. Default: the embed's title. */
     title?: string
     /** Thumbnail: image field, link to an image, or URL. Default: the embed's thumbnail, else the file's first frame. */
-    poster?: unknown
+    poster?: PrismicImageFieldValue | string
     /** `sizes` of the thumbnail */
     sizes?: string
     background?: boolean

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { getPrismicEmbed, getPrismicImage, getPrismicVideo } from '~/utils/prismic/media'
-import type { VPrismicMediaProps } from '~/types/media'
+import type { PrismicImageFieldValue, PrismicVideoFieldValue, VPrismicMediaProps } from '~/types/media'
 
 /**
  * Renders whatever media a Prismic field holds: an image (VPrismicImage) or a video file or embed
@@ -10,14 +10,17 @@ import type { VPrismicMediaProps } from '~/types/media'
  */
 const props = defineProps<VPrismicMediaProps>()
 
-const isImage = computed(() => !!getPrismicImage(props.field))
-const isVideo = computed(() => !isImage.value && !!(getPrismicVideo(props.field) || getPrismicEmbed(props.field)))
+// The field narrowed to what each component accepts, undefined when it holds something else
+const imageField = computed(() => getPrismicImage(props.field) ? props.field as PrismicImageFieldValue : undefined)
+const videoField = computed(() => !imageField.value && (getPrismicVideo(props.field) || getPrismicEmbed(props.field))
+    ? props.field as PrismicVideoFieldValue
+    : undefined)
 </script>
 
 <template>
     <VPrismicImage
-        v-if="isImage"
-        :field="field"
+        v-if="imageField"
+        :field="imageField"
         :width="width"
         :height="height"
         :loading="loading"
@@ -25,8 +28,8 @@ const isVideo = computed(() => !isImage.value && !!(getPrismicVideo(props.field)
         v-bind="imageProps"
     />
     <VPrismicVideo
-        v-else-if="isVideo"
-        :field="field"
+        v-else-if="videoField"
+        :field="videoField"
         :width="width"
         :height="height"
         :loading="loading"

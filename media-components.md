@@ -40,6 +40,17 @@ PrismicImageOptions              NuxtImg options: width, height, sizes, densitie
 └── PrismicImageSource           + media, view?, field?  (one entry of `sources`)
 ```
 
+- `field` takes the real Prismic field types, as generated in
+  `prismicio-types.d.ts`: `PrismicImageFieldValue` (image field, link to
+  media, any link), `PrismicVideoFieldValue` (link to media, any link, embed
+  field), and their union `PrismicMediaFieldValue` for `VPrismicMedia`, which
+  narrows the field before handing it to the right component. `null` and
+  `undefined` are accepted, so an optional field needs no `v-if`.
+- `modifiers` is `PrismicImageModifiers`: imgix's own parameters, typed by
+  `ImgixParams` (imgix-url-builder's `ImgixURLParams`, derived from
+  `asImageSrc` in `@prismicio/client`, no extra dependency) minus `w`, `h`
+  and `fit`. Spell them as imgix does (`crop: ['faces']`, `sat: -100`).
+  `fit`, `format` and `quality` are typed from it too.
 - `PrismicImageOptions` is shared by the `<img>` and every `<source>`, and is
   the type of the `getSource(field, options)` options given to the `#sources`
   slot.
