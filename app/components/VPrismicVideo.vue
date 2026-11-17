@@ -14,7 +14,7 @@ import type { VPrismicVideoProps } from '~/types/media'
  *
  * Default: a server-rendered thumbnail and a play button; Video.js (or the provider html) only loads on
  * click, so nothing reaches YouTube or Vimeo before it.
- * `background`: decorative muted loop with a pause button (RGAA 13.8), started only without reduced motion.
+ * `background`: decorative muted loop with a pause button (RGAA 13.8), started even with reduced motion.
  * A file plays in a plain `<video>`; YouTube and Vimeo load when the player nears the viewport.
  */
 const props = withDefaults(defineProps<VPrismicVideoProps>(), {
@@ -96,9 +96,7 @@ async function play() {
     })
 }
 
-// Background
-const reducedMotion = usePreferredReducedMotion()
-
+// Background: the pause button is the RGAA 13.8 control, so reduced motion doesn't block autoplay
 async function startBackgroundEmbed() {
     if (isActive.value || isLoading.value) return
     isLoading.value = true
@@ -107,22 +105,20 @@ async function startBackgroundEmbed() {
     isLoading.value = false
 }
 
-const canAutoplay = () => isBackground.value && reducedMotion.value !== 'reduce'
-
 onMounted(() => {
-    if (canAutoplay() && video.value) backgroundMedia.value?.play().catch(() => {})
+    if (isBackground.value && video.value) backgroundMedia.value?.play().catch(() => {})
 })
 
 // YouTube / Vimeo background: load the provider once the player nears the viewport
 const observed = computed(() => isBackground.value && platform.value ? root.value : null)
 const { stop: stopObserver } = useIntersectionObserver(observed, ([entry]) => {
-    if (!entry?.isIntersecting || !canAutoplay()) return
+    if (!entry?.isIntersecting) return
     stopObserver()
     startBackgroundEmbed()
 }, { rootMargin: '200px' })
 
 async function toggleBackground() {
-    // Reduced motion: the embed only loads when the visitor asks for it
+    // Clicked before the player neared the viewport: load the embed now
     if (platform.value && !isActive.value) return startBackgroundEmbed()
 
     if (backgroundMedia.value?.paused) backgroundMedia.value.play().catch(() => {})

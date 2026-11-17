@@ -149,8 +149,9 @@ Vimeo; default skin, themed per site through its CSS custom properties.
 
 ### Background mode (`background` prop)
 
-Autoplay, muted, loop, `playsinline`, a pause button, and only when
-`prefers-reduced-motion` is not set (poster only otherwise).
+Autoplay, muted, loop, `playsinline` and a pause button. It starts even with
+`prefers-reduced-motion`: the pause button is the RGAA 13.8 control, and a
+decorative loop is part of the design.
 
 - Video file: plain native `<video>`, no Video.js (no controls to show).
 - YouTube / Vimeo: Video.js loaded when the player nears the viewport, still
