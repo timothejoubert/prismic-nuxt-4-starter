@@ -7,13 +7,6 @@ export interface EmbedSource {
     hash?: string
 }
 
-export interface EmbedPlayerOptions {
-    autoplay?: boolean
-    muted?: boolean
-    loop?: boolean
-    controls?: boolean
-}
-
 // watch?v=, youtu.be/, /embed/, /shorts/ and /live/ URLs
 const YOUTUBE_ID = /(?:youtube(?:-nocookie)?\.com\/(?:watch\?(?:.*&)?v=|embed\/|shorts\/|live\/)|youtu\.be\/)([\w-]{11})/
 // vimeo.com/123, vimeo.com/123/hash, player.vimeo.com/video/123?h=hash, channel and group URLs
@@ -31,39 +24,20 @@ export function parseEmbedUrl(url: string): EmbedSource | undefined {
     return undefined
 }
 
-function flag(value: boolean | undefined) {
-    return value ? '1' : '0'
-}
-
-/** Player URL of an embed, with privacy-friendly defaults (no-cookie YouTube domain, Vimeo do-not-track). */
-export function getEmbedSrc({ platform, id, hash }: EmbedSource, { autoplay, muted, loop, controls = true }: EmbedPlayerOptions = {}) {
+/**
+ * Structured source for Video.js' `<youtube-video>` / `<vimeo-video>` (`source` property), with
+ * privacy-friendly defaults: no-cookie YouTube domain, Vimeo do-not-track.
+ */
+export function getEmbedPlayerSource({ platform, id, hash }: EmbedSource) {
     if (platform === 'youtube') {
-        const params = new URLSearchParams({
-            autoplay: flag(autoplay),
-            mute: flag(muted),
-            controls: flag(controls),
-            loop: flag(loop),
-            playsinline: '1',
-            rel: '0',
-            iv_load_policy: '3',
-        })
-        // YouTube only loops a video that is also its own playlist
-        if (loop) params.set('playlist', id)
-
-        return `https://www.youtube-nocookie.com/embed/${id}?${params}`
+        return {
+            src: `https://www.youtube-nocookie.com/embed/${id}`,
+            engine: { youtube: { rel: 0, iv_load_policy: 3 } },
+        }
     }
 
-    const params = new URLSearchParams({
-        autoplay: flag(autoplay),
-        muted: flag(muted),
-        controls: flag(controls),
-        loop: flag(loop),
-        dnt: '1',
-        byline: '0',
-        portrait: '0',
-        title: '0',
-    })
-    if (hash) params.set('h', hash)
-
-    return `https://player.vimeo.com/video/${id}?${params}`
+    return {
+        src: `https://vimeo.com/${id}${hash ? `/${hash}` : ''}`,
+        engine: { vimeo: { dnt: true } },
+    }
 }

@@ -19,12 +19,16 @@ const mediaGroup = computed(() => props.slice.primary.media_group)
         >
             <VPrismicMedia
                 :field="group.embed"
-                :poster="group.image"
+                :video-props="{ poster: group.image }"
             />
             <VPrismicMedia :field="group.image" />
-            <VPrismicImg
+            <VPrismicImage
                 :field="group.responsive_image"
-                :views="[{ name: 'small', media: '(width < 768px)' }, { name: 'medium', media: '(width < 1024px)' }]"
+                :sources="[{ view: 'small', media: '(width < 768px)' }, { view: 'medium', media: '(width < 1024px)' }]"
+            />
+            <VPrismicMedia
+                :field="group.media"
+                :video-props="{ background: true }"
             />
             <VPrismicMedia :field="group.media" />
             <VPrismicMedia :field="group.link" />

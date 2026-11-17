@@ -22,7 +22,7 @@ defineProps<{
             :content="content"
         />
         <!-- Above the fold: loaded eagerly with a high priority (LCP candidate) -->
-        <VPrismicImg
+        <VPrismicImage
             v-if="image"
             :field="image"
             width="1000"

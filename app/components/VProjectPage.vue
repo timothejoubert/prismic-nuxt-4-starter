@@ -40,7 +40,7 @@ const tags = computed(() => props.document.tags)
             v-if="project.credits"
             :content="project.credits"
         />
-        <VPrismicImg
+        <VPrismicImage
             v-if="project.image"
             :field="project.image"
             sizes="xs:100vw lg:80vw"

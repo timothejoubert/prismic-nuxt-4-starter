@@ -24,11 +24,15 @@ fetches the real Prismic repository.
 
 - Route paths come from `getRoutePath(name)` or `prismicRouteByName`
   (`shared/prismic-schema.ts`), never written by hand.
-- Media components: read `media-components.md` before touching them. It is
-  the target design (issue #1), not yet the code.
+- Media components (`VPrismicMedia`, `VPrismicImage`, `VPrismicVideo`):
+  read `media-components.md` before touching them.
 
 ## Version notes
 
+- Video.js is pinned to an exact 10.x (v10 is recent and moves fast). Its
+  tags are listed one by one in `nuxt.config.ts` (`isCustomElement`): add a
+  tag there when a template uses a new one. `react` in `node_modules` comes
+  from an optional peer of `@videojs/store` and never reaches the bundle.
 - `pnpm-workspace.yaml` overrides `typescript` to `~6.0.3` (typescript-eslint
   doesn't support TS 7 yet) and `stylelint-order` to `^8` (stylelint 18 peer
   range). Drop each override once its upstream catches up.

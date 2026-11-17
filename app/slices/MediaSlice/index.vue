@@ -1,9 +1,11 @@
 <script setup lang="ts">
-import type { Content } from '@prismicio/client'
+import { type Content, isFilled } from '@prismicio/client'
 
 const props = defineProps(getSliceComponentProps<Content.MediaSliceSlice>())
 
 const primary = computed(() => props.slice.primary)
+
+const SIZES = 'xs:100vw md:33vw'
 </script>
 
 <template>
@@ -13,13 +15,13 @@ const primary = computed(() => props.slice.primary)
         :class="$style.root"
         :spacing="primary.spacing"
     >
-        <!-- The embed when filled, with the image as its poster; the image alone otherwise -->
+        <!-- The embed when filled, with the image as its thumbnail; the image alone otherwise -->
         <VPrismicMedia
             v-for="(column, i) in primary.columns"
             :key="`media-${i}`"
-            :field="column.embed"
-            :poster="column.image"
-            sizes="xs:100vw md:33vw"
+            :field="isFilled.embed(column.embed) ? column.embed : column.image"
+            :image-props="{ sizes: SIZES }"
+            :video-props="{ poster: column.image, sizes: SIZES }"
         />
     </VSlice>
 </template>

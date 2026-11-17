@@ -21,6 +21,7 @@ export interface PrismicImage {
     width?: number
     height?: number
     alt: string
+    copyright?: string
 }
 
 export interface PrismicVideo {
@@ -29,7 +30,11 @@ export interface PrismicVideo {
 }
 
 export interface PrismicEmbed {
-    source: EmbedSource
+    /** YouTube or Vimeo video, played by Video.js; undefined for any other provider */
+    source?: EmbedSource
+    /** Provider markup stored by Prismic, the fallback for other providers */
+    html?: string
+    thumbnailUrl?: string
     title?: string
     width?: number
     height?: number
@@ -87,6 +92,7 @@ export function getPrismicImage(field: unknown, view?: string): PrismicImage | u
         width: image.dimensions.width,
         height: image.dimensions.height,
         alt: image.alt || '',
+        copyright: image.copyright || undefined,
     }
 }
 
@@ -98,18 +104,54 @@ export function getPrismicVideo(field: unknown): PrismicVideo | undefined {
     return media && type ? { src: media.url, type } : undefined
 }
 
-/** YouTube or Vimeo video of an embed field, undefined when the field is empty or from another provider. */
+/** URL of a filled link to media field (any file kind), undefined otherwise. */
+export function getPrismicMediaUrl(field: unknown) {
+    return getFilledLinkToMedia(field)?.url
+}
+
+function toText(value: unknown) {
+    return typeof value === 'string' && value ? value : undefined
+}
+
+/**
+ * Embed field: a YouTube or Vimeo `source`, or the provider's `html` for any other provider.
+ * Undefined when the field is empty or carries neither.
+ */
 export function getPrismicEmbed(field: unknown): PrismicEmbed | undefined {
     if (!isObject(field) || !isFilled.embed(field as EmbedField)) return undefined
 
-    // oEmbed data: `title`, `width` and `height` depend on the provider, hence the plain record read
+    // oEmbed data: every key but `embed_url` depends on the provider, hence the plain record read
     const source = parseEmbedUrl(String(field.embed_url))
-    if (!source) return undefined
+    const html = toText(field.html)
+    if (!source && !html) return undefined
 
     return {
         source,
-        title: typeof field.title === 'string' ? field.title : undefined,
+        html: source ? undefined : html,
+        thumbnailUrl: toText(field.thumbnail_url),
+        title: toText(field.title),
         width: toNumber(field.width),
         height: toNumber(field.height),
     }
+}
+
+/** NuxtImg options a `<source>` of VPrismicImage accepts. */
+export interface PrismicImageSourceOptions {
+    sizes?: string
+    densities?: string
+    width?: number | string
+    height?: number | string
+    fit?: string
+    format?: string
+    quality?: number | string
+    modifiers?: Record<string, string | number>
+    preset?: string
+}
+
+export interface PrismicImageSource extends PrismicImageSourceOptions {
+    media: string
+    /** Responsive view of the component's field */
+    view?: string
+    /** Another image field (or link to an image) */
+    field?: unknown
 }

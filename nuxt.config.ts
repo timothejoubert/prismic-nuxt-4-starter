@@ -9,6 +9,8 @@ import { getPrismicSitemapUrls } from './shared/prismic-sitemap-urls'
 const isProd = process.env.NUXT_PUBLIC_SITE_ENV === 'production'
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
+const VIDEOJS_ELEMENTS = new Set(['media-i18n', 'video-player', 'video-skin', 'youtube-video', 'vimeo-video'])
+
 export default defineNuxtConfig({
     modules: [
         '@nuxt/eslint',
@@ -32,6 +34,12 @@ export default defineNuxtConfig({
         },
     },
     css: ['~~/app/assets/scss/main.scss'],
+    vue: {
+        compilerOptions: {
+            // Video.js 10 web components (VPrismicVideo): list each tag, never a prefix rule
+            isCustomElement: tag => VIDEOJS_ELEMENTS.has(tag),
+        },
+    },
     // https://nuxtseo.com/site-config — shared by @nuxtjs/sitemap, @nuxtjs/robots and nuxt-schema-org
     site: {
         url: process.env.NUXT_PUBLIC_SITE_URL,

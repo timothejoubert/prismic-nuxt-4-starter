@@ -15,10 +15,12 @@ https://github.com/timothejoubert/prismic-nuxt-4-starter/issues/1
   |---|---|---|---|
   | `field` | image field, link to an image | link to a video file | embed field |
   | `width`, `height` | ratio, imgix crop | ratio, space reserved | ratio, space reserved |
-  | `loading` | `loading` | `preload="none"` when `lazy` | `loading` |
+  | `loading` | `loading` | thumbnail `loading` | thumbnail `loading` |
   | `alt` / `title` | `alt` (overrides Prismic's) | `title` | `title` |
 
-  Default `width` and `height` come from the field.
+  Default `width` and `height`: the field's dimensions for an image and for the
+  other-provider html; 16 / 9 for files, YouTube and Vimeo (their oEmbed
+  dimensions are the thumbnail's, often 200 × 150).
 
 ## VPrismicMedia
 
@@ -27,11 +29,15 @@ embed → `VPrismicVideo`.
 
 - Takes the shared interface flat, plus `image-props` and `video-props` for
   type-specific props. A prop set in both places takes the object's value.
+- Image and video thumbnails are separate fields in most models: pass the
+  thumbnail through `video-props.poster` (see `MediaSlice`).
 
 ## VPrismicImage
 
 Also accepts every `NuxtImg` prop (`sizes`, `densities`, `fit`, `format`,
-`quality`, `modifiers`, `preset`, `provider`, `preload`, `placeholder`…).
+`quality`, `modifiers`, `preset`, `preload`, `placeholder`…); the provider is
+always imgix. `class` and `style` go to the outer element (`<figure>`,
+`<picture>` or `<img>`), every other attribute to the `<img>`.
 `fit` defaults to `cover` (imgix `fit=crop`), so `width` + `height` crop to
 that ratio. Size goes through `width`/`height`, never `modifiers` (NuxtImg
 lets the props override it).
@@ -41,10 +47,12 @@ Rendered element:
 - `<picture>` when a `sources` prop or a `#sources` slot is given.
   - `sources`: `{ media, view? | field?, ...NuxtImg options }[]`. `view` is a
     responsive view of the main field, `field` another image field; options
-    left out inherit the component's props.
+    left out inherit the component's props, except `width` and `height`: each
+    view or field keeps its own ratio unless given one.
   - `#sources` slot: hand-written `<source>` elements, rendered before the
-    `<img>`. It receives a helper that builds an imgix `srcset` from a field
-    and NuxtImg options, so they keep the same image handling.
+    `<img>`. It receives `getSource(field, options)`, which returns the
+    `srcset`, `sizes`, `width` and `height` of a field (or `options.view`)
+    built like the `<img>`: `<source media="…" v-bind="getSource(field)">`.
 - `<figure>` when the field has a `copyright` or a `#caption` slot is given
   (may wrap a `<picture>`). `<figcaption>`: caption slot first, then the
   copyright in a `<small>`, prefixed with `©` from i18n. A `copyright` prop
@@ -63,8 +71,9 @@ Vimeo; default skin, themed per site through its CSS custom properties.
 
 - Server-rendered thumbnail at the `width`/`height` ratio (no layout shift)
   with a real `<button>` to play.
-- Video.js is imported on click, then playback starts and focus moves to the
-  player.
+- Video.js is imported on click, then playback starts (`autoplay` on the
+  media) and focus moves to the player container. A browser that refuses
+  the autoplay leaves the skin's play button.
 - Thumbnail source, first available:
   1. `poster` prop: Prismic image field (through imgix at the ratio) or URL;
   2. embed field `thumbnail_url` (YouTube / Vimeo / other);
@@ -84,13 +93,17 @@ Autoplay, muted, loop, `playsinline`, a pause button, and only when
 
 ### Captions
 
-`tracks` prop: `{ field (link to a .vtt) | src, srclang, label, kind }[]`,
+`tracks` prop: `{ field (link to a .vtt) | src, srclang, label, kind, default }[]`,
 rendered as `<track>` on video files. Site models add the field when needed.
+The `<video>` then gets `crossorigin="anonymous"`: the `.vtt` host must send
+CORS headers (to check on Prismic's media CDN).
 
 ### Other providers
 
 Embeds other than YouTube and Vimeo render the `html` Prismic stores, injected
-only after the click on the thumbnail, inside a box at the field's ratio.
+only after the click on the thumbnail, inside a box at the field's ratio. The
+provider's own player then needs a second click: its markup can't be told to
+autoplay. No background mode for them.
 
 ## Accessibility caveats (RGAA)
 

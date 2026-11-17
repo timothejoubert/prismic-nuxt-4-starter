@@ -40,7 +40,7 @@ const data = computed(() => props.project.data)
             :content="data.content"
         />
         <!-- Decorative: the title already names the project -->
-        <VPrismicImg
+        <VPrismicImage
             v-if="data.image"
             :field="data.image"
             alt=""

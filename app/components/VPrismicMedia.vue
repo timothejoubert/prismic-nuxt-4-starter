@@ -1,61 +1,48 @@
 <script lang="ts" setup>
-import type { ImageFieldImage } from '@prismicio/client'
-import { getPrismicEmbed, getPrismicImage, getPrismicVideo, type PrismicMediaField } from '~/utils/prismic/media'
+import { getPrismicEmbed, getPrismicImage, getPrismicVideo } from '~/utils/prismic/media'
 
 /**
- * Renders whatever media a Prismic field holds: YouTube/Vimeo embed, video file (link to media)
- * or image (image field or link to an image). Renders nothing when the field is empty.
+ * Renders whatever media a Prismic field holds: an image (VPrismicImage) or a video file or embed
+ * (VPrismicVideo). Renders nothing when the field is empty.
+ * Shared props apply to both; `imageProps` / `videoProps` take the type-specific ones and win over
+ * the shared props.
  */
 const props = defineProps<{
-    field: PrismicMediaField
-    // Poster of an embed (the iframe then loads on demand) or of a video,
-    // shown on its own when `field` holds no media
-    poster?: ImageFieldImage | null
+    field: unknown
+    width?: number | string
+    height?: number | string
+    loading?: 'lazy' | 'eager'
+    // Image alt text, `""` for a decorative image
     alt?: string
-    sizes?: string
-    // Decorative looped video, see VVideo
-    background?: boolean
+    // Video title, named by the play button
+    title?: string
+    // VPrismicImage props (sizes, sources, copyright...)
+    imageProps?: Record<string, unknown>
+    // VPrismicVideo props (poster, background, tracks...)
+    videoProps?: Record<string, unknown>
 }>()
 
-const embed = computed(() => getPrismicEmbed(props.field))
-const video = computed(() => !embed.value && getPrismicVideo(props.field))
-const posterImage = computed(() => getPrismicImage(props.poster))
-const imageField = computed(() => getPrismicImage(props.field) ? props.field : props.poster)
-
-const $img = useImage()
-const posterUrl = computed(() => posterImage.value && $img(posterImage.value.src, { ...posterImage.value.modifiers, width: 1280 }, { provider: 'imgix' }))
+const isImage = computed(() => !!getPrismicImage(props.field))
+const isVideo = computed(() => !isImage.value && !!(getPrismicVideo(props.field) || getPrismicEmbed(props.field)))
 </script>
 
 <template>
-    <VEmbed
-        v-if="embed"
-        :source="embed.source"
-        :title="embed.title || $t('media.embed_title')"
-        :width="embed.width"
-        :height="embed.height"
-    >
-        <template
-            v-if="posterImage"
-            #poster
-        >
-            <VPrismicImg
-                :field="poster"
-                :sizes="sizes"
-                alt=""
-            />
-        </template>
-    </VEmbed>
-    <VVideo
-        v-else-if="video"
-        :sources="[video]"
-        :poster="posterUrl"
-        :label="alt"
-        :background="background"
-    />
-    <VPrismicImg
-        v-else
-        :field="imageField"
+    <VPrismicImage
+        v-if="isImage"
+        :field="field"
+        :width="width"
+        :height="height"
+        :loading="loading"
         :alt="alt"
-        :sizes="sizes"
+        v-bind="imageProps"
+    />
+    <VPrismicVideo
+        v-else-if="isVideo"
+        :field="field"
+        :width="width"
+        :height="height"
+        :loading="loading"
+        :title="title"
+        v-bind="videoProps"
     />
 </template>
