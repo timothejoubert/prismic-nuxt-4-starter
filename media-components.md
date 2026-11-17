@@ -18,14 +18,15 @@ https://github.com/timothejoubert/prismic-nuxt-4-starter/issues/1
   | `loading` | `loading` | thumbnail `loading` | thumbnail `loading` |
   | `alt` / `title` | `alt` (overrides Prismic's) | `title` | `title` |
 
-  Default ratio: the field's dimensions for an image. For a video, the video
-  sets the ratio and its thumbnail is cropped to it (`cover`); first known of
-  the embed's dimensions (other-provider html, Vimeo), 9 / 16 for a YouTube
-  Short, a file's own dimensions once its metadata loads (first-frame
-  thumbnail, background, or the player after the click: a shift caused by the
-  click, not counted as CLS), else 16 / 9. YouTube's oEmbed dimensions are its
-  thumbnail's (200 × 150) and are ignored. Inside the player the video is
-  never cropped (skin `contain`); a background video fills its box (`cover`).
+  Default ratio: the field's dimensions for an image. For a video, the box
+  ratio is set at server render and never changes afterwards (no layout
+  shift), first known of: the video's when known in advance (embed dimensions
+  for the other-provider html and Vimeo, 9 / 16 for a YouTube Short), the
+  `poster` image's, else 16 / 9. YouTube's oEmbed dimensions (200 × 150) and
+  its own thumbnail (4 / 3 with baked-in bars) are never used. A video of
+  another ratio plays whole inside the box (skin `contain`, bars); a
+  background video fills it (`cover`); a file's first-frame thumbnail is
+  shown whole (`contain`).
 
 ## Types
 

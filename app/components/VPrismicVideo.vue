@@ -25,34 +25,25 @@ const isHtml = computed(() => !!embed.value?.html)
 // The provider html can't autoplay muted in a loop: it always renders behind the thumbnail
 const isBackground = computed(() => props.background && (!!video.value || !!platform.value))
 
-// The video sets the ratio, the thumbnail is cropped to it. First known of:
+const $img = useImage()
+const posterField = computed(() => typeof props.poster === 'string' ? undefined : props.poster)
+const posterImage = computed(() => getPrismicImage(posterField.value))
+
+// The box ratio is set at server render and never changes afterwards (no layout shift). First known of:
 // - `width` + `height` props;
-// - the provider html and Vimeo: the embed's dimensions (YouTube's oEmbed ones are its thumbnail's, 200 × 150);
-// - a YouTube Short: 9 / 16;
-// - a file: its own dimensions, once its metadata loads (first-frame thumbnail, background, or player after the click);
+// - the video's, when known in advance: the embed's dimensions (provider html, Vimeo; YouTube's oEmbed ones
+//   are its thumbnail's, 200 × 150), 9 / 16 for a YouTube Short;
+// - the `poster` image's (YouTube's own thumbnail is a 4 / 3 image with baked-in bars: never used);
 // - else 16 / 9 (CSS default).
-const fileRatio = ref<string>()
-
-function readFileRatio(media: HTMLVideoElement) {
-    fileRatio.value = getAspectRatio(media.videoWidth, media.videoHeight)
-}
-
-function onMetadata(event: Event) {
-    readFileRatio(event.target as HTMLVideoElement)
-}
-
+// A video of another ratio plays whole inside the box (skin `contain`), a background one fills it (`cover`).
 const ratio = computed(() => {
     const propRatio = getAspectRatio(props.width, props.height)
     if (propRatio) return propRatio
     if (isHtml.value || platform.value === 'vimeo') return getAspectRatio(embed.value?.width, embed.value?.height)
     if (embed.value?.source?.vertical) return '9 / 16'
 
-    return fileRatio.value
+    return getAspectRatio(posterImage.value?.width, posterImage.value?.height)
 })
-
-const $img = useImage()
-const posterField = computed(() => typeof props.poster === 'string' ? undefined : props.poster)
-const posterImage = computed(() => getPrismicImage(posterField.value))
 const posterUrl = computed(() => {
     if (typeof props.poster === 'string') return props.poster
     if (posterImage.value) {
@@ -132,10 +123,6 @@ async function startBackgroundEmbed() {
 const canAutoplay = () => isBackground.value && reducedMotion.value !== 'reduce'
 
 onMounted(() => {
-    // A server-rendered <video> may load its metadata before hydration, so before `loadedmetadata` is listened to
-    const loaded = root.value?.querySelector('video')
-    if (loaded && loaded.readyState >= HTMLMediaElement.HAVE_METADATA) readFileRatio(loaded)
-
     if (canAutoplay() && video.value) backgroundMedia.value?.play().catch(() => {})
 })
 
@@ -187,13 +174,12 @@ async function toggleBackground() {
             <video
                 v-else-if="video && !isBackground"
                 :src="`${video.src}#t=0.1`"
-                :class="$style.media"
+                :class="[$style.media, $style.contain]"
                 preload="metadata"
                 muted
                 playsinline
                 aria-hidden="true"
                 tabindex="-1"
-                @loadedmetadata="onMetadata"
             />
         </template>
 
@@ -208,7 +194,6 @@ async function toggleBackground() {
                 playsinline
                 preload="metadata"
                 aria-hidden="true"
-                @loadedmetadata="onMetadata"
                 @play="isPaused = false"
                 @pause="isPaused = true"
             >
@@ -284,7 +269,6 @@ async function toggleBackground() {
                         :crossorigin="trackList.length ? 'anonymous' : undefined"
                         autoplay
                         playsinline
-                        @loadedmetadata="onMetadata"
                     >
                         <track
                             v-for="track in trackList"
@@ -337,6 +321,11 @@ async function toggleBackground() {
     width: 100%;
     height: 100%;
     object-fit: cover;
+}
+
+// The first frame of a file of unknown ratio: shown whole, like the player will
+.contain {
+    object-fit: contain;
 }
 
 .html {
