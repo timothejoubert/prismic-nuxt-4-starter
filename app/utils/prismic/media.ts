@@ -45,14 +45,17 @@ function toNumber(value: unknown) {
 }
 
 /**
- * Prismic image URLs already carry imgix params (`?auto=compress,format`, crop `rect`...).
+ * Prismic image URLs already carry imgix params (`?auto=compress,format`, crop `rect`, `w`, `h`).
  * Split them from the URL: passed back as modifiers, they aren't lost and the imgix provider
- * doesn't append a second `?`.
+ * doesn't append a second `?`. `w` and `h` are dropped: @nuxt/image sets its own per srcset
+ * width, and both would end up in the URL. The editor's crop lives in `rect`, which is kept.
  */
 export function getImgixSource(url: string) {
+    const { w: _w, h: _h, ...modifiers } = getQuery(url) as Record<string, string>
+
     return {
         src: url.split('?')[0]!,
-        modifiers: getQuery(url) as Record<string, string>,
+        modifiers,
     }
 }
 

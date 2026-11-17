@@ -47,7 +47,6 @@ const data = computed(() => props.project.data)
             sizes="xs:92vw sm:92vw md:30vw lg:22vw"
             :width="400"
             :height="400"
-            :modifiers="{ fit: 'crop' }"
             :class="$style.image"
         />
     </article>

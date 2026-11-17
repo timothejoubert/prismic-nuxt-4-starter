@@ -25,9 +25,8 @@ defineProps<{
         <VPrismicImg
             v-if="image"
             :field="image"
-            :width="1000"
-            :height="600"
-            :modifiers="{ fit: 'crop' }"
+            width="1000"
+            height="400"
             sizes="xs:100vw md:100vw lg:80vw"
             loading="eager"
             fetchpriority="high"

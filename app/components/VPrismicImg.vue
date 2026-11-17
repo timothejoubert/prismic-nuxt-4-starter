@@ -6,7 +6,8 @@ const props = defineProps<{
     field: unknown
     // Overrides the alt text written in Prismic; `""` for a decorative image
     alt?: string
-    // Merged over the imgix params Prismic puts in the URL (format, crop...)
+    // Extra imgix params (`crop: 'faces'`, `q`...), merged over the ones Prismic puts in the URL.
+    // Size and ratio go through the `width`, `height` and `fit` attributes: @nuxt/image lets them override modifiers.
     modifiers?: Record<string, string | number>
     // Art direction from the image field's responsive views, first matching media query wins
     views?: { name: string, media: string }[]
@@ -20,11 +21,15 @@ defineOptions({
 const image = computed(() => getPrismicImage(props.field))
 const $img = useImage()
 
+// Defaults from the field; any <NuxtImg> attribute (width, height, fit...) passed by the parent wins.
+// `width` + `height` set the ratio, like on VVideo and VEmbed: `cover` (imgix `fit=crop`) crops to it,
+// and is a no-op with the field's own dimensions.
 const imgProps = computed(() => image.value && {
     src: image.value.src,
     width: image.value.width,
     height: image.value.height,
-    alt: props.alt ?? image.value.alt,
+    fit: 'cover',
+    alt: typeof props.alt === 'string' ? props.alt : image.value.alt,
     provider: 'imgix',
     modifiers: { ...image.value.modifiers, ...props.modifiers },
 })
