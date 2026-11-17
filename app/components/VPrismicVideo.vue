@@ -88,7 +88,11 @@ async function play() {
     await nextTick()
     await customElements.whenDefined('video-skin').catch(() => {})
     requestAnimationFrame(() => {
-        const target = root.value?.querySelector<HTMLElement>('media-container, iframe') || root.value
+        // The packaged skin renders its focusable container (role="group") in its shadow root
+        const skin = root.value?.querySelector('video-skin')
+        const target = skin?.shadowRoot?.querySelector<HTMLElement>('media-container')
+          || root.value?.querySelector<HTMLElement>('media-container, iframe')
+          || root.value
         target?.focus()
     })
 }
@@ -99,7 +103,9 @@ const reducedMotion = usePreferredReducedMotion()
 async function startBackgroundEmbed() {
     if (isActive.value || isLoading.value) return
     isLoading.value = true
-    await import(platform.value === 'youtube' ? '@videojs/html/media/youtube-video' : '@videojs/html/media/vimeo-video')
+    // Two static imports: Vite can't resolve a computed module specifier
+    if (platform.value === 'youtube') await import('@videojs/html/media/youtube-video')
+    else await import('@videojs/html/media/vimeo-video')
     isActive.value = true
     isLoading.value = false
 }
@@ -136,7 +142,7 @@ async function toggleBackground() {
         :tabindex="isActive && !isBackground ? -1 : undefined"
     >
         <template v-if="!isActive || isBackground">
-            <!-- Thumbnail: the background file is its own -->
+            <!-- Thumbnail (a background file is its own). copyright="": a <figure> would break the player box -->
             <VPrismicImage
                 v-if="posterImage && !(isBackground && video)"
                 :field="posterField"
@@ -145,6 +151,7 @@ async function toggleBackground() {
                 :sizes="sizes"
                 :loading="loading"
                 alt=""
+                copyright=""
                 :class="$style.media"
             />
             <img
