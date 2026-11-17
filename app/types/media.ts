@@ -50,11 +50,22 @@ export interface PrismicImageOptions {
     modifiers?: PrismicImageModifiers
 }
 
+/**
+ * One `<source>` of a `<picture>` (art direction): which image to show when `media` matches.
+ * @example
+ * // The `mobile` view of the field below 768px, the main image above
+ * { view: 'mobile', media: '(width < 768px)' }
+ * // Another image field below 768px
+ * { field: data.mobile_image, media: '(width < 768px)' }
+ */
 export interface PrismicImageSource extends PrismicImageOptions {
     media: string
-    /** Responsive view of the component's field */
+    /**
+     * Name of a responsive view of the field, cropped on its own in Prismic: `view: 'mobile'` reads
+     * `field.mobile`. Keeps its own ratio.
+     */
     view?: string
-    /** Another image field (or link to an image) */
+    /** Another image field (or link to an image) instead of the component's; combines with `view`. */
     field?: PrismicImageFieldValue
 }
 
