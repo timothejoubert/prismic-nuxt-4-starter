@@ -2,6 +2,7 @@
 import { getAspectRatio } from '~/utils/media/aspect-ratio'
 import { getEmbedPlayerSource } from '~/utils/media/embed'
 import { getPrismicEmbed, getPrismicImage, getPrismicMediaUrl, getPrismicVideo } from '~/utils/prismic/media'
+import type { VPrismicVideoProps } from '~/types/media'
 
 /**
  * Video of a Prismic field: a video file (link to media), or an embed field (YouTube and Vimeo play
@@ -12,30 +13,7 @@ import { getPrismicEmbed, getPrismicImage, getPrismicMediaUrl, getPrismicVideo }
  * `background`: decorative muted loop with a pause button (RGAA 13.8), started only without reduced motion.
  * A file plays in a plain `<video>`; YouTube and Vimeo load when the player nears the viewport.
  */
-const props = withDefaults(defineProps<{
-    field: unknown
-    // `width` + `height` set the ratio. Default: the embed's dimensions, else 16 / 9.
-    width?: number | string
-    height?: number | string
-    // Applies to the thumbnail
-    loading?: 'lazy' | 'eager'
-    // Names the video in the play button. Default: the embed's title.
-    title?: string
-    // Thumbnail: image field, link to an image, or URL. Default: the embed's thumbnail, else the file's first frame.
-    poster?: unknown
-    // `sizes` of the thumbnail
-    sizes?: string
-    background?: boolean
-    // Caption files of a video file (WebVTT), from a link to media field or a URL
-    tracks?: {
-        field?: unknown
-        src?: string
-        srclang: string
-        label: string
-        kind?: 'captions' | 'subtitles' | 'descriptions' | 'chapters'
-        default?: boolean
-    }[]
-}>(), {
+const props = withDefaults(defineProps<VPrismicVideoProps>(), {
     loading: 'lazy',
 })
 

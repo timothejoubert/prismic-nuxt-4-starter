@@ -134,24 +134,3 @@ export function getPrismicEmbed(field: unknown): PrismicEmbed | undefined {
         height: toNumber(field.height),
     }
 }
-
-/** NuxtImg options a `<source>` of VPrismicImage accepts. */
-export interface PrismicImageSourceOptions {
-    sizes?: string
-    densities?: string
-    width?: number | string
-    height?: number | string
-    fit?: string
-    format?: string
-    quality?: number | string
-    modifiers?: Record<string, string | number>
-    preset?: string
-}
-
-export interface PrismicImageSource extends PrismicImageSourceOptions {
-    media: string
-    /** Responsive view of the component's field */
-    view?: string
-    /** Another image field (or link to an image) */
-    field?: unknown
-}

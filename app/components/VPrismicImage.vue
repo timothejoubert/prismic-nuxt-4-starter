@@ -1,11 +1,8 @@
 <script lang="ts" setup>
 import type { Component } from 'vue'
 import { NuxtImg } from '#components'
-import {
-    getPrismicImage,
-    type PrismicImageSource,
-    type PrismicImageSourceOptions,
-} from '~/utils/prismic/media'
+import { getPrismicImage } from '~/utils/prismic/media'
+import type { PrismicImageOptions, VPrismicImageProps } from '~/types/media'
 
 /**
  * Image field (or link to an image) rendered through @nuxt/image and imgix:
@@ -15,30 +12,7 @@ import {
  * Every other NuxtImg prop or attribute (placeholder, fetchpriority...) goes to the `<img>`;
  * `class` and `style` go to the outer element.
  */
-const props = withDefaults(defineProps<{
-    field: unknown
-    // Overrides the alt text written in Prismic; `""` for a decorative image
-    alt?: string
-    // `width` + `height` set the ratio: the image is cropped to it (`fit: 'cover'`, imgix `fit=crop`).
-    // Default: the field's own dimensions.
-    width?: number | string
-    height?: number | string
-    loading?: 'lazy' | 'eager'
-    sizes?: string
-    densities?: string
-    fit?: string
-    format?: string
-    quality?: number | string
-    preset?: string
-    // Extra imgix params (`crop: 'faces'`...), merged over the ones Prismic puts in the URL.
-    // Size and ratio go through `width`, `height` and `fit`: NuxtImg lets them override modifiers.
-    modifiers?: Record<string, string | number>
-    // `<source>` list; options left out inherit the component's, except `width` and `height`
-    // (each view or field keeps its own ratio unless given one)
-    sources?: PrismicImageSource[]
-    // Overrides the field's copyright; `""` hides it
-    copyright?: string
-}>(), {
+const props = withDefaults(defineProps<VPrismicImageProps>(), {
     loading: 'lazy',
     fit: 'cover',
 })
@@ -55,7 +29,7 @@ const $img = useImage()
 
 const image = computed(() => getPrismicImage(props.field))
 
-function getInheritedOptions(options: PrismicImageSourceOptions): PrismicImageSourceOptions {
+function getInheritedOptions(options: PrismicImageOptions): PrismicImageOptions {
     return {
         sizes: props.sizes,
         densities: props.densities,
@@ -72,7 +46,7 @@ function getInheritedOptions(options: PrismicImageSourceOptions): PrismicImageSo
  * `<source>` attributes (srcset, sizes, width, height) for an image field or one of its views,
  * built like the `<img>` (imgix params kept, crop to width + height). Exposed to the `#sources` slot.
  */
-function getSource(field: unknown, options: PrismicImageSourceOptions & { view?: string } = {}) {
+function getSource(field: unknown, options: PrismicImageOptions & { view?: string } = {}) {
     const source = getPrismicImage(field, options.view)
     if (!source) return undefined
 
