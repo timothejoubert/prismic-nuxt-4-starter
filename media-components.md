@@ -1,13 +1,12 @@
 # Media components
 
-Spec for rendering Prismic media. Tasks and progress:
-https://github.com/timothejoubert/prismic-nuxt-4-starter/issues/1
+How the Prismic media components render. The browser check still open is
+tracked in https://github.com/timothejoubert/prismic-nuxt-4-starter/issues/1.
 
 ## Principles
 
-- Prismic components only: `VPrismicMedia`, `VPrismicImage` (renamed from
-  `VPrismicImg`) and `VPrismicVideo`. The generic `VImg`, `VVideo` and
-  `VEmbed` are removed; field-agnostic helpers stay in `app/utils/media/`.
+- Prismic components only: `VPrismicMedia`, `VPrismicImage` and
+  `VPrismicVideo`; field-agnostic helpers live in `app/utils/media/`.
 - Every component renders nothing when its field is empty.
 - Shared interface, mapped to the native attribute of the element rendered:
 
@@ -62,45 +61,20 @@ PrismicImageOptions              NuxtImg options: width, height, sizes, densitie
   the type of the `getSource(field, options)` options given to the `#sources`
   slot.
 - `imageProps` also accepts free `<img>` attributes (`fetchpriority`…).
-- Runtime helpers, reused rather than rewritten in a component:
-  - `app/utils/prismic/`, Prismic fields → normalized objects, mirroring
-    `app/utils/media/`:
-    - `image.ts`: `getPrismicImage(field, view?)`, `getImgixSource(url)` and
-      `resolvePrismicImage(image, options)`, the one recipe behind every URL
-      of an image (`<img>`, `<source>`, video poster, Open Graph image). It is
-      pure and returns `{ src, width, height, modifiers }`, which the caller
-      hands to NuxtImg, `$img.getSizes` or `$img(src, modifiers, { provider:
-      'imgix' })`. It joins array modifiers (`crop: ['faces']` →
-      `'faces'`): @nuxt/image merges options with defu, which would repeat
-      them. `getImgixSource` also reads the malformed query Prismic gives a
-      link to media image (`?auto=…?auto=…`). Tested in
-      `test/unit/utils/prismic/image.test.ts`;
-    - `video.ts`: `getPrismicVideo(field)` (video file of a link to media);
-    - `embed.ts`: `getPrismicEmbed(field)` (YouTube / Vimeo source, or the
-      provider html);
-    - `media.ts`: `parsePrismicMedia(field)` (image, then video file, then
-      embed, as a `kind` union: the one place for that precedence, used by
-      `VPrismicMedia`), `parsePrismicVideoMedia(field)` (used by
-      `VPrismicVideo`) and `getVideoBoxRatio(media, size, poster)`, the
-      video box ratio precedence (tested);
-    - `field.ts`: the low-level readers the files above share (`isObject`,
-      `toNumber`, `toText`, `getFilledLinkToMedia`) and `getPrismicMediaUrl`;
-  - `app/utils/media/image.ts`: `IMAGE_SCREENS` (the one breakpoint list,
-    also used by `nuxt.config.ts`), `getImageSizes({ xs: '100vw', md: '33vw' })`
-    to build a `sizes` that lists every breakpoint (a missing one leaves a
-    range served by a too small image), `toImageSizes` (what the components
-    run on their `sizes` prop: callers pass the per-breakpoint object and
-    never call `getImageSizes` themselves), `pickImageOptions(props)`;
-  - `app/utils/media/aspect-ratio.ts`: `getAspectRatio`, `getHeightForWidth`;
-  - `app/utils/media/videojs.ts`: `loadVideojsPlayer(platform?)`,
-    `loadVideojsEmbedMedia(platform)`; the tag list for `isCustomElement` is
-    `VIDEOJS_ELEMENTS` in `app/constants/videojs.ts`;
-  - `app/utils/media/embed.ts`, `video.ts`: URL parsing, player sources, MIME
-    types.
-  Imports use the `~` alias, never a relative path. `app/utils/media/image.ts`
-  and `app/constants/videojs.ts` are also loaded by `nuxt.config.ts`, where
-  `~` isn't resolved: they import nothing (a relative path would be allowed
-  there).
+- Reuse the runtime helpers rather than rewriting them in a component.
+  `app/utils/prismic/` turns Prismic fields into normalized objects
+  (mirroring `app/utils/media/`). Two carry a rule:
+  - `resolvePrismicImage(image, options)` (`app/utils/prismic/image.ts`) is
+    the one recipe behind every image URL (`<img>`, `<source>`, video
+    poster, Open Graph image). It is pure and returns
+    `{ src, width, height, modifiers }` for NuxtImg, `$img.getSizes` or
+    `$img(src, modifiers, { provider: 'imgix' })`.
+  - `IMAGE_SCREENS` (`app/utils/media/image.ts`) is the one breakpoint list,
+    also read by `nuxt.config.ts`; build `sizes` with
+    `getImageSizes({ xs: '100vw', md: '33vw' })`, which lists every
+    breakpoint (a missing one leaves a range served by a too small image).
+  `app/utils/media/image.ts` and `app/constants/videojs.ts` are loaded by
+  `nuxt.config.ts`, so they import nothing.
 
 ## VPrismicMedia
 
@@ -149,11 +123,8 @@ Rendered element:
 
 ## VPrismicVideo
 
-Player: Video.js 10 (`@videojs/html`, `@videojs/youtube-video`,
-`@videojs/vimeo-video`), pinned to an exact version since v10 moves fast.
-Web components, client side only, declared in Nuxt's
-`vue.compilerOptions.isCustomElement`. Same controls for files, YouTube and
-Vimeo; default skin, themed per site through its CSS custom properties.
+Player: Video.js 10 (version notes in `AGENTS.md`). Same controls for
+files, YouTube and Vimeo; default skin, themed per site through its CSS custom properties.
 They cross the skin's shadow root, so they are set on the `VPrismicVideo` root:
 `--media-accent-color` and `--media-accent-text-color` (sliders, focus ring),
 mapped to the site theme's `primary` / `on-primary`. Others a site may set:

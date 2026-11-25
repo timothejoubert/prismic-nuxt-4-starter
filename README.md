@@ -13,21 +13,9 @@ pnpm install
 
 ## Commandes
 
-```bash
-pnpm dev              # serveur de dev (localhost:3000)
-pnpm generate         # site statique dans dist/ (déployé sur Netlify)
-pnpm build            # build serveur
-pnpm preview          # preview du build
-
-pnpm lint             # eslint + stylelint
-pnpm lint-fix         # idem, avec --fix
-pnpm typecheck        # vue-tsc
-
-pnpm type-gen         # régénère prismicio-types.d.ts et les routes de prismic.config.json
-```
-
-Les modèles Prismic se modifient dans le Type Builder ou avec le CLI
-(`npx prismic pull`, `npx prismic push`), jamais à la main.
+Scripts : `package.json`. `pnpm generate` produit le site statique dans
+`dist/` (déployé sur Netlify) ; `pnpm type-gen` régénère
+`prismicio-types.d.ts` et les routes de `prismic.config.json`.
 
 ## Architecture
 
@@ -42,5 +30,5 @@ Les modèles Prismic se modifient dans le Type Builder ou avec le CLI
 - **i18n** : textes d'interface dans `i18n/locales/nuxt.<locale>.json`.
 
 Conventions (front, Nuxt, Prismic) : repo `home`, `docs/`. Détails pour
-reprendre le projet (et pour les agents) : `CLAUDE.md` ; à corriger avant la
+reprendre le projet (et pour les agents) : `AGENTS.md` ; à corriger avant la
 prochaine duplication : `TODO.md`.
