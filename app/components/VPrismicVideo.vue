@@ -2,10 +2,9 @@
 import { getAspectRatio, getHeightForWidth } from '~/utils/media/aspect-ratio'
 import { getEmbedPlayerSource } from '~/utils/media/embed'
 import { loadVideojsEmbedMedia, loadVideojsPlayer } from '~/utils/media/videojs'
-import { getPrismicEmbed } from '~/utils/prismic/embed'
 import { getPrismicMediaUrl } from '~/utils/prismic/field'
 import { getPrismicImage, resolvePrismicImage } from '~/utils/prismic/image'
-import { getPrismicVideo } from '~/utils/prismic/video'
+import { parsePrismicVideoMedia } from '~/utils/prismic/media'
 import type { VPrismicVideoProps } from '~/types/media'
 
 /**
@@ -21,8 +20,9 @@ const props = withDefaults(defineProps<VPrismicVideoProps>(), {
     loading: 'lazy',
 })
 
-const video = computed(() => getPrismicVideo(props.field))
-const embed = computed(() => video.value ? undefined : getPrismicEmbed(props.field))
+const media = computed(() => parsePrismicVideoMedia(props.field))
+const video = computed(() => media.value?.kind === 'video' ? media.value.video : undefined)
+const embed = computed(() => media.value?.kind === 'embed' ? media.value.embed : undefined)
 const platform = computed(() => embed.value?.source?.platform)
 const playerSource = computed(() => embed.value?.source && getEmbedPlayerSource(embed.value.source))
 const isHtml = computed(() => !!embed.value?.html)

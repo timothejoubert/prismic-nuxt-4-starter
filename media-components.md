@@ -77,7 +77,10 @@ PrismicImageOptions              NuxtImg options: width, height, sizes, densitie
     - `video.ts`: `getPrismicVideo(field)` (video file of a link to media);
     - `embed.ts`: `getPrismicEmbed(field)` (YouTube / Vimeo source, or the
       provider html);
-    - `media.ts`: `getPrismicMediaKind(field)`, the dispatch of `VPrismicMedia`;
+    - `media.ts`: `parsePrismicMedia(field)` (image, then video file, then
+      embed, as a `kind` union: the one place for that precedence, used by
+      `VPrismicMedia`) and `parsePrismicVideoMedia(field)` (used by
+      `VPrismicVideo`);
     - `field.ts`: the low-level readers the files above share (`isObject`,
       `toNumber`, `toText`, `getFilledLinkToMedia`) and `getPrismicMediaUrl`;
   - `app/utils/media/image.ts`: `IMAGE_SCREENS` (the one breakpoint list,
