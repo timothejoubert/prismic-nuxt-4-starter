@@ -79,6 +79,8 @@ const root = ref<HTMLElement | null>(null)
 // The background <video>, <youtube-video> or <vimeo-video>: all follow the HTMLMediaElement API
 const backgroundMedia = ref<HTMLMediaElement | null>(null)
 const isActive = ref(false)
+// Video.js poster after the click: the thumbnail's srcset candidate, already downloaded, else posterUrl
+const activePoster = ref<string>()
 const isLoading = ref(false)
 const isPaused = ref(true)
 
@@ -86,6 +88,7 @@ async function play() {
     // aria-disabled, not disabled: a disabled button would drop the focus to <body> while loading
     if (isLoading.value) return
     isLoading.value = true
+    activePoster.value = root.value?.querySelector('img')?.currentSrc || posterUrl.value
     if (!isHtml.value) await loadVideojsPlayer(platform.value)
     isActive.value = true
     isLoading.value = false
@@ -251,7 +254,7 @@ async function toggleBackground() {
         <!-- eslint-enable vue/no-v-html -->
 
         <media-i18n v-else>
-            <video-player :poster="posterUrl">
+            <video-player :poster="activePoster">
                 <video-skin :class="$style.media">
                     <video
                         v-if="video"

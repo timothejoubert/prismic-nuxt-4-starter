@@ -154,7 +154,9 @@ background), `--media-control-radius`, `--media-font-family`.
 - Server-rendered thumbnail at the `width`/`height` ratio (no layout shift)
   with a real `<button>` to play.
 - Video.js is imported on click, then playback starts (`autoplay` on the
-  media) and focus moves to the player container. A browser that refuses
+  media) and focus moves to the player container. Its poster is the
+  thumbnail's `currentSrc` (the srcset candidate already downloaded), so
+  the click fetches no second image. A browser that refuses
   the autoplay leaves the skin's play button.
 - Thumbnail source, first available:
   1. `poster` prop: Prismic image field (through imgix at the ratio) or URL;
