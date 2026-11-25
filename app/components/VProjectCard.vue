@@ -7,8 +7,6 @@ const props = defineProps<{
 }>()
 
 const data = computed(() => props.project.data)
-
-const IMAGE_SIZES = { xs: '92vw', md: '30vw', lg: '22vw' }
 </script>
 
 <template>
@@ -46,7 +44,7 @@ const IMAGE_SIZES = { xs: '92vw', md: '30vw', lg: '22vw' }
             v-if="data.image"
             :field="data.image"
             alt=""
-            :sizes="IMAGE_SIZES"
+            :sizes="{ xs: '92vw', md: '30vw', lg: '22vw' }"
             :width="400"
             :height="400"
             :class="$style.image"
