@@ -53,6 +53,28 @@ const RESPONSIVE_SOURCES = [
                 v-if="isFilled.image(group.image)"
                 :class="$style.case"
             >
+                <h3>image: width 800 alone (keeps the field ratio)</h3>
+                <VPrismicImage
+                    :field="group.image"
+                    width="800"
+                    :sizes="SIZES"
+                />
+            </section>
+            <section
+                v-if="isFilled.image(group.image)"
+                :class="$style.case"
+            >
+                <h3>image: format jpg (Prismic's auto=format dropped, compress kept)</h3>
+                <VPrismicImage
+                    :field="group.image"
+                    format="jpg"
+                    :sizes="SIZES"
+                />
+            </section>
+            <section
+                v-if="isFilled.image(group.image)"
+                :class="$style.case"
+            >
                 <h3>image: square, modifiers crop faces + grayscale</h3>
                 <VPrismicImage
                     :field="group.image"
