@@ -69,7 +69,11 @@ PrismicImageOptions              NuxtImg options: width, height, sizes, densitie
       of an image (`<img>`, `<source>`, video poster, Open Graph image). It is
       pure and returns `{ src, width, height, modifiers }`, which the caller
       hands to NuxtImg, `$img.getSizes` or `$img(src, modifiers, { provider:
-      'imgix' })`. Tested in `test/unit/utils/prismic/image.test.ts`;
+      'imgix' })`. It joins array modifiers (`crop: ['faces']` →
+      `'faces'`): @nuxt/image merges options with defu, which would repeat
+      them. `getImgixSource` also reads the malformed query Prismic gives a
+      link to media image (`?auto=…?auto=…`). Tested in
+      `test/unit/utils/prismic/image.test.ts`;
     - `video.ts`: `getPrismicVideo(field)` (video file of a link to media);
     - `embed.ts`: `getPrismicEmbed(field)` (YouTube / Vimeo source, or the
       provider html);

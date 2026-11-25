@@ -9,6 +9,22 @@ const image: PrismicImage = {
     alt: '',
 }
 
+describe('getImgixSource', () => {
+    it('splits the URL from its params, without w and h', () => {
+        expect(getImgixSource('https://images.prismic.io/repo/a.jpg?auto=compress,format&rect=0,0,10,10&w=10&h=10'))
+            .toEqual({ src: 'https://images.prismic.io/repo/a.jpg', modifiers: { auto: 'compress,format', rect: '0,0,10,10' } })
+    })
+
+    it('reads the malformed query of a link to media image once', () => {
+        expect(getImgixSource('https://images.prismic.io/repo/a.avif?auto=format,compress?auto=compress,format'))
+            .toEqual({ src: 'https://images.prismic.io/repo/a.avif', modifiers: { auto: 'format,compress' } })
+    })
+
+    it('keeps a URL without params', () => {
+        expect(getImgixSource('https://images.prismic.io/repo/a.jpg')).toEqual({ src: 'https://images.prismic.io/repo/a.jpg', modifiers: {} })
+    })
+})
+
 describe('resolvePrismicImage', () => {
     describe('size', () => {
         it('keeps the image size when none is given', () => {
@@ -94,6 +110,12 @@ describe('resolvePrismicImage', () => {
             const { modifiers } = resolvePrismicImage(image, { format: 'jpg', quality: 80, modifiers: { fm: 'png', q: 60, sat: -100 } })
 
             expect(modifiers).toMatchObject({ format: 'png', quality: 60, sat: -100 })
+        })
+
+        it('joins list params, which @nuxt/image would otherwise repeat', () => {
+            const { modifiers } = resolvePrismicImage(image, { modifiers: { crop: ['faces', 'entropy'] } })
+
+            expect(modifiers.crop).toBe('faces,entropy')
         })
 
         it('leaves out the options not given', () => {

@@ -19,14 +19,16 @@ export interface PrismicImage {
  * Split them from the URL: passed back as modifiers, they aren't lost and the imgix provider
  * doesn't append a second `?`. `w` and `h` are dropped: @nuxt/image sets its own per srcset
  * width, and both would end up in the URL. The editor's crop lives in `rect`, which is kept.
+ * A link to media image comes with a malformed query (`?auto=format,compress?auto=compress,format`):
+ * every `?` after the first one separates params too, and a repeated param keeps its first value.
  */
 export function getImgixSource(url: string) {
-    const { w: _w, h: _h, ...modifiers } = getQuery(url) as Record<string, string>
+    const [src = '', ...queries] = url.split('?')
+    const query = getQuery(`?${queries.join('&')}`) as Record<string, string | string[]>
+    const { w: _w, h: _h, ...params } = query
+    const modifiers = Object.fromEntries(Object.entries(params).map(([key, value]) => [key, Array.isArray(value) ? value[0]! : value]))
 
-    return {
-        src: url.split('?')[0]!,
-        modifiers,
-    }
+    return { src, modifiers }
 }
 
 /**
@@ -111,6 +113,11 @@ export function resolvePrismicImage(image: PrismicImage, options: PrismicImageRe
         ...withoutUndefined(toNuxtImageNames(image.modifiers)),
         ...withoutUndefined({ width, height, fit: options.fit ?? 'cover', format: options.format, quality: options.quality }),
         ...withoutUndefined(toNuxtImageNames(options.modifiers)),
+    }
+
+    // @nuxt/image merges options with defu, which concatenates arrays: `crop: ['faces']` would end up twice
+    for (const [key, value] of Object.entries(modifiers)) {
+        if (Array.isArray(value)) modifiers[key] = value.join(',')
     }
 
     if (modifiers.format && modifiers.auto) {
