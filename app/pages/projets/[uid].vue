@@ -1,8 +1,7 @@
 <script lang="ts" setup>
 import { prismicDocumentType } from '~~/shared/prismic-schema'
 
-const { document } = await useFetchPage(prismicDocumentType.PROJECT_PAGE)
-usePrismicMeta(document, { schemaOrgType: 'ItemPage' })
+const { document } = await useFetchPage(prismicDocumentType.PROJECT_PAGE, { meta: { schemaOrgType: 'ItemPage' } })
 </script>
 
 <template>
