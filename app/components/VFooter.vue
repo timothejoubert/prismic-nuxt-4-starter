@@ -2,7 +2,7 @@
 import { prismicDocumentType } from '~~/shared/prismic-schema'
 import { SKIP_LINKS } from '~/constants/skip-links'
 
-const { data } = await usePrismicFetchDocument(prismicDocumentType.SETTINGS)
+const { data: settings } = await usePrismicFetchDocument(prismicDocumentType.SETTINGS)
 </script>
 
 <template>
@@ -13,7 +13,17 @@ const { data } = await usePrismicFetchDocument(prismicDocumentType.SETTINGS)
         :id="SKIP_LINKS.footer.elementId"
     >
         <p :class="$style.year">© {{ new Date().getFullYear() }}</p>
-        <VPrismicLink :class="$style.credits" href="#" label="test" />
+        <template
+            v-if="settings?.data?.credit"
+        >
+            <VPrismicLink
+                v-for="(credit, index) in settings?.data?.credit"
+                :to="credit?.url"
+                :class="$style.credits"
+                :key="credit.text ?? index"
+                :label="credit.text ?? ''"
+            />
+        </template>
     </footer>
 </template>
 
@@ -22,7 +32,7 @@ const { data } = await usePrismicFetchDocument(prismicDocumentType.SETTINGS)
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-top: 32px;
+    margin-block: 42px 24px;
 }
 
 .year {

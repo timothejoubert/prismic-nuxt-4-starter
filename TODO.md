@@ -1,4 +1,5 @@
 # TODO
+- Add field props (LinkField from prismic type) in VPrismicLink
 
 ## Before the next project
 - Font: TT Norms Pro is a commercial font committed in a public repo, with no

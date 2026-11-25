@@ -4,7 +4,7 @@
 <template>
     <NuxtRouteAnnouncer />
     <VSkipLink />
-    <header>
+    <header role="banner">
         <VNav />
     </header>
     <NuxtPage />
