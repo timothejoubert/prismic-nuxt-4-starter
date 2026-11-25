@@ -15,8 +15,9 @@
   "error_page.content": "An unexpected error occurred.",
   "error_page.refresh": "Reload the page",
   "error_page.back_home": "Back to home",
-  "media.play": "Play the video {title}",
-  "media.embed_title": "Embedded video",
+  "media.play": "Play the video",
   "media.play_background": "Play the background video",
-  "media.pause_background": "Pause the background video"
+  "media.pause_background": "Pause the background video",
+  "media.play_title": "Play the video: {title}",
+  "media.copyright": "© {copyright}"
 }

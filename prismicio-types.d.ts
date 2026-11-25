@@ -481,7 +481,7 @@ interface ProjectListingPageDocumentData {
  */
 export type ProjectListingPageDocument<Lang extends string = string> = prismic.PrismicDocumentWithoutUID<Simplify<ProjectListingPageDocumentData>, "project_listing_page", Lang>;
 
-type ProjectPageDocumentDataSlicesSlice = MediaSliceSlice | SimpleTextSliceSlice
+type ProjectPageDocumentDataSlicesSlice = MediaSliceSlice | SimpleTextSliceSlice | AllFieldsTestSlice
 
 /**
  * Content for Project page documents

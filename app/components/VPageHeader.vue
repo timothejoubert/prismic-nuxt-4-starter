@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { getImageSizes } from '~/utils/media/image'
 import type { ImageField, KeyTextField } from '@prismicio/client'
 import type { VTextContent } from '~/components/VText.vue'
 
@@ -7,6 +8,8 @@ defineProps<{
     content?: VTextContent
     image?: ImageField
 }>()
+
+const IMAGE_SIZES = getImageSizes({ xs: '100vw', lg: '80vw' })
 </script>
 
 <template>
@@ -22,13 +25,12 @@ defineProps<{
             :content="content"
         />
         <!-- Above the fold: loaded eagerly with a high priority (LCP candidate) -->
-        <VPrismicImg
+        <VPrismicImage
             v-if="image"
             :field="image"
-            :width="1000"
-            :height="600"
-            :modifiers="{ fit: 'crop' }"
-            sizes="xs:100vw md:100vw lg:80vw"
+            width="1000"
+            height="600"
+            :sizes="IMAGE_SIZES"
             loading="eager"
             fetchpriority="high"
         />
