@@ -11,6 +11,15 @@ export default {
         // v6 reads SCSS (files and <style lang="scss"> blocks) under its own scss/ namespace
         '@stylistic/indentation': 4,
         '@stylistic/scss/indentation': 4,
+        // Replace .editorconfig: LF line endings, no BOM, no trailing spaces, final newline
+        '@stylistic/linebreaks': 'unix',
+        '@stylistic/unicode-bom': 'never',
+        '@stylistic/no-eol-whitespace': true,
+        '@stylistic/no-missing-end-of-source-newline': true,
+        '@stylistic/scss/linebreaks': 'unix',
+        '@stylistic/scss/unicode-bom': 'never',
+        '@stylistic/scss/no-eol-whitespace': true,
+        '@stylistic/scss/no-missing-end-of-source-newline': true,
         'no-descending-specificity': null,
         'at-rule-no-unknown': null,
         'scss/at-rule-no-unknown': true,

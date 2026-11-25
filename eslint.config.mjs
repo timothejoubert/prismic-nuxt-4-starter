@@ -21,6 +21,9 @@ export default withNuxt(
         '@stylistic/indent': ['error', 4],
         '@stylistic/function-paren-newline': ['error', 'consistent'],
         'vue/html-indent': ['error', 4],
+        // Replace .editorconfig: LF line endings, no BOM (indent, final newline and trailing spaces come from stylistic)
+        '@stylistic/linebreak-style': ['error', 'unix'],
+        'unicode-bom': ['error', 'never'],
     },
 }, {
     // The Prismic CLI names every slice component `<SliceName>/index.vue`
