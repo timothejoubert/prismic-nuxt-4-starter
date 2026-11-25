@@ -22,6 +22,7 @@ export default defineNuxtConfig({
         '@nuxtjs/robots',
         'nuxt-schema-org',
         '@vueuse/nuxt',
+        'nuxt-vitalizer',
     ],
     devtools: { enabled: true },
     app: {
@@ -209,5 +210,12 @@ export default defineNuxtConfig({
     sitemap: {
         exclude: [`${PREVIEW_PATH}/**`, '/slice-simulator'],
         urls: () => getPrismicSitemapUrls(repositoryName),
+    },
+    // https://github.com/johannschopplich/nuxt-vitalizer
+    vitalizer: {
+        // Disable prefetch to avoid render-blocking requests for async chunks.
+        disablePrefetchLinks: true,
+        // Disable preload to avoid render-blocking requests for async chunks.
+        disablePreloadLinks: true,
     },
 })
