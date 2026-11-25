@@ -711,7 +711,16 @@ interface SettingsDocumentData {
 	 * - **Tab**: Main
 	 * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
 	 */
-	socials: prismic.GroupField<Simplify<SettingsDocumentDataSocialsItem>>;
+	socials: prismic.GroupField<Simplify<SettingsDocumentDataSocialsItem>>;/**
+	 * Crédit field in *settings*
+	 *
+	 * - **Field Type**: Link
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: settings.credit
+	 * - **Tab**: credits
+	 * - **Documentation**: https://prismic.io/docs/fields/link
+	 */
+	credit: prismic.Repeatable<prismic.LinkField<string, string, unknown, prismic.FieldState, never>>;
 }
 
 /**
