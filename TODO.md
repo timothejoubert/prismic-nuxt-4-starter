@@ -1,5 +1,5 @@
 # TODO
-- Add field props (LinkField from prismic type) in VPrismicLink
+- Créer et utiliser une nouvelle composable qui permet d'extraire les data d'un champ lien de prismic. Ajouter une props "field" dans @VPrismicLink et utiliser cette composable dedans pour y traiter les données.
 
 ## Before the next project
 - Font: TT Norms Pro is a commercial font committed in a public repo, with no
