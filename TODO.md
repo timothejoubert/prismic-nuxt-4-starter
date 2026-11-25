@@ -8,7 +8,10 @@
   favicon set (`favicon-*.png`, `apple-touch-icon.png`, `site.webmanifest`).
 
 ## Ideas
-- Media components: browser check left (keyboard, focus after click, screen
-  reader, reduced motion, captions CORS), issue #1.
+- Media components: browser check left (keyboard, focus after click, screenreader, reduced motion, captions CORS), issue #1.
 - Split text, splash screen, VButton component.
-- Try `nuxt-vitalizer`.
+
+
+# DONE
+- Update Nuxt and deps
+- Add nuxt-vitalizer
