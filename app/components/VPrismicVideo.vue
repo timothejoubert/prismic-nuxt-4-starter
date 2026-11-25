@@ -1,10 +1,10 @@
 <script lang="ts" setup>
-import { getAspectRatio, getHeightForWidth } from '~/utils/media/aspect-ratio'
+import { getHeightForWidth } from '~/utils/media/aspect-ratio'
 import { getEmbedPlayerSource } from '~/utils/media/embed'
 import { loadVideojsEmbedMedia, loadVideojsPlayer } from '~/utils/media/videojs'
 import { getPrismicMediaUrl } from '~/utils/prismic/field'
 import { getPrismicImage, resolvePrismicImage } from '~/utils/prismic/image'
-import { parsePrismicVideoMedia } from '~/utils/prismic/media'
+import { getVideoBoxRatio, parsePrismicVideoMedia } from '~/utils/prismic/media'
 import type { VPrismicVideoProps } from '~/types/media'
 
 /**
@@ -33,21 +33,8 @@ const $img = useImage()
 const posterField = computed(() => typeof props.poster === 'string' ? undefined : props.poster)
 const posterImage = computed(() => getPrismicImage(posterField.value))
 
-// The box ratio is set at server render and never changes afterwards (no layout shift). First known of:
-// - `width` + `height` props;
-// - the video's, when known in advance: the embed's dimensions (provider html, Vimeo; YouTube's oEmbed ones
-//   are its thumbnail's, 200 × 150), 9 / 16 for a YouTube Short;
-// - the `poster` image's (YouTube's own thumbnail is a 4 / 3 image with baked-in bars: never used);
-// - else 16 / 9 (CSS default).
-// A video of another ratio plays whole inside the box (skin `contain`), a background one fills it (`cover`).
-const ratio = computed(() => {
-    const propRatio = getAspectRatio(props.width, props.height)
-    if (propRatio) return propRatio
-    if (isHtml.value || platform.value === 'vimeo') return getAspectRatio(embed.value?.width, embed.value?.height)
-    if (embed.value?.source?.vertical) return '9 / 16'
-
-    return getAspectRatio(posterImage.value?.width, posterImage.value?.height)
-})
+// A video of another ratio plays whole inside the box (skin `contain`), a background one fills it (`cover`)
+const ratio = computed(() => getVideoBoxRatio(media.value, props, posterImage.value))
 const posterUrl = computed(() => {
     if (typeof props.poster === 'string') return props.poster
     if (posterImage.value) {
