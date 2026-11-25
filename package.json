@@ -17,7 +17,9 @@
         "lint:js": "eslint .",
         "lint:css": "stylelint \"**/*.{vue,css,scss}\"",
         "typecheck": "nuxt typecheck",
-        "type-gen": "npx prismic gen types && node scripts/sync-prismic-routes.js"
+        "type-gen": "npx prismic gen types && node scripts/sync-prismic-routes.js",
+        "test": "vitest run",
+        "test:watch": "vitest"
     },
     "dependencies": {
         "@nuxt/icon": "2.6.2",
@@ -38,12 +40,14 @@
     },
     "devDependencies": {
         "@nuxt/eslint": "1.17.0",
+        "@nuxt/test-utils": "^4.4.0",
         "@nuxtjs/prismic": "^5.4.0",
         "@prismicio/client": "^7.23.1",
         "@prismicio/vue": "^6.2.0",
         "@stylistic/stylelint-plugin": "^6.0.1",
         "@types/node": "~24.19.2",
         "eslint": "^10.15.0",
+        "happy-dom": "^21.0.4",
         "include-media": "^2.0.0",
         "postcss-pxtorem": "^6.1.0",
         "sass": "^1.108.2",
@@ -53,6 +57,7 @@
         "stylelint-config-standard-scss": "^18.0.0",
         "stylelint-config-standard-vue": "^2.0.0",
         "typescript": "~6.0.3",
+        "vitest": "^5.1.1",
         "vue-tsc": "^3.3.14"
     }
 }
