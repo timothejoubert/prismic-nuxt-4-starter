@@ -1,9 +1,8 @@
 <script lang="ts" setup>
 import type { Component } from 'vue'
 import { NuxtImg } from '#components'
-import { getHeightForWidth } from '~/utils/media/aspect-ratio'
 import { pickImageOptions } from '~/utils/media/image'
-import { getPrismicImage } from '~/utils/prismic/image'
+import { getPrismicImage, resolvePrismicImage } from '~/utils/prismic/image'
 import type { PrismicImageOptions, PrismicImageSource, VPrismicImageProps } from '~/types/media'
 
 /**
@@ -30,6 +29,7 @@ const attrs = useAttrs()
 const $img = useImage()
 
 const image = computed(() => getPrismicImage(props.field))
+const resolved = computed(() => image.value && resolvePrismicImage(image.value, props))
 
 function getInheritedOptions(options: PrismicImageOptions): PrismicImageOptions {
     return {
@@ -41,33 +41,22 @@ function getInheritedOptions(options: PrismicImageOptions): PrismicImageOptions 
 
 /**
  * `<source>` attributes (srcset, sizes, width, height) for an image field or one of its views,
- * built like the `<img>` (imgix params kept, crop to width + height). Exposed to the `#sources` slot.
+ * built like the `<img>` (resolvePrismicImage). Exposed to the `#sources` slot.
  */
 function getSource(field: unknown, options: Omit<PrismicImageSource, 'media' | 'field'> = {}) {
     const source = getPrismicImage(field, options.view)
     if (!source) return undefined
 
-    const { width: optionWidth, height: optionHeight, view: _view, ...rest } = options
+    const { view: _view, ...rest } = options
     const merged = getInheritedOptions(rest)
-    const width = Number(optionWidth) || source.width
-    // A width alone keeps the source's ratio
-    const height = Number(optionHeight)
-      || (optionWidth && width ? getHeightForWidth(width, source.width, source.height) : source.height)
-
-    const { srcset, sizes } = $img.getSizes(source.src, {
+    // Width and height aren't inherited: each view or field keeps its own ratio unless given one
+    const { src, width, height, modifiers } = resolvePrismicImage(source, { ...merged, width: rest.width, height: rest.height })
+    const { srcset, sizes } = $img.getSizes(src, {
         sizes: merged.sizes,
         densities: merged.densities,
         preset: merged.preset,
         provider: 'imgix',
-        modifiers: {
-            ...source.modifiers,
-            ...merged.modifiers,
-            width,
-            height,
-            fit: merged.fit,
-            format: merged.format,
-            quality: merged.quality,
-        },
+        modifiers,
     })
 
     return { srcset, sizes, width, height }
@@ -88,19 +77,25 @@ const rootAttrs = computed(() => Object.fromEntries(Object.entries({ class: attr
     .filter(([, value]) => value !== undefined)))
 
 const imgProps = computed(() => {
-    if (!image.value) return undefined
+    if (!image.value || !resolved.value) return undefined
 
     const { class: _class, style: _style, ...imgAttrs } = attrs
 
     return {
-        src: image.value.src,
+        src: resolved.value.src,
         alt: props.alt ?? image.value.alt,
-        width: props.width ?? image.value.width,
-        height: props.height ?? image.value.height,
+        width: resolved.value.width,
+        height: resolved.value.height,
         loading: props.loading,
-        ...pickImageOptions(props),
+        sizes: props.sizes,
+        densities: props.densities,
+        preset: props.preset,
+        // NuxtImg rewrites these three modifiers from its props
+        fit: resolved.value.modifiers.fit,
+        format: resolved.value.modifiers.format,
+        quality: resolved.value.modifiers.quality,
         provider: 'imgix' as const,
-        modifiers: { ...image.value.modifiers, ...props.modifiers },
+        modifiers: resolved.value.modifiers,
         ...imgAttrs,
         // The outermost element takes class and style
         ...(isPicture.value || isFigure.value ? {} : rootAttrs.value),

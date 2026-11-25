@@ -38,14 +38,14 @@ export interface PrismicImageOptions {
      * (`cover`, `contain`, `fill`, `inside`, `outside`) are mapped to imgix's; imgix values pass as is.
      */
     fit?: 'cover' | 'contain' | 'fill' | 'inside' | 'outside' | ImgixParams['fit']
-    /** imgix `fm` */
+    /** imgix `fm`; drops `format` from Prismic's `auto=compress,format`, which would win over it */
     format?: ImgixParams['fm']
     /** imgix `q` */
     quality?: number
     preset?: string
     /**
-     * Extra imgix params (`crop: ['faces']`, `sat: -100`...), merged over the ones Prismic puts in the URL.
-     * Size and ratio go through `width`, `height` and `fit`: NuxtImg lets them override modifiers.
+     * Extra imgix params (`crop: ['faces']`, `sat: -100`...), merged last: over the ones Prismic puts in the URL
+     * and over `format` (`fm`) and `quality` (`q`). Size and ratio go through `width`, `height` and `fit`.
      */
     modifiers?: PrismicImageModifiers
 }

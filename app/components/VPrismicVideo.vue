@@ -4,7 +4,7 @@ import { getEmbedPlayerSource } from '~/utils/media/embed'
 import { loadVideojsEmbedMedia, loadVideojsPlayer } from '~/utils/media/videojs'
 import { getPrismicEmbed } from '~/utils/prismic/embed'
 import { getPrismicMediaUrl } from '~/utils/prismic/field'
-import { getPrismicImage, getPrismicImageUrl } from '~/utils/prismic/image'
+import { getPrismicImage, resolvePrismicImage } from '~/utils/prismic/image'
 import { getPrismicVideo } from '~/utils/prismic/video'
 import type { VPrismicVideoProps } from '~/types/media'
 
@@ -51,7 +51,12 @@ const ratio = computed(() => {
 const posterUrl = computed(() => {
     if (typeof props.poster === 'string') return props.poster
     if (posterImage.value) {
-        return getPrismicImageUrl($img, posterImage.value, { width: 1600, height: getHeightForWidth(1600, props.width, props.height) })
+        const { src, modifiers } = resolvePrismicImage(posterImage.value, {
+            width: 1600,
+            height: getHeightForWidth(1600, props.width, props.height),
+        })
+
+        return $img(src, modifiers, { provider: 'imgix' })
     }
 
     return embed.value?.thumbnailUrl

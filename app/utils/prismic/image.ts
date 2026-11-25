@@ -1,8 +1,8 @@
 import { isFilled, type ImageFieldImage } from '@prismicio/client'
-import type { $Img } from '@nuxt/image'
 import { getQuery } from 'ufo'
 import { getFilledLinkToMedia, isObject, toNumber } from '~/utils/prismic/field'
-import type { ImgixParams } from '~/types/media'
+import { getHeightForWidth } from '~/utils/media/aspect-ratio'
+import type { PrismicImageOptions } from '~/types/media'
 
 export interface PrismicImage {
     src: string
@@ -55,29 +55,69 @@ export function getPrismicImage(field: unknown, view?: string): PrismicImage | u
     }
 }
 
-export interface PrismicImageUrlOptions {
-    width: number
+export type PrismicImageResolveOptions = Pick<PrismicImageOptions, 'width' | 'height' | 'fit' | 'format' | 'quality' | 'modifiers'>
+
+export interface ResolvedPrismicImage {
+    src: string
+    width?: number
     height?: number
-    /** Default `crop` when `height` is set */
-    fit?: ImgixParams['fit']
-    /** Drops Prismic's `auto=format`, which would override it */
-    format?: ImgixParams['fm']
-    quality?: number
+    /**
+     * @nuxt/image modifiers. `width`, `height`, `fit`, `format` and `quality` use @nuxt/image's names (imgix's
+     * `fm` and `q` are renamed): NuxtImg rewrites those five from its props, so pass them as props too.
+     */
+    modifiers: Record<string, unknown> & Pick<PrismicImageOptions, 'fit' | 'format' | 'quality'>
+}
+
+/** Positive number of a prop value, undefined otherwise (`''`, `0`, `'abc'`). */
+function toDimension(value?: number | string) {
+    const number = Number(value)
+
+    return number > 0 ? number : undefined
+}
+
+/** imgix params with `fm` and `q` under @nuxt/image's names, so one key carries each value. */
+function toNuxtImageNames({ fm, q, ...params }: Record<string, unknown> = {}) {
+    return { ...params, format: fm as PrismicImageOptions['format'], quality: q === undefined ? undefined : Number(q) }
+}
+
+/** Prismic's `auto` (`'compress,format'`) without `format`: auto=format would win over `fm` and serve AVIF anyway. */
+function withoutAutoFormat(auto: unknown) {
+    const values = (Array.isArray(auto) ? auto : String(auto).split(',')).filter(value => value && value !== 'format')
+
+    return values.length ? values.join(',') : undefined
+}
+
+function withoutUndefined<T extends Record<string, unknown>>(object: T) {
+    return Object.fromEntries(Object.entries(object).filter(([, value]) => value !== undefined)) as T
 }
 
 /**
- * Single imgix URL of a Prismic image (thumbnail, Open Graph image...): keeps Prismic's params (crop `rect`,
- * compression) and adds the size. Takes `useImage()`, so it can't run outside a component or composable.
+ * The size and imgix params of a Prismic image, the one recipe behind every URL of it (`<img>`, `<source>`,
+ * video poster, Open Graph image). Pure: the caller hands the result to NuxtImg, `$img.getSizes` or `$img`.
+ * - Size: `width` + `height` crop to that ratio; one of them alone keeps the image's ratio; none keeps its size.
+ * - `fit`: default `cover` (imgix `crop`).
+ * - `format`: sets `fm` and drops `format` from Prismic's `auto`, keeping `compress`.
+ * - Merge order: Prismic's URL params, then the named options, then `modifiers`, which win.
  */
-export function getPrismicImageUrl($img: $Img, image: PrismicImage, { width, height, fit, format, quality }: PrismicImageUrlOptions) {
-    const { auto: _auto, ...withoutAuto } = image.modifiers
+export function resolvePrismicImage(image: PrismicImage, options: PrismicImageResolveOptions = {}): ResolvedPrismicImage {
+    const optionWidth = toDimension(options.width)
+    const optionHeight = toDimension(options.height)
+    const width = optionWidth
+      ?? (optionHeight ? getHeightForWidth(optionHeight, image.height, image.width) : image.width)
+    const height = optionHeight
+      ?? (optionWidth ? getHeightForWidth(optionWidth, image.width, image.height) : image.height)
 
-    return $img(image.src, {
-        ...(format ? withoutAuto : image.modifiers),
-        width,
-        height,
-        fit: fit ?? (height ? 'crop' : undefined),
-        format,
-        quality,
-    }, { provider: 'imgix' })
+    const modifiers: ResolvedPrismicImage['modifiers'] = {
+        ...withoutUndefined(toNuxtImageNames(image.modifiers)),
+        ...withoutUndefined({ width, height, fit: options.fit ?? 'cover', format: options.format, quality: options.quality }),
+        ...withoutUndefined(toNuxtImageNames(options.modifiers)),
+    }
+
+    if (modifiers.format && modifiers.auto) {
+        const auto = withoutAutoFormat(modifiers.auto)
+        if (auto) modifiers.auto = auto
+        else delete modifiers.auto
+    }
+
+    return { src: image.src, width, height, modifiers }
 }

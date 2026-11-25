@@ -65,8 +65,11 @@ PrismicImageOptions              NuxtImg options: width, height, sizes, densitie
   - `app/utils/prismic/`, Prismic fields → normalized objects, mirroring
     `app/utils/media/`:
     - `image.ts`: `getPrismicImage(field, view?)`, `getImgixSource(url)` and
-      `getPrismicImageUrl($img, image, { width, height, format… })` for a
-      single imgix URL (video thumbnail, Open Graph image);
+      `resolvePrismicImage(image, options)`, the one recipe behind every URL
+      of an image (`<img>`, `<source>`, video poster, Open Graph image). It is
+      pure and returns `{ src, width, height, modifiers }`, which the caller
+      hands to NuxtImg, `$img.getSizes` or `$img(src, modifiers, { provider:
+      'imgix' })`. Tested in `test/unit/utils/prismic/image.test.ts`;
     - `video.ts`: `getPrismicVideo(field)` (video file of a link to media);
     - `embed.ts`: `getPrismicEmbed(field)` (YouTube / Vimeo source, or the
       provider html);
@@ -104,9 +107,17 @@ Also accepts every `NuxtImg` prop (`sizes`, `densities`, `fit`, `format`,
 `quality`, `modifiers`, `preset`, `preload`, `placeholder`…); the provider is
 always imgix. `class` and `style` go to the outer element (`<figure>`,
 `<picture>` or `<img>`), every other attribute to the `<img>`.
-`fit` defaults to `cover` (imgix `fit=crop`), so `width` + `height` crop to
-that ratio. Size goes through `width`/`height`, never `modifiers` (NuxtImg
-lets the props override it).
+Size and imgix params come from `resolvePrismicImage`, shared with `<source>`,
+the video poster and the Open Graph image:
+
+- `width` + `height` crop to that ratio; one of them alone keeps the image's
+  ratio; none keeps its size. Size goes through `width`/`height`, never
+  `modifiers`.
+- `fit` defaults to `cover` (imgix `fit=crop`).
+- `format` sets `fm` and drops `format` from Prismic's `auto=compress,format`
+  (imgix's `auto=format` wins over `fm`), keeping `compress`.
+- Merge order: the params Prismic puts in the URL (`rect`, `auto`…), then
+  `fit`, `format` and `quality`, then `modifiers`, which have the last word.
 
 Rendered element:
 

@@ -5,7 +5,7 @@ import { getFormattedLocale } from '~/composables/use-prismic-locale'
 import type { PageMetaAlternateLink } from '~/composables/use-page-meta'
 import { ensureProtocol } from '~/utils/url'
 import { getSchemaOrgPrimaryImageId } from '~/utils/schema-org'
-import { getPrismicImage, getPrismicImageUrl } from '~/utils/prismic/image'
+import { getPrismicImage, resolvePrismicImage } from '~/utils/prismic/image'
 import { prismicDocumentType } from '#shared/prismic-schema'
 import { I18N_DEFAULT_LOCALE } from '~~/i18n/i18n'
 
@@ -47,7 +47,9 @@ export function usePrismicMeta(documentOrRef?: MaybeRefOrGetter<ReachableDocumen
         if (!prismicImage) return joinURL(siteUrl, '/share.jpg')
 
         // Social crawlers don't all support AVIF/WebP, hence a forced JPEG, at the 1200×630 size Open Graph recommends
-        return getPrismicImageUrl(generateImg, prismicImage, { width: 1200, height: 630, format: 'jpg', quality: 80 })
+        const { src, modifiers } = resolvePrismicImage(prismicImage, { width: 1200, height: 630, format: 'jpg', quality: 80 })
+
+        return generateImg(src, modifiers, { provider: 'imgix' })
     })
 
     const noindex = usePrismicPreviewRoute().isPreview

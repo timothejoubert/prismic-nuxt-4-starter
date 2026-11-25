@@ -17,8 +17,10 @@ specific to the starter, and wins on conflict.
 
 ## Checking a change
 
-No test runner: `pnpm lint`, `pnpm typecheck`, then `pnpm generate`, which
-fetches the real Prismic repository.
+`pnpm test` (Vitest), `pnpm lint`, `pnpm typecheck`, then `pnpm generate`,
+which fetches the real Prismic repository. Tests live in `test/unit/` (pure
+modules, Node) and `test/nuxt/` (Nuxt environment), never next to the code:
+Nuxt scans `app/utils/` for auto-imports.
 
 `pnpm type-gen` runs `npx prismic gen types`, which an agent can't run without
 `--task-id` and `--user-intent`: run `npx prismic gen types --task-id … --user-intent …`
