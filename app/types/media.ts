@@ -1,4 +1,5 @@
 // Props of the Prismic media components, see media-components.md
+import type { ImageSizes } from '~/utils/media/image'
 import type { asImageSrc, EmbedField, ImageFieldImage, LinkField, LinkToMediaField } from '@prismicio/client'
 
 /** Every imgix URL parameter, typed (imgix-url-builder's `ImgixURLParams`, through @prismicio/client). */
@@ -31,7 +32,11 @@ export interface PrismicMediaBaseProps<Field = PrismicMediaFieldValue> {
 export interface PrismicImageOptions {
     width?: number | string
     height?: number | string
-    sizes?: string
+    /**
+     * Per breakpoint (`{ xs: '100vw', md: '33vw' }`): every breakpoint is filled in from the closest one below
+     * (`getImageSizes`). A string passes to NuxtImg as is.
+     */
+    sizes?: ImageSizes
     densities?: string
     /**
      * Default `cover` (imgix `fit=crop`): `width` + `height` crop to that ratio. NuxtImg names
@@ -96,8 +101,8 @@ export interface VPrismicVideoProps extends PrismicMediaBaseProps<PrismicVideoFi
     title?: string
     /** Thumbnail: image field, link to an image, or URL. Default: the embed's thumbnail, else the file's first frame. */
     poster?: PrismicImageFieldValue | string
-    /** `sizes` of the thumbnail */
-    sizes?: string
+    /** `sizes` of the thumbnail, as VPrismicImage's */
+    sizes?: ImageSizes
     background?: boolean
     /** Caption files of a video file */
     tracks?: PrismicVideoTrack[]
@@ -105,7 +110,7 @@ export interface VPrismicVideoProps extends PrismicMediaBaseProps<PrismicVideoFi
 
 type TypeSpecificProps<Props> = Partial<Omit<Props, keyof PrismicMediaBaseProps>>
 
-export interface VPrismicMediaProps extends PrismicMediaBaseProps, Pick<VPrismicImageProps, 'alt'>, Pick<VPrismicVideoProps, 'title'> {
+export interface VPrismicMediaProps extends PrismicMediaBaseProps, Pick<VPrismicImageProps, 'alt' | 'sizes'>, Pick<VPrismicVideoProps, 'title'> {
     /** VPrismicImage props (sizes, sources, copyright...) and `<img>` attributes; they win over the shared props. */
     imageProps?: TypeSpecificProps<VPrismicImageProps> & Record<string, unknown>
     /** VPrismicVideo props (poster, background, tracks...); they win over the shared props. */

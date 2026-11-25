@@ -24,6 +24,7 @@ const videoField = computed(() => kind.value && kind.value !== 'image' ? props.f
         :height="height"
         :loading="loading"
         :alt="alt"
+        :sizes="sizes"
         v-bind="imageProps"
     />
     <VPrismicVideo
@@ -33,6 +34,7 @@ const videoField = computed(() => kind.value && kind.value !== 'image' ? props.f
         :height="height"
         :loading="loading"
         :title="title"
+        :sizes="sizes"
         v-bind="videoProps"
     />
 </template>

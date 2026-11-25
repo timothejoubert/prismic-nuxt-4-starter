@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { getImageSizes } from '~/utils/media/image'
 import type { ProjectPageDocument } from '~~/prismicio-types'
 
 const props = defineProps<{
@@ -9,7 +8,7 @@ const props = defineProps<{
 
 const data = computed(() => props.project.data)
 
-const IMAGE_SIZES = getImageSizes({ xs: '92vw', md: '30vw', lg: '22vw' })
+const IMAGE_SIZES = { xs: '92vw', md: '30vw', lg: '22vw' }
 </script>
 
 <template>

@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { type Content, isFilled } from '@prismicio/client'
-import { getImageSizes } from '~/utils/media/image'
 
 // Test slice: renders every media field the starter supports in each rendering of the media components
 // (media-components.md), to check them in a page or the slice simulator. A case only shows when its field is
@@ -9,7 +8,7 @@ const props = defineProps(getSliceComponentProps<Content.AllFieldsTestSlice>())
 
 const mediaGroup = computed(() => props.slice.primary.media_group)
 
-const SIZES = getImageSizes({ xs: '100vw', md: '33vw' })
+const SIZES = { xs: '100vw', md: '33vw' }
 
 const RESPONSIVE_SOURCES = [
     { view: 'small', media: '(width < 768px)' },
@@ -162,7 +161,7 @@ const RESPONSIVE_SOURCES = [
                 <h3>media (link to media): VPrismicMedia</h3>
                 <VPrismicMedia
                     :field="group.media"
-                    :image-props="{ sizes: SIZES }"
+                    :sizes="SIZES"
                 />
             </section>
             <section

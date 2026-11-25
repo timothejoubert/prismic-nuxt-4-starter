@@ -1,13 +1,12 @@
 <script setup lang="ts">
 import { type Content, isFilled } from '@prismicio/client'
-import { getImageSizes } from '~/utils/media/image'
 
 const props = defineProps(getSliceComponentProps<Content.MediaSliceSlice>())
 
 const primary = computed(() => props.slice.primary)
 
 // One column below md, three above
-const SIZES = getImageSizes({ xs: '100vw', md: '33vw' })
+const SIZES = { xs: '100vw', md: '33vw' }
 </script>
 
 <template>
@@ -22,8 +21,8 @@ const SIZES = getImageSizes({ xs: '100vw', md: '33vw' })
             v-for="(column, i) in primary.columns"
             :key="`media-${i}`"
             :field="isFilled.embed(column.embed) ? column.embed : column.image"
-            :image-props="{ sizes: SIZES }"
-            :video-props="{ poster: column.image, sizes: SIZES }"
+            :sizes="SIZES"
+            :video-props="{ poster: column.image }"
         />
     </VSlice>
 </template>

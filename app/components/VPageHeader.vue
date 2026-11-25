@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { getImageSizes } from '~/utils/media/image'
 import type { ImageField, KeyTextField } from '@prismicio/client'
 import type { VTextContent } from '~/components/VText.vue'
 
@@ -9,7 +8,7 @@ defineProps<{
     image?: ImageField
 }>()
 
-const IMAGE_SIZES = getImageSizes({ xs: '100vw', lg: '80vw' })
+const IMAGE_SIZES = { xs: '100vw', lg: '80vw' }
 </script>
 
 <template>

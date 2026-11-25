@@ -17,6 +17,7 @@ https://github.com/timothejoubert/prismic-nuxt-4-starter/issues/1
   | `width`, `height` | ratio, imgix crop | ratio, space reserved | ratio, space reserved |
   | `loading` | `loading` | thumbnail `loading` | thumbnail `loading` |
   | `alt` / `title` | `alt` (overrides Prismic's) | `title` | `title` |
+  | `sizes` | `sizes` | thumbnail `sizes` | thumbnail `sizes` |
 
   Default ratio: the field's dimensions for an image. For a video, the box
   ratio is set at server render and never changes afterwards (no layout
@@ -38,7 +39,7 @@ live there as JSDoc. Add or change a prop in that file, never inline.
 PrismicMediaBaseProps            field, width, height, loading
 ├── VPrismicImageProps           + alt, sources, copyright, PrismicImageOptions (minus width/height)
 ├── VPrismicVideoProps           + title, poster, sizes, background, tracks (PrismicVideoTrack[])
-└── VPrismicMediaProps           + alt, title (picked from the two above),
+└── VPrismicMediaProps           + alt, sizes, title (picked from the two above),
                                    imageProps / videoProps: the type-specific props of each
 
 PrismicImageOptions              NuxtImg options: width, height, sizes, densities, fit,
@@ -86,7 +87,9 @@ PrismicImageOptions              NuxtImg options: width, height, sizes, densitie
   - `app/utils/media/image.ts`: `IMAGE_SCREENS` (the one breakpoint list,
     also used by `nuxt.config.ts`), `getImageSizes({ xs: '100vw', md: '33vw' })`
     to build a `sizes` that lists every breakpoint (a missing one leaves a
-    range served by a too small image), `pickImageOptions(props)`;
+    range served by a too small image), `toImageSizes` (what the components
+    run on their `sizes` prop: callers pass the per-breakpoint object and
+    never call `getImageSizes` themselves), `pickImageOptions(props)`;
   - `app/utils/media/aspect-ratio.ts`: `getAspectRatio`, `getHeightForWidth`;
   - `app/utils/media/videojs.ts`: `loadVideojsPlayer(platform?)`,
     `loadVideojsEmbedMedia(platform)`; the tag list for `isCustomElement` is

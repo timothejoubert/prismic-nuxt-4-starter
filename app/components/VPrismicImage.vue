@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { Component } from 'vue'
 import { NuxtImg } from '#components'
-import { pickImageOptions } from '~/utils/media/image'
+import { pickImageOptions, toImageSizes } from '~/utils/media/image'
 import { getPrismicImage, resolvePrismicImage } from '~/utils/prismic/image'
 import type { PrismicImageOptions, PrismicImageSource, VPrismicImageProps } from '~/types/media'
 
@@ -52,7 +52,7 @@ function getSource(field: unknown, options: Omit<PrismicImageSource, 'media' | '
     // Width and height aren't inherited: each view or field keeps its own ratio unless given one
     const { src, width, height, modifiers } = resolvePrismicImage(source, { ...merged, width: rest.width, height: rest.height })
     const { srcset, sizes } = $img.getSizes(src, {
-        sizes: merged.sizes,
+        sizes: toImageSizes(merged.sizes),
         densities: merged.densities,
         preset: merged.preset,
         provider: 'imgix',
@@ -87,7 +87,7 @@ const imgProps = computed(() => {
         width: resolved.value.width,
         height: resolved.value.height,
         loading: props.loading,
-        sizes: props.sizes,
+        sizes: toImageSizes(props.sizes),
         densities: props.densities,
         preset: props.preset,
         // NuxtImg rewrites these three modifiers from its props

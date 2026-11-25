@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { getImageSizes } from '~/utils/media/image'
 import { components } from '~/slices'
 import type { ProjectPageDocument } from '~~/prismicio-types'
 import { prismicRouteByName } from '~~/shared/prismic-schema'
@@ -11,7 +10,7 @@ const props = defineProps<{
 const project = computed(() => props.document.data)
 const tags = computed(() => props.document.tags)
 
-const IMAGE_SIZES = getImageSizes({ xs: '100vw', lg: '80vw' })
+const IMAGE_SIZES = { xs: '100vw', lg: '80vw' }
 </script>
 
 <template>

@@ -31,6 +31,14 @@ export function getImageSizes(sizes: Partial<Record<ImageScreen, string>>) {
     }).join(' ')
 }
 
+/** Image `sizes`: per breakpoint, completed by `getImageSizes`, or a NuxtImg `sizes` string kept as is. */
+export type ImageSizes = string | Partial<Record<ImageScreen, string>>
+
+/** NuxtImg `sizes` string of an `ImageSizes`. */
+export function toImageSizes(sizes?: ImageSizes) {
+    return typeof sizes === 'object' ? getImageSizes(sizes) : sizes
+}
+
 const IMAGE_OPTION_KEYS = ['sizes', 'densities', 'fit', 'format', 'quality', 'preset'] as const
 
 type ImageOptionKey = typeof IMAGE_OPTION_KEYS[number]
